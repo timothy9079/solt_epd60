@@ -1,0 +1,15 @@
+../Device/Epd/Display_EPD_W21.c:14:6:lcd_chkstatus	2
+../Device/Epd/Display_EPD_W21.c:22:6:EPD_Init	2
+../Device/Epd/Display_EPD_W21.c:92:6:lut1	6
+../Device/Epd/Display_EPD_W21.c:115:6:EPD_Init_Part	2
+../Device/Epd/Display_EPD_W21.c:160:6:EPD_DeepSleep	1
+../Device/Epd/Display_EPD_W21.c:172:6:EPD_Update	1
+../Device/Epd/Display_EPD_W21.c:181:6:EPD_WhiteScreen_ALL	3
+../Device/Epd/Display_EPD_W21.c:199:6:EPD_WhiteScreen_White	3
+../Device/Epd/Display_EPD_W21.c:218:6:EPD_SetRAMValue_BaseMap	3
+../Device/Epd/Display_EPD_W21.c:235:6:EPD_Dis_Part	5
+../Device/Epd/Display_EPD_W21.c:275:6:EPD_Dis_PartAll	3
+../Device/Epd/Display_EPD_W21.c:296:6:EPD_Dis_Part_RAM	13
+../Device/Epd/Display_EPD_W21.c:368:6:EPD_Dis_Part_Time	1
+../Device/Epd/Display_EPD_W21.c:379:6:EPD_Init_180	2
+../Device/Epd/Display_EPD_W21.c:408:6:EPD_Display	5

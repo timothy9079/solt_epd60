@@ -1,0 +1,16 @@
+../Device/Memory/flash_datastorage.c:64:6:ErasePageFlash	24	static
+../Device/Memory/flash_datastorage.c:80:6:ReadFlash	32	static
+../Device/Memory/flash_datastorage.c:100:6:WriteFlash	32	static
+../Device/Memory/flash_datastorage.c:125:12:FDS_makeFilePathInfo	16	static
+../Device/Memory/flash_datastorage.c:129:12:findEmptyBlockAddr	368	static
+../Device/Memory/flash_datastorage.c:175:16:findBlockAddr	376	static
+../Device/Memory/flash_datastorage.c:234:5:FDS_MakePath	24	static
+../Device/Memory/flash_datastorage.c:256:9:FDS_GetFileAddress	32	static
+../Device/Memory/flash_datastorage.c:274:9:FDS_SearchPath	376	static
+../Device/Memory/flash_datastorage.c:326:9:FDS_Write	704	static
+../Device/Memory/flash_datastorage.c:415:9:FDS_Read	688	static
+../Device/Memory/flash_datastorage.c:487:5:FDS_ReadSize	360	static
+../Device/Memory/flash_datastorage.c:511:9:FDS_ReadAddr	376	static
+../Device/Memory/flash_datastorage.c:559:9:FDS_Delete	368	static
+../Device/Memory/flash_datastorage.c:594:9:FDS_DeleteAddr	360	static
+../Device/Memory/flash_datastorage.c:619:6:FDS_DeleteAll	16	static

@@ -1,0 +1,16 @@
+../Device/Epd/EPD_2in9_V2.c:84:13:EPD_2IN9_V2_Reset	1
+../Device/Epd/EPD_2in9_V2.c:99:13:EPD_2IN9_V2_SendCommand	1
+../Device/Epd/EPD_2in9_V2.c:112:13:EPD_2IN9_V2_SendData	1
+../Device/Epd/EPD_2in9_V2.c:124:6:EPD_2IN9_V2_ReadBusy	2
+../Device/Epd/EPD_2in9_V2.c:137:13:EPD_2IN9_V2_LUT	2
+../Device/Epd/EPD_2in9_V2.c:146:13:EPD_2IN9_V2_LUT_by_host	1
+../Device/Epd/EPD_2in9_V2.c:166:13:EPD_2IN9_V2_TurnOnDisplay	1
+../Device/Epd/EPD_2in9_V2.c:174:13:EPD_2IN9_V2_TurnOnDisplay_Partial	1
+../Device/Epd/EPD_2in9_V2.c:186:13:EPD_2IN9_V2_SetWindows	1
+../Device/Epd/EPD_2in9_V2.c:203:13:EPD_2IN9_V2_SetCursor	1
+../Device/Epd/EPD_2in9_V2.c:217:6:EPD_2IN9_V2_Init	1
+../Device/Epd/EPD_2in9_V2.c:256:6:EPD_2IN9_V2_Clear	2
+../Device/Epd/EPD_2in9_V2.c:271:6:EPD_2IN9_V2_Display	2
+../Device/Epd/EPD_2in9_V2.c:282:6:EPD_2IN9_V2_Display_Base	3
+../Device/Epd/EPD_2in9_V2.c:299:6:EPD_2IN9_V2_Display_Partial	2
+../Device/Epd/EPD_2in9_V2.c:345:6:EPD_2IN9_V2_Sleep	1

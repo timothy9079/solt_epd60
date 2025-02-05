@@ -14,6 +14,7 @@ RM := rm -rf
 -include Drivers/STM32WBxx_HAL_Driver/subdir.mk
 -include Drivers/CMSIS/subdir.mk
 -include Drivers/BSP/STM32WB5MM-DK/subdir.mk
+-include Device/Rf/subdir.mk
 -include Device/Memory/subdir.mk
 -include Device/Epd/subdir.mk
 -include Application/User/STM32_WPAN/Target/subdir.mk

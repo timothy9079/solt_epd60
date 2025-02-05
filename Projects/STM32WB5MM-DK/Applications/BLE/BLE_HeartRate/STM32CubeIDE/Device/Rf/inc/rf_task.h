@@ -44,6 +44,13 @@ typedef struct
 	uint8_t rssi;
 } rf_msgQ_t;
 
+
+#if defined( CERTIFICATION_PROCESS )
+#define NR_OF_CHANNEL	(6)
+#else
+#define NR_OF_CHANNEL	(11)
+#endif
+
 /* Exported macro ----------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------------*/
 void radioModuleInit( void * arg );

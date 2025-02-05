@@ -69,6 +69,7 @@
 									<listOptionValue builtIn="false" value="../../../../../../../Utilities/LCD"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Device/Epd/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Device/Memory/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Device/Rf/inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1868968368" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

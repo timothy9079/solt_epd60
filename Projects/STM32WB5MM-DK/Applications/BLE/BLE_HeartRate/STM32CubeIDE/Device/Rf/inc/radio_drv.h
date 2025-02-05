@@ -28,7 +28,7 @@ extern "C"
 
 /* Includes ----------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
+
 
 #include "CMT2310A_reg.h"
 #include "CMT2310A_def.h"

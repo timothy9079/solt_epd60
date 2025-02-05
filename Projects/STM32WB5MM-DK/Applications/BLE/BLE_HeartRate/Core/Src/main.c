@@ -954,7 +954,7 @@ HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 //RF interface SPI1
 /* SPI1 init function */
-void MX_SPI1_Init(void)
+HAL_StatusTypeDef MX_SPI1_Init(SPI_HandleTypeDef* phspi, uint32_t BaudratePrescaler)
 {
 
   /* USER CODE BEGIN SPI1_Init 0 */

@@ -17,7 +17,7 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:179:6:HAL_RTC_MspDeInit	2
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:202:6:HAL_UART_MspInit	7
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:324:6:HAL_UART_MspDeInit	3
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:382:6:HAL_SPI_MspInit	2
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:420:6:HAL_SPI_MspDeInit	2
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:450:6:HAL_QSPI_MspInit	2
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:507:6:HAL_QSPI_MspDeInit	2
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:382:6:HAL_SPI_MspInit	3
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:446:6:HAL_SPI_MspDeInit	3
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:495:6:HAL_QSPI_MspInit	2
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_hal_msp.c:552:6:HAL_QSPI_MspDeInit	2

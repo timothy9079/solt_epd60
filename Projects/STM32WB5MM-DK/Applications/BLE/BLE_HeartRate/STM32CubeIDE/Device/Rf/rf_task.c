@@ -17,9 +17,6 @@
 #include "radio_drv.h"
 #include "rf_task.h"
 
-#include "app_task.h"
-#include "app_state.h"
-
 /* External variables ------------------------------------------------------------*/
 /* Private defines ---------------------------------------------------------------*/
 #if ( DATA_MODE_CURR == DATA_MODE_DIRECT )
@@ -56,6 +53,7 @@ typedef enum
 /* Private macro -----------------------------------------------------------------*/
 /* Private function prototypes ---------------------------------------------------*/
 /* Private variables -------------------------------------------------------------*/
+#ifdef RF_USE_OS
 osThreadId_t rfCtrlThreadId;
 const osThreadAttr_t rfCtrlThreadAttr = {
 	.name = "rfCtrl",
@@ -68,6 +66,7 @@ osMessageQueueId_t rfMsgQId;
 const osMessageQueueAttr_t rfMsgAttr = {
 	.name = "rfQ",
 };
+#endif
 
 #if 0
 osTimerId_t rfRxTimerId;
@@ -260,7 +259,9 @@ static void vDirectDClockIrqCb( void )
 		put.cmd = rfMsg_ValidData;
 		put.data = rxdata_decoded;
 		put.rssi = bRadioGetRssi();
+#ifdef RF_USE_OS
 		osMessageQueuePut( rfMsgQId, &put, 0, 0 );
+#endif
 		vDirectParamInit();
 	}
 	
@@ -275,6 +276,7 @@ static void vDirectDClockIrqCb( void )
  */
 static void rfCtrlThread( void * arg )
 {
+#ifdef RF_USE_OS
 	osStatus_t status = osOK;
 	rf_msgQ_t msg = {0};
 
@@ -301,6 +303,7 @@ static void rfCtrlThread( void * arg )
 		}
 		
 	}
+#endif
 
 	UNUSED( arg );
 }
@@ -315,6 +318,7 @@ static void rfCtrlThread( void * arg )
 void radioModuleInit( void * arg )
 {
 	// RF 제어 쓰레드
+#ifdef RF_USE_OS
 	rfCtrlThreadId = osThreadNew( rfCtrlThread, NULL, &rfCtrlThreadAttr );
 	if( rfCtrlThreadId == NULL )
 	{
@@ -331,7 +335,7 @@ void radioModuleInit( void * arg )
 		// vDbgMsg( "An error %d occurred in the process of creating a rf message queue.\r\n", rfMsgQId );
 		printf( "An error %ld occurred in the process of creating a rf message queue.\r\n", ( int32_t )rfMsgQId );
 	}
-
+#endif
 
 	UNUSED( arg );
 }
@@ -373,5 +377,7 @@ void radioCtrlCmd( uint8_t cmd )
 {
 	rf_msgQ_t put = {0};
 	put.cmd = cmd;
+#ifdef RF_USE_OS
 	osMessageQueuePut( rfMsgQId, &put, 0, 0 );
+#endif
 }

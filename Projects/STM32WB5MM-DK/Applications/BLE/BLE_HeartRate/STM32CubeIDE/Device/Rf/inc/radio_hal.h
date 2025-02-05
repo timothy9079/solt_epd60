@@ -39,7 +39,7 @@ extern "C"
 
 /* Includes ----------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
+
 
 /* Exported defines --------------------------------------------------------------*/
 // Outputs
@@ -84,8 +84,7 @@ extern "C"
 #define RF_GPIO_Read(_in) HAL_GPIO_ReadPin(_in)
 
 // #define RF_Delay(_ms)	osDelay(_ms/portTICK_PERIOD_MS)
-#define RF_Delay(_ms)	{if(_ms>=portTICK_PERIOD_MS)osDelay(_ms/portTICK_PERIOD_MS);\
-											else osDelay(1);}
+#define RF_Delay(_ms)	HAL_Delay(_ms)
 
 /* Exported functions ----------------------------------------------------------1--*/
 void vRfGpioInit( void );

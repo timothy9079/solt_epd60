@@ -1,0 +1,13 @@
+../Device/Rf/radio_cmt.c:98:6:vRadioDCTimerConfig	16	static
+../Device/Rf/radio_cmt.c:145:6:vRadioTxInit	4	static,ignoring_inline_asm
+../Device/Rf/radio_cmt.c:156:6:vRadioRxInit	8	static
+../Device/Rf/radio_cmt.c:339:6:vRadioClearInterrupt	8	static
+../Device/Rf/radio_cmt.c:378:6:vRadioReadAllStatus	8	static
+../Device/Rf/radio_cmt.c:399:6:vRadioGoTxInit	4	static,ignoring_inline_asm
+../Device/Rf/radio_cmt.c:410:6:vRadioGoRxInit	4	static,ignoring_inline_asm
+../Device/Rf/radio_cmt.c:421:6:vRadioSend	16	static,ignoring_inline_asm
+../Device/Rf/radio_cmt.c:432:6:vRadioEnPreamIrq	16	static
+../Device/Rf/radio_cmt.c:450:6:vRadioEnSyncIrq	16	static
+../Device/Rf/radio_cmt.c:468:6:vRadioEnDclkIrq	16	static
+../Device/Rf/radio_cmt.c:496:6:vRadioStartDC	8	static
+../Device/Rf/radio_cmt.c:513:6:vRadioStopDCGoRx	8	static

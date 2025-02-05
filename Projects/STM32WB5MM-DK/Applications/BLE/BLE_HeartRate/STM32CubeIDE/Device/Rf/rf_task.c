@@ -335,6 +335,8 @@ void radioModuleInit( void * arg )
 		// vDbgMsg( "An error %d occurred in the process of creating a rf message queue.\r\n", rfMsgQId );
 		printf( "An error %ld occurred in the process of creating a rf message queue.\r\n", ( int32_t )rfMsgQId );
 	}
+#else
+	UTIL_SEQ_RegTask(1<< CFG_TASK_RF_ID, UTIL_SEQ_RFU, rfCtrlThread);
 #endif
 
 	UNUSED( arg );

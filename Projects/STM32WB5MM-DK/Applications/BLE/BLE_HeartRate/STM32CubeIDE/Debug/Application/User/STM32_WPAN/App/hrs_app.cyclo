@@ -1,6 +1,0 @@
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32_WPAN/App/hrs_app.c:215:6:HRS_Notification	5
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32_WPAN/App/hrs_app.c:271:6:HRSAPP_Init	4
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32_WPAN/App/hrs_app.c:318:13:HRSAPP_Measurement	4
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32_WPAN/App/hrs_app.c:356:13:HrMeas	1
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32_WPAN/App/hrs_app.c:371:17:HRSAPP_Read_RTC_SSR_SS	1
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32_WPAN/App/hrs_app.c:378:6:LCD_DrawIcon	5

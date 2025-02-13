@@ -1,2 +1,0 @@
-../Device/Epd/epd_spi.c:4:6:SPI_Write	1
-../Device/Epd/epd_spi.c:9:9:SPI_Read	1

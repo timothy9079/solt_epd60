@@ -34,6 +34,8 @@
 #include "w25q_libs.h"
 #include "w25q_mem.h"
 
+#include "rf_task.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -329,9 +331,10 @@ int main(void)
 
   /* Init code for STM32_WPAN */
   MX_APPE_Init();
+	radioModuleInit();
 
 //	test_flash();
-	
+		
 //  example_spimem();
   EPD_test_2IN9_V2();
 

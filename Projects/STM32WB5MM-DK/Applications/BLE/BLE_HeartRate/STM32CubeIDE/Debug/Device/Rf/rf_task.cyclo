@@ -1,9 +1,0 @@
-../Device/Rf/rf_task.c:156:13:vDirectParamInit	1
-../Device/Rf/rf_task.c:168:13:vRfDirectRxProc	14
-../Device/Rf/rf_task.c:227:13:vDirectPreambleIrqCb	1
-../Device/Rf/rf_task.c:238:13:vDirectRxTimeOutIrqCb	1
-../Device/Rf/rf_task.c:251:13:vDirectDClockIrqCb	2
-../Device/Rf/rf_task.c:277:13:rfCtrlThread	1
-../Device/Rf/rf_task.c:318:6:radioModuleInit	1
-../Device/Rf/rf_task.c:348:6:radioSignalCb	5
-../Device/Rf/rf_task.c:376:6:radioCtrlCmd	1

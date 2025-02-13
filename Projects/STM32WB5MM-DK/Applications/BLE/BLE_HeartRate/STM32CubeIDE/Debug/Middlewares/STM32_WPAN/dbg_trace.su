@@ -1,7 +1,0 @@
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:109:6:DbgTrace_mem_print_bin	32	static
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:172:13:DbgTraceGetFileName	24	static
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:197:6:DbgTraceBuffer	24	static
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:218:13:DbgTrace_TxCpltCallback	32	static,ignoring_inline_asm
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:257:6:DbgTraceInit	16	static
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:285:5:_write	24	static
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:324:8:DbgTraceWrite	48	static,ignoring_inline_asm

@@ -110,8 +110,8 @@ int EPD_test_2IN9_V2(void)
     sPaint_time.Hour = 12;
     sPaint_time.Min = 34;
     sPaint_time.Sec = 56;
-    UBYTE num = 10;
-    for (;;) {
+ //   UBYTE num = 10;
+ //   for (;;) {
         sPaint_time.Sec = sPaint_time.Sec + 1;
         if (sPaint_time.Sec == 60) {
             sPaint_time.Min = sPaint_time.Min + 1;
@@ -129,13 +129,13 @@ int EPD_test_2IN9_V2(void)
         Paint_ClearWindows(150, 80, 150 + EpdFont20.Width * 7, 80 + EpdFont20.Height, WHITE);
         Paint_DrawTime(150, 80, &sPaint_time, &EpdFont20, WHITE, BLACK);
 
-        num = num - 1;
-        if(num == 0) {
-            break;
-        }
+//        num = num - 1;
+//        if(num == 0) {
+//            break;
+//        }
 		EPD_2IN9_V2_Display_Partial(BlackImage);
         DEV_Delay_ms(500);//Analog clock 1s
-    }
+//    }
 #endif
 
 	printf("Clear...\r\n");

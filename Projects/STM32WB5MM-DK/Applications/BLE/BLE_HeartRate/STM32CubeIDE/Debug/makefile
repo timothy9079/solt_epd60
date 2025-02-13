@@ -72,8 +72,8 @@ all: main-build
 main-build: BLE_HeartRate.elf secondary-outputs
 
 # Tool invocations
-BLE_HeartRate.elf BLE_HeartRate.map: $(OBJS) $(USER_OBJS) C:\Workspace\solt_prj\STM32CubeWB-master\STM32CubeWB-master\Projects\STM32WB5MM-DK\Applications\BLE\BLE_HeartRate\STM32CubeIDE\STM32WB5MMGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "BLE_HeartRate.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Workspace\solt_prj\STM32CubeWB-master\STM32CubeWB-master\Projects\STM32WB5MM-DK\Applications\BLE\BLE_HeartRate\STM32CubeIDE\STM32WB5MMGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BLE_HeartRate.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+BLE_HeartRate.elf BLE_HeartRate.map: $(OBJS) $(USER_OBJS) C:\work\solt\source\solt_epd60\Projects\STM32WB5MM-DK\Applications\BLE\BLE_HeartRate\STM32CubeIDE\STM32WB5MMGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "BLE_HeartRate.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\work\solt\source\solt_epd60\Projects\STM32WB5MM-DK\Applications\BLE\BLE_HeartRate\STM32CubeIDE\STM32WB5MMGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BLE_HeartRate.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

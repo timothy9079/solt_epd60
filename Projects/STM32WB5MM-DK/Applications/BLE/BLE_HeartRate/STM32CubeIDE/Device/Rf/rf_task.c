@@ -17,6 +17,10 @@
 #include "radio_drv.h"
 #include "rf_task.h"
 
+#include "stm32_seq.h"
+#include "stm_queue.h"
+
+
 /* External variables ------------------------------------------------------------*/
 /* Private defines ---------------------------------------------------------------*/
 #if ( DATA_MODE_CURR == DATA_MODE_DIRECT )
@@ -39,6 +43,19 @@
 #endif
 
 #define RF_MSGQ_OBJECTS	12
+
+#define RF_TASK_TICK_MS		0
+
+uint8_t	rfTsId;
+uint32_t	rfWakeUpCnt = 0;
+
+queue_t	rfQueue;
+uint8_t rfQueueBuffer[RF_QUEUE_BUFFER_SIZE];
+
+typedef struct{
+	uint16_t cmd;
+	uint8_t *buffer;
+}Rf_Queue_t;
 
 /* Private types -----------------------------------------------------------------*/
 #if ( DATA_MODE_CURR == DATA_MODE_DIRECT )
@@ -145,6 +162,36 @@ uint32_t rxdata_rcv_arr[DBG_RX_DATA_SIZE] = {0};
 uint32_t rxraw_rcv_arr[DBG_RX_DATA_SIZE] = {0};
 int8_t rxrssi_rcv_arr[DBG_RX_DATA_SIZE] = {0};
 #endif
+
+
+uint8_t queue_test_buf[128];
+uint8_t bufcnt = 0;
+
+
+
+
+void radioMessageQueuePut(rf_msgQ_t *msg, uint32_t size){	
+	uint8_t msgBuf[256];
+
+	memcpy(msgBuf, msg, size);
+	
+	CircularQueue_Add( &rfQueue, msgBuf, size, 1 );
+}
+
+Ret_Code_e radioMessageQueueGet(rf_msgQ_t *msg, uint32_t size){	
+	uint8_t *rfData;
+	
+	rfData = CircularQueue_Remove( &rfQueue, size);
+
+	if(rfData == NULL){
+		printf("Message Queue Empty. \r\n");
+		return	RET_NULL; 
+	}
+
+	memcpy((uint8_t *) msg, rfData, size);
+
+	return RET_OK;
+}
 
 
 /* Private functions -------------------------------------------------------------*/
@@ -259,15 +306,12 @@ static void vDirectDClockIrqCb( void )
 		put.cmd = rfMsg_ValidData;
 		put.data = rxdata_decoded;
 		put.rssi = bRadioGetRssi();
-#ifdef RF_USE_OS
-		osMessageQueuePut( rfMsgQId, &put, 0, 0 );
-#endif
+//		CircularQueue_Add( rfMsgQId, &put, 0, 0 );
 		vDirectParamInit();
 	}
 	
 }
 #endif
-
 
 /**
  * @brief 
@@ -276,6 +320,9 @@ static void vDirectDClockIrqCb( void )
  */
 static void rfCtrlThread( void * arg )
 {
+	uint8_t *readQueueData;
+	rf_msgQ_t rmsg = {0,};
+	
 #ifdef RF_USE_OS
 	osStatus_t status = osOK;
 	rf_msgQ_t msg = {0};
@@ -304,8 +351,56 @@ static void rfCtrlThread( void * arg )
 		
 	}
 #endif
+//	UTIL_SEQ_WaitEvt(1<<CFG_TASK_RF_ID);
+	rfWakeUpCnt++;
+#if	(RF_TASK_TICK_MS == 1)
+	if(!(rfWakeUpCnt%100)){
+		printf(" wake up rfCtrlThread. Time  %02d:%02d\r\n", rfWakeUpCnt/6000, (rfWakeUpCnt/100)%60);
+	}
+#else
+	printf(" wake up rfCtrlThread. Time  %02d:%02d\r\n", rfWakeUpCnt/60, rfWakeUpCnt%60);
+
+	if(bufcnt > 8){
+
+		if(radioMessageQueueGet(&rmsg, sizeof(rf_msgQ_t)) == RET_OK){
+
+	//	memcpy((uint8_t*)&rmsg, readQueueData, sizeof(rf_msgQ_t));
+
+			printf("msg.cmd : 0x%x\r\n", rmsg.cmd);
+			printf("msg.data : 0x%x\r\n", rmsg.data);
+			printf("msg.rssi : 0x%x\r\n", rmsg.rssi);
+			DbgTrace_mem_print_bin("msg.buffer", rmsg.buffer, 64);
+		}
+	}
+#endif
+	
+
 
 	UNUSED( arg );
+}
+
+
+rf_msgQ_t msg;
+
+void rfTsTest(void){
+
+	bufcnt++;
+
+	
+	if(bufcnt < 8){
+		
+		printf("rf Queue put : 0x%x\r\n", bufcnt);
+		msg.cmd = bufcnt;
+		msg.data = bufcnt;
+		msg.rssi = bufcnt;
+
+		msg.buffer[bufcnt] = bufcnt;
+		
+		radioMessageQueuePut(&msg, sizeof(rf_msgQ_t));
+	}
+
+	UTIL_SEQ_SetTask(1<<CFG_TASK_RF_ID, CFG_SCH_PRIO_0);
+	UTIL_SEQ_Run(1<<CFG_TASK_RF_ID);
 }
 
 /* Public variables --------------------------------------------------------------*/
@@ -315,7 +410,7 @@ static void rfCtrlThread( void * arg )
  * 
  * @param arg 
  */
-void radioModuleInit( void * arg )
+void radioModuleInit( void )
 {
 	// RF 제어 쓰레드
 #ifdef RF_USE_OS
@@ -337,9 +432,21 @@ void radioModuleInit( void * arg )
 	}
 #else
 	UTIL_SEQ_RegTask(1<< CFG_TASK_RF_ID, UTIL_SEQ_RFU, rfCtrlThread);
+	HW_TS_Create(CFG_TIM_PROC_ID_ISR, &rfTsId, hw_ts_Repeated, rfTsTest);
+	rfWakeUpCnt = 0;
+	memset(queue_test_buf, 0, 128);
+
+	CircularQueue_Init(&rfQueue, rfQueueBuffer, RF_QUEUE_BUFFER_SIZE, 0, CIRCULAR_QUEUE_SPLIT_IF_WRAPPING_FLAG);
+
+	printf(" value sec : %d \r\n", 1000000/CFG_TS_TICK_VAL);
+
+#if(RF_TASK_TICK_MS == 1)	
+	HW_TS_Start(rfTsId, ((1000000/CFG_TS_TICK_VAL)/100) );
+#else
+	HW_TS_Start(rfTsId, (1000000/CFG_TS_TICK_VAL) );
 #endif
 
-	UNUSED( arg );
+#endif
 }
 
 /**
@@ -377,9 +484,5 @@ void radioSignalCb( uint16_t gpio_pin )
 
 void radioCtrlCmd( uint8_t cmd )
 {
-	rf_msgQ_t put = {0};
-	put.cmd = cmd;
-#ifdef RF_USE_OS
-	osMessageQueuePut( rfMsgQId, &put, 0, 0 );
-#endif
+//	CircularQueue_Add( *rfQueue, &put, 0, 0 );
 }

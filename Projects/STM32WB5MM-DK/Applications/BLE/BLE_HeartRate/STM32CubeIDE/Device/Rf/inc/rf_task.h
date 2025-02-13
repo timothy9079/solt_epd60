@@ -20,6 +20,8 @@ extern "C"
 /* Includes ----------------------------------------------------------------------*/
 #include "main.h"
 /* Exported defines --------------------------------------------------------------*/
+#define RF_MSG_BUFFER_SIZE	64
+
 /* Exported types ----------------------------------------------------------------*/
 typedef enum
 {
@@ -37,12 +39,18 @@ typedef enum
 
 typedef struct
 {
-	uint16_t cmd;
 	uint32_t data;
-	uint8_t * buffer;
+	uint16_t cmd;
 	uint16_t size;
 	uint8_t rssi;
+	uint8_t buffer[RF_MSG_BUFFER_SIZE];
 } rf_msgQ_t;
+
+
+typedef enum{
+	RET_OK = 0,
+	RET_NULL = 404,
+} Ret_Code_e;
 
 
 #if defined( CERTIFICATION_PROCESS )
@@ -51,9 +59,11 @@ typedef struct
 #define NR_OF_CHANNEL	(11)
 #endif
 
+#define RF_QUEUE_BUFFER_SIZE	1024
+
 /* Exported macro ----------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------------*/
-void radioModuleInit( void * arg );
+void radioModuleInit( void );
 void radioSignalCb( uint16_t gpio_pin );
 void radioCtrlCmd( uint8_t cmd );
 

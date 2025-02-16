@@ -44,7 +44,7 @@
 
 #define RF_MSGQ_OBJECTS	12
 
-#define RF_TASK_TICK_MS		0
+#define RF_TASK_TICK_MS		1
 
 uint8_t	rfTsId;
 uint32_t	rfWakeUpCnt = 0;
@@ -216,52 +216,52 @@ static void vRfDirectRxProc( void )
 {
 	switch ( rxproc_state )
 	{
-	case RxProc_CheckSyncWord:
-		++rxproc_bit_cnt;
-		rxdata_tmp_l <<= 1;
-		if ( GPIO_STATUS( RF_DIO ) )
-			rxdata_tmp_l |= 1;
-		if ( ( rxdata_tmp_l & RF_PREAMBLE_SYNC_MSK ) == RF_PREAMBLE_SYNC_WORD )
-		{
-			vDirectParamInit();
-			rxproc_state = RxProc_CheckData;
-
-		}
-		break;
-	case RxProc_CheckData:
-		rxdata_tmp_l >>= 1;
-		if ( rxdata_tmp_h & 0x1 ) rxdata_tmp_l |= 0x80000000;
-		rxdata_tmp_h >>= 1;
-		if ( GPIO_STATUS( RF_DIO ) ) rxdata_tmp_h |= 0x80000000;
-		if ( ++rxproc_bit_cnt >= RX_BIT_TOTAL_COUNT )
-		{
-			rxdata_decoded = 0;
-			rxdata_tmp_l_bk = rxdata_tmp_l;
-			rxdata_tmp_h_bk = rxdata_tmp_h;
-			for (  uint16_t index = 0; index < 16; index++ )
+		case RxProc_CheckSyncWord:
+			++rxproc_bit_cnt;
+			rxdata_tmp_l <<= 1;
+			if ( GPIO_STATUS( RF_DIO ) )
+				rxdata_tmp_l |= 1;
+			if ( ( rxdata_tmp_l & RF_PREAMBLE_SYNC_MSK ) == RF_PREAMBLE_SYNC_WORD )
 			{
-				rxdata_decoded >>= 1;
-				if ( rxdata_tmp_l & 0x1 ) rxdata_decoded |= 0x80000000;
-				rxdata_tmp_l >>= 2;
-			}
-			for (  uint16_t index = 0; index < 16; index++ )
-			{
-				rxdata_decoded >>= 1;
-				if ( rxdata_tmp_h & 0x1 ) rxdata_decoded |= 0x80000000;
-				rxdata_tmp_h >>= 2;
-			}
+				vDirectParamInit();
+				rxproc_state = RxProc_CheckData;
 
-			// rxdata_decoded = rxbit_completed_data;
-			rxproc_state = RxProc_RxDataDone;
-			// vRadioEnDclkIrq( DISABLE );
-		}
-		break;
-	case RxProc_RxDataDone:
-		/* code */
-		break;
-	
-	default:
-		break;
+			}
+			break;
+		case RxProc_CheckData:
+			rxdata_tmp_l >>= 1;
+			if ( rxdata_tmp_h & 0x1 ) rxdata_tmp_l |= 0x80000000;
+			rxdata_tmp_h >>= 1;
+			if ( GPIO_STATUS( RF_DIO ) ) rxdata_tmp_h |= 0x80000000;
+			if ( ++rxproc_bit_cnt >= RX_BIT_TOTAL_COUNT )
+			{
+				rxdata_decoded = 0;
+				rxdata_tmp_l_bk = rxdata_tmp_l;
+				rxdata_tmp_h_bk = rxdata_tmp_h;
+				for (  uint16_t index = 0; index < 16; index++ )
+				{
+					rxdata_decoded >>= 1;
+					if ( rxdata_tmp_l & 0x1 ) rxdata_decoded |= 0x80000000;
+					rxdata_tmp_l >>= 2;
+				}
+				for (  uint16_t index = 0; index < 16; index++ )
+				{
+					rxdata_decoded >>= 1;
+					if ( rxdata_tmp_h & 0x1 ) rxdata_decoded |= 0x80000000;
+					rxdata_tmp_h >>= 2;
+				}
+
+				// rxdata_decoded = rxbit_completed_data;
+				rxproc_state = RxProc_RxDataDone;
+				// vRadioEnDclkIrq( DISABLE );
+			}
+			break;
+		case RxProc_RxDataDone:
+			/* code */
+			break;
+		
+		default:
+			break;
 	}
 }
 
@@ -307,6 +307,8 @@ static void vDirectDClockIrqCb( void )
 		put.data = rxdata_decoded;
 		put.rssi = bRadioGetRssi();
 //		CircularQueue_Add( rfMsgQId, &put, 0, 0 );
+		radioMessageQueuePut(&put, sizeof(rf_msgQ_t));
+
 		vDirectParamInit();
 	}
 	
@@ -352,12 +354,27 @@ static void rfCtrlThread( void * arg )
 	}
 #endif
 //	UTIL_SEQ_WaitEvt(1<<CFG_TASK_RF_ID);
-	rfWakeUpCnt++;
 #if	(RF_TASK_TICK_MS == 1)
-	if(!(rfWakeUpCnt%100)){
-		printf(" wake up rfCtrlThread. Time  %02d:%02d\r\n", rfWakeUpCnt/6000, (rfWakeUpCnt/100)%60);
+	if(radioMessageQueueGet(&rmsg, sizeof(rf_msgQ_t)) == RET_OK){
+		
+		switch ( rmsg.cmd )
+		{
+		case rfMSG_Init:
+			vRadioInterfaceInit();
+			vRadioRxInit();
+			vRfEnableGpioInt( TRANS_IO0_INT1_Pin );
+			break;
+			
+		case rfMsg_ValidData:
+//			appRfDataRecieved( rmsg.data, rmsg.rssi );
+			break;
+		
+		default:
+			break;
+		}
 	}
 #else
+	rfWakeUpCnt++;
 	printf(" wake up rfCtrlThread. Time  %02d:%02d\r\n", rfWakeUpCnt/60, rfWakeUpCnt%60);
 
 	if(bufcnt > 8){
@@ -382,8 +399,9 @@ static void rfCtrlThread( void * arg )
 
 rf_msgQ_t msg;
 
-void rfTsTest(void){
+void rfTsCb(void){
 
+#if 0
 	bufcnt++;
 
 	
@@ -398,7 +416,7 @@ void rfTsTest(void){
 		
 		radioMessageQueuePut(&msg, sizeof(rf_msgQ_t));
 	}
-
+#endif
 	UTIL_SEQ_SetTask(1<<CFG_TASK_RF_ID, CFG_SCH_PRIO_0);
 	UTIL_SEQ_Run(1<<CFG_TASK_RF_ID);
 }
@@ -432,7 +450,7 @@ void radioModuleInit( void )
 	}
 #else
 	UTIL_SEQ_RegTask(1<< CFG_TASK_RF_ID, UTIL_SEQ_RFU, rfCtrlThread);
-	HW_TS_Create(CFG_TIM_PROC_ID_ISR, &rfTsId, hw_ts_Repeated, rfTsTest);
+	HW_TS_Create(CFG_TIM_PROC_ID_ISR, &rfTsId, hw_ts_Repeated, rfTsCb);
 	rfWakeUpCnt = 0;
 	memset(queue_test_buf, 0, 128);
 

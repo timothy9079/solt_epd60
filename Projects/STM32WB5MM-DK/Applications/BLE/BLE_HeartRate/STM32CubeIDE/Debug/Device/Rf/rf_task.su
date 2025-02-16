@@ -1,0 +1,12 @@
+../Device/Rf/rf_task.c:173:6:radioMessageQueuePut	272	static
+../Device/Rf/rf_task.c:181:12:radioMessageQueueGet	24	static
+../Device/Rf/rf_task.c:203:13:vDirectParamInit	4	static
+../Device/Rf/rf_task.c:215:13:vRfDirectRxProc	16	static
+../Device/Rf/rf_task.c:274:13:vDirectPreambleIrqCb	8	static
+../Device/Rf/rf_task.c:285:13:vDirectRxTimeOutIrqCb	8	static
+../Device/Rf/rf_task.c:298:13:vDirectDClockIrqCb	88	static
+../Device/Rf/rf_task.c:323:13:rfCtrlThread	96	static
+../Device/Rf/rf_task.c:402:6:rfTsCb	8	static
+../Device/Rf/rf_task.c:431:6:radioModuleInit	16	static
+../Device/Rf/rf_task.c:475:6:radioSignalCb	16	static,ignoring_inline_asm
+../Device/Rf/rf_task.c:503:6:radioCtrlCmd	16	static

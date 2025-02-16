@@ -1,0 +1,2 @@
+../Device/Epd/epd_spi.c:4:6:SPI_Write	16	static
+../Device/Epd/epd_spi.c:9:9:SPI_Read	16	static

@@ -648,17 +648,23 @@ void HAL_GPIO_EXTI_Callback( uint16_t GPIO_Pin )
 {
   switch (GPIO_Pin)
   {
-  case GPIO_PIN_12:
-    /* SW button 1 */
-    APP_BLE_Key_Button1_Action();
-    break; 
-    
-  case GPIO_PIN_13:
-    /* SW button 2 */
-    APP_BLE_Key_Button2_Action();
-    break; 
-  default:
-    break;
+	  case GPIO_PIN_1:
+	  case GPIO_PIN_2:
+	  case GPIO_PIN_3:
+	  case GPIO_PIN_4:
+		  radioSignalCb( GPIO_Pin );
+		  break;
+	  case GPIO_PIN_12:
+	    /* SW button 1 */
+	    APP_BLE_Key_Button1_Action();
+	    break; 
+	    
+	  case GPIO_PIN_13:
+	    /* SW button 2 */
+	    APP_BLE_Key_Button2_Action();
+	    break; 
+	  default:
+	    break;
   }
   return;
 }

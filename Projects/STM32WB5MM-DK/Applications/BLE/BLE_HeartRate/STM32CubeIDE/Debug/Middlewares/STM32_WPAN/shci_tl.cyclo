@@ -1,0 +1,10 @@
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:74:6:shci_init	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:86:6:shci_user_evt_proc	7
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:143:6:shci_resume_flow	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:156:6:shci_send	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:181:13:TlInit	2
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:206:13:Cmd_SetStatus	4
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:228:13:TlCmdEvtReceived	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:236:13:TlUserEvtReceived	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:245:13:shci_cmd_resp_wait	2
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/shci_tl.c:254:13:shci_cmd_resp_release	1

@@ -1,0 +1,15 @@
+../Device/Epd/Display_EPD_W21.c:14:6:lcd_chkstatus	8	static
+../Device/Epd/Display_EPD_W21.c:22:6:EPD_Init	16	static
+../Device/Epd/Display_EPD_W21.c:92:6:lut1	16	static
+../Device/Epd/Display_EPD_W21.c:115:6:EPD_Init_Part	16	static
+../Device/Epd/Display_EPD_W21.c:160:6:EPD_DeepSleep	8	static
+../Device/Epd/Display_EPD_W21.c:172:6:EPD_Update	8	static
+../Device/Epd/Display_EPD_W21.c:181:6:EPD_WhiteScreen_ALL	24	static
+../Device/Epd/Display_EPD_W21.c:199:6:EPD_WhiteScreen_White	16	static
+../Device/Epd/Display_EPD_W21.c:218:6:EPD_SetRAMValue_BaseMap	24	static
+../Device/Epd/Display_EPD_W21.c:235:6:EPD_Dis_Part	40	static
+../Device/Epd/Display_EPD_W21.c:275:6:EPD_Dis_PartAll	24	static
+../Device/Epd/Display_EPD_W21.c:296:6:EPD_Dis_Part_RAM	40	static
+../Device/Epd/Display_EPD_W21.c:368:6:EPD_Dis_Part_Time	48	static
+../Device/Epd/Display_EPD_W21.c:379:6:EPD_Init_180	16	static
+../Device/Epd/Display_EPD_W21.c:408:6:EPD_Display	32	static

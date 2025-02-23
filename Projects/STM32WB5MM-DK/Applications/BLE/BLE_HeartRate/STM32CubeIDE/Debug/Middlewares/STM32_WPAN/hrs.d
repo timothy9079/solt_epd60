@@ -112,7 +112,23 @@ Middlewares/STM32_WPAN/hrs.o: \
  ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/mesh.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/template_stm.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/svc_ctl.h \
- ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/uuid.h
+ ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/uuid.h \
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h \
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h \
+ ../../Core/Inc/main.h ../../Core/Inc/app_conf.h \
+ ../../Core/Inc/app_entry.h \
+ ../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_bus.h \
+ ../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.h \
+ ../../../../../../../Drivers/BSP/Components/ssd1315/../Common/lcd.h \
+ ../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315.h \
+ ../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315_reg.h \
+ ../../../../../../../Drivers/BSP/STM32WB5MM-DK/../../../Utilities/Fonts/fonts.h \
+ ../../../../../../../Utilities/LCD/stm32_lcd.h \
+ ../../../../../../../Utilities/LCD/../Fonts/fonts.h \
+ ../../../../../../../Drivers/BSP/Components/Common/lcd.h \
+ ../../Core/Inc/app_common.h \
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h \
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/common_blesvc.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/ble_common.h:
 ../../STM32_WPAN/App/ble_conf.h:
@@ -228,3 +244,20 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/template_stm.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/svc_ctl.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/uuid.h:
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h:
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:
+../../Core/Inc/main.h:
+../../Core/Inc/app_conf.h:
+../../Core/Inc/app_entry.h:
+../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_bus.h:
+../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.h:
+../../../../../../../Drivers/BSP/Components/ssd1315/../Common/lcd.h:
+../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315.h:
+../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315_reg.h:
+../../../../../../../Drivers/BSP/STM32WB5MM-DK/../../../Utilities/Fonts/fonts.h:
+../../../../../../../Utilities/LCD/stm32_lcd.h:
+../../../../../../../Utilities/LCD/../Fonts/fonts.h:
+../../../../../../../Drivers/BSP/Components/Common/lcd.h:
+../../Core/Inc/app_common.h:
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h:
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:

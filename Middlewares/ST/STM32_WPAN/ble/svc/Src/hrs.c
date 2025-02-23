@@ -19,6 +19,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "common_blesvc.h"
+#include "flash_datastorage.h"
+
+#include "w25q_libs.h"
+#include "w25q_mem.h"
+
 
 /* Private typedef -----------------------------------------------------------*/
 typedef struct
@@ -47,6 +52,10 @@ uint16_t        RebootReqCharHdle;                      /**< Characteristic hand
 
 #define BM_REQ_CHAR_SIZE    (3)
 
+
+#define BLE_RX_DATA_BUFFER_SIZE		1024*5
+#define BLE_DATA_HEADER_START		0x55
+
 /* Private variables ---------------------------------------------------------*/
 /**
  * Reboot Characteristic UUID
@@ -58,6 +67,27 @@ static const uint8_t BM_REQ_CHAR_UUID[16] = {0x19, 0xed, 0x82, 0xae,
                                        0x41, 0x45, 0x22, 0x8e,
                                        0x11, 0xFE, 0x00, 0x00};
 #endif
+
+typedef struct {
+	uint8_t		start;
+	uint8_t 	obj;
+	uint8_t 	type;
+	uint8_t		len_h;
+	uint8_t		len_l;
+} Bl_PacketHeader_t;
+
+typedef enum {
+	BL_RX_STAT_OK = 0,
+	BL_RX_STAT_START,
+	BL_RX_STAT_CONTINUE,
+	BL_RX_STAT_EMPTY
+} Bl_Rx_Status;
+
+
+uint8_t 	blRxDataBuffer[BLE_RX_DATA_BUFFER_SIZE];
+uint16_t 	blRxDataBufferIndex = 0;
+uint16_t	blRxDataLen = 0;
+Bl_PacketHeader_t blDataHeader;	
 
 /**
  * START of Section BLE_DRIVER_CONTEXT
@@ -82,8 +112,14 @@ static tBleStatus Update_Char_Measurement(HRS_MeasVal_t *pMeasurement );
 static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event);
 
 
-void printArrtoHex(uint8_t* buf, uint16_t len){
-    printf("Array contents in hex:\r\n");
+void printArrtoHex(uint8_t* txt, uint8_t* buf, uint16_t len){
+	if(txt == NULL){
+    	printf("Array contents in hex:\r\n");
+	}
+	else {
+		printf("%s:\r\n", txt);
+	}
+	
     for (int i = 0; i < len; i++) {
         printf("0x%02X ", buf[i]);
         if ((i + 1) % 16 == 0 || i == len - 1) {
@@ -91,6 +127,37 @@ void printArrtoHex(uint8_t* buf, uint16_t len){
         }
     }
 
+}
+
+static Bl_Rx_Status BlRxData(uint8_t * data, uint16_t len){
+	Bl_Rx_Status ret = BL_RX_STAT_CONTINUE;
+	
+	if(blDataHeader.start == BLE_DATA_HEADER_START) {
+		Osal_MemCpy((uint8_t *)(blRxDataBuffer + blRxDataBufferIndex), (uint8_t *)(data + sizeof(Bl_PacketHeader_t)), len - sizeof(Bl_PacketHeader_t));
+		blRxDataBufferIndex += len;
+	}
+	else {
+		Osal_MemCpy((uint8_t *)&blDataHeader, data, sizeof(Bl_PacketHeader_t));
+		blRxDataLen = (blDataHeader.len_h << 8) + blDataHeader.len_l;
+		printf("Bl_PacketHeader_t size : %d\r\n", sizeof(Bl_PacketHeader_t));
+		printf("start : 0x%x\r\n obj : 0x%x\r\n type : 0x%x\r\n len : 0x%x \r\n", blDataHeader.start,blDataHeader.obj,blDataHeader.type, blRxDataLen);
+		if((blDataHeader.start != BLE_DATA_HEADER_START) ||  (len < sizeof(Bl_PacketHeader_t))){
+			Osal_MemSet((uint8_t *)&blDataHeader, 0, sizeof(Bl_PacketHeader_t));
+			ret = BL_RX_STAT_EMPTY;
+		}
+		else {
+			Osal_MemSet(blRxDataBuffer, 0, BLE_RX_DATA_BUFFER_SIZE);
+			Osal_MemCpy(blRxDataBuffer, (uint8_t *)(data + sizeof(Bl_PacketHeader_t)), len - sizeof(Bl_PacketHeader_t));
+			blRxDataBufferIndex = len - sizeof(Bl_PacketHeader_t);
+			ret = BL_RX_STAT_START;
+		}
+	}
+
+	if(blRxDataBufferIndex && (blRxDataBufferIndex >= blRxDataLen)) {
+		ret = BL_RX_STAT_OK;
+	}
+
+	return ret;
 }
 
 /* Functions Definition ------------------------------------------------------*/
@@ -108,6 +175,8 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
   evt_blecore_aci *blecore_evt;
   aci_gatt_attribute_modified_event_rp0    * attribute_modified;
   HRS_App_Notification_evt_t Notification;
+
+  Bl_Rx_Status ret;
   
   return_value = SVCCTL_EvtNotAck;
   event_pckt = (hci_event_pckt *)(((hci_uart_pckt*)Event)->data);
@@ -127,7 +196,26 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
           BLE_DBG_HRS_MSG("ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE\r\n");
           write_perm_req = (aci_gatt_write_permit_req_event_rp0*)blecore_evt->data;
 
-		  printArrtoHex(write_perm_req->Data, write_perm_req->Data_Length);
+		  ret = BlRxData(write_perm_req->Data, write_perm_req->Data_Length);
+		  if(ret == BL_RX_STAT_START){
+			  printArrtoHex("Rx started. Data header", write_perm_req->Data, write_perm_req->Data_Length);
+		  }
+		  else if (ret == BL_RX_STAT_OK){
+			  blDataHeader.start = 0;
+			  printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
+		  
+			  FDS_Write((uint8_t *)("flash/image1"), blRxDataBuffer, blRxDataLen, FDS_PLAIN, NULL);
+			  printf("Rx Data received completed!\r\n");
+		  }
+
+		  if(blDataHeader.start == BLE_DATA_HEADER_START){
+		  	printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
+		  }
+
+//		  Osal_MemCpy((uint8_t *)(blRxDataBuffer + blRxDataBufferIndex), (uint8_t *)(write_perm_req->Data), write_perm_req->Data_Length);
+//		  blRxDataBufferIndex += write_perm_req->Data_Length;
+
+//		  printArrtoHex(NULL, write_perm_req->Data, write_perm_req->Data_Length);
 
           if(write_perm_req->Attribute_Handle == (HRS_Context.ControlPointCharHdle + 1))
           {
@@ -420,6 +508,10 @@ void HRS_Init(void)
    *	Register the event handler to the BLE controller
    */
   SVCCTL_RegisterSvcHandler(HeartRate_Event_Handler);
+
+  Osal_MemSet(blRxDataBuffer, 0, BLE_RX_DATA_BUFFER_SIZE);
+  Osal_MemSet(&blDataHeader, 0, sizeof(Bl_PacketHeader_t));
+  blRxDataBufferIndex = 0;
 
   /**
    *  Add Heart Rate Service

@@ -1,6 +1,7 @@
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:85:6:printArrtoHex	4
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:104:30:HeartRate_Event_Handler	7
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:225:19:Update_Char_BodySensorLocation	1
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:244:19:Update_Char_Measurement	8
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:414:6:HRS_Init	5
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:586:12:HRS_UpdateChar	3
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:115:6:printArrtoHex	5
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:132:21:BlRxData	6
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:171:30:HeartRate_Event_Handler	10
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:313:19:Update_Char_BodySensorLocation	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:332:19:Update_Char_Measurement	8
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:502:6:HRS_Init	5
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/hrs.c:678:12:HRS_UpdateChar	3

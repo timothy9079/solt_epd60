@@ -131,8 +131,6 @@ uint8_t read_testbuf[1024];
 extern uint8_t w25qRead_buf[];
 
 void example_spimem(){
-	W25Q_Init();		 // init the chip
-//	W25Q_EraseSector(0); // erase 4K sector - required before recording
 
 	// make test data
 	u8_t byte = 0x65;
@@ -163,7 +161,11 @@ void example_spimem(){
 
 	u16_t len = sizeof(_str);	// length of structure in bytes
 
-	FDS_Write((uint8_t *)("flash/test"), &_str, len, FDS_PLAIN, NULL);
+W25Q_Init();		 // init the chip
+W25Q_EraseSector(0); // erase 4K sector - required before recording
+
+
+//	FDS_Write((uint8_t *)("flash/test"), &_str, len, FDS_PLAIN, NULL);
 
 //	FDS_Read((uint8_t *)("flash/test"), &_str2, &len);
 
@@ -171,11 +173,11 @@ void example_spimem(){
 //	ErasePageFlash(0x1000);
 	// program structure
 //	WriteFlash(&_str, 0x1000, len);
-//	W25Q_ProgramData((u8_t*) &_str, len, in_page_shift, page_number);
+	W25Q_ProgramData((u8_t*) &_str, len, in_page_shift, page_number);
 	// read structure to another instance
 //	ReadFlash(&_str2, 0x1000, len);
 
-//	W25Q_ReadData((u8_t*) &_str2, len, in_page_shift, page_number);
+	W25Q_ReadData((u8_t*) &_str2, len, in_page_shift, page_number);
 
 
 //W25Q_ProgramData((uint8_t*)testbuf, 160, 0, 0);
@@ -331,11 +333,11 @@ int main(void)
 
 	/* Init code for STM32_WPAN */
 	MX_APPE_Init();
-	radioModuleInit();
+//	radioModuleInit();
 
-	//	test_flash();
+	test_flash();
 		
-	//  example_spimem();
+//	  example_spimem();
 	EPD_test_2IN9_V2();
 
 	/* Infinite loop */

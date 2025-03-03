@@ -81,6 +81,8 @@ static void MX_RF_Init(void);
 
 static void MX_SPI2_Init(void);
 static void MX_QUADSPI_Init(void);
+void appMainInit(void);
+
 
 /* USER CODE BEGIN PFP */
 
@@ -254,7 +256,7 @@ void test_flash(void){
 	W25Q_Init();		 // init the chip
 
 //	W25Q_WakeUP();
-	FDS_Write((uint8_t *)("flash/test"), testbuf, sizeof(testbuf), FDS_PLAIN, NULL);
+	FDS_Write((uint8_t *)("flash/test1"), testbuf, sizeof(testbuf), FDS_PLAIN, NULL);
 
 	FDS_Write((uint8_t *)("flash/test2"), testbuf, sizeof(testbuf), FDS_PLAIN, NULL);
 	FDS_Write((uint8_t *)("flash/test3"), testbuf, sizeof(testbuf), FDS_PLAIN, NULL);
@@ -264,9 +266,9 @@ void test_flash(void){
 		DbgTrace_mem_print_bin("-- Flash test ---", read_testbuf, readsize);
 	}
 
-	ret = FDS_Read((uint8_t *)("flash/test"), read_testbuf, &readsize);
+	ret = FDS_Read((uint8_t *)("flash/test1"), read_testbuf, &readsize);
 	if(ret == FDS_OK){
-		DbgTrace_mem_print_bin("-- Flash test ---", read_testbuf, readsize);
+		DbgTrace_mem_print_bin("-- Flash test1 ---", read_testbuf, readsize);
 	}
 
 	ret = FDS_Read((uint8_t *)("flash/test3"), read_testbuf, &readsize);
@@ -339,6 +341,9 @@ int main(void)
 		
 //	  example_spimem();
 	EPD_test_2IN9_V2();
+
+	appMainInit();
+
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */

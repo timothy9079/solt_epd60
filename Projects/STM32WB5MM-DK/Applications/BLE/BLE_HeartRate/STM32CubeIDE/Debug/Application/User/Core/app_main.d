@@ -1,10 +1,9 @@
-Application/User/Core/main.o: \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/main.c \
- ../../Core/Inc/main.h \
- ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h \
- ../../Core/Inc/stm32wbxx_hal_conf.h \
- ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h \
- ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_def.h \
+Application/User/Core/app_main.o: ../Application/User/Core/app_main.c \
+ ../../../../../../../Utilities/sequencer/stm32_seq.h \
+ ../../../../../../../Middlewares/ST/STM32_WPAN/utilities/stm_queue.h \
+ ../../Core/Inc/app_main.h ../../Core/Inc/app_conf.h \
+ ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/hw.h \
+ ../../Core/Inc/hw_conf.h ../../Core/Inc/hw_if.h \
  ../../../../../../../Drivers/CMSIS/Device/ST/STM32WBxx/Include/stm32wbxx.h \
  ../../../../../../../Drivers/CMSIS/Device/ST/STM32WBxx/Include/stm32wb5mxx.h \
  ../../../../../../../Drivers/CMSIS/Include/core_cm4.h \
@@ -13,6 +12,10 @@ Application/User/Core/main.o: \
  ../../../../../../../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../../../../../../../Drivers/CMSIS/Include/mpu_armv7.h \
  ../../../../../../../Drivers/CMSIS/Device/ST/STM32WBxx/Include/system_stm32wbxx.h \
+ ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h \
+ ../../Core/Inc/stm32wbxx_hal_conf.h \
+ ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h \
+ ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_def.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_dma.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_dmamux.h \
@@ -46,9 +49,6 @@ Application/User/Core/main.o: \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart_ex.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h \
- ../../Core/Inc/app_conf.h \
- ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/hw.h \
- ../../Core/Inc/hw_conf.h ../../Core/Inc/hw_if.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_exti.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h \
  ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_rcc.h \
@@ -65,39 +65,19 @@ Application/User/Core/main.o: \
  ../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_errno.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/ble/core/ble_bufsize.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/utilities/dbg_trace.h \
- ../../Core/Inc/app_entry.h \
- ../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_bus.h \
- ../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.h \
- ../../../../../../../Drivers/BSP/Components/ssd1315/../Common/lcd.h \
- ../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315.h \
- ../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315_reg.h \
- ../../../../../../../Drivers/BSP/STM32WB5MM-DK/../../../Utilities/Fonts/fonts.h \
- ../../../../../../../Utilities/LCD/stm32_lcd.h \
- ../../../../../../../Utilities/LCD/../Fonts/fonts.h \
- ../../../../../../../Drivers/BSP/Components/Common/lcd.h \
- ../../Core/Inc/app_common.h \
- ../../../../../../../Utilities/lpm/tiny_lpm/stm32_lpm.h \
- ../../../../../../../Utilities/sequencer/stm32_seq.h \
- ../../Core/Inc/hw_conf.h \
- ../../../../../../../Middlewares/ST/STM32_WPAN/utilities/otp.h \
- ../../../../../../../Middlewares/ST/STM32_WPAN/utilities/utilities_common.h \
- ../../Core/Inc/app_conf.h \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Epd/inc/DEV_Config.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h \
  ../../STM32_WPAN/App/app_ble.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h \
  ../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h \
- ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/rf_task.h
-../../Core/Inc/main.h:
-../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h:
-../../Core/Inc/stm32wbxx_hal_conf.h:
-../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h:
-../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_def.h:
+ ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h
+../../../../../../../Utilities/sequencer/stm32_seq.h:
+../../../../../../../Middlewares/ST/STM32_WPAN/utilities/stm_queue.h:
+../../Core/Inc/app_main.h:
+../../Core/Inc/app_conf.h:
+../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/hw.h:
+../../Core/Inc/hw_conf.h:
+../../Core/Inc/hw_if.h:
 ../../../../../../../Drivers/CMSIS/Device/ST/STM32WBxx/Include/stm32wbxx.h:
 ../../../../../../../Drivers/CMSIS/Device/ST/STM32WBxx/Include/stm32wb5mxx.h:
 ../../../../../../../Drivers/CMSIS/Include/core_cm4.h:
@@ -106,6 +86,10 @@ Application/User/Core/main.o: \
 ../../../../../../../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../../../../../../../Drivers/CMSIS/Include/mpu_armv7.h:
 ../../../../../../../Drivers/CMSIS/Device/ST/STM32WBxx/Include/system_stm32wbxx.h:
+../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h:
+../../Core/Inc/stm32wbxx_hal_conf.h:
+../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h:
+../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_def.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_dma.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_dmamux.h:
@@ -139,10 +123,6 @@ Application/User/Core/main.o: \
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart_ex.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h:
-../../Core/Inc/app_conf.h:
-../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/hw.h:
-../../Core/Inc/hw_conf.h:
-../../Core/Inc/hw_if.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_exti.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h:
 ../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_rcc.h:
@@ -159,31 +139,9 @@ Application/User/Core/main.o: \
 ../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_errno.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/core/ble_bufsize.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/utilities/dbg_trace.h:
-../../Core/Inc/app_entry.h:
-../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_bus.h:
-../../../../../../../Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.h:
-../../../../../../../Drivers/BSP/Components/ssd1315/../Common/lcd.h:
-../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315.h:
-../../../../../../../Drivers/BSP/STM32WB5MM-DK/../Components/ssd1315/ssd1315_reg.h:
-../../../../../../../Drivers/BSP/STM32WB5MM-DK/../../../Utilities/Fonts/fonts.h:
-../../../../../../../Utilities/LCD/stm32_lcd.h:
-../../../../../../../Utilities/LCD/../Fonts/fonts.h:
-../../../../../../../Drivers/BSP/Components/Common/lcd.h:
-../../Core/Inc/app_common.h:
-../../../../../../../Utilities/lpm/tiny_lpm/stm32_lpm.h:
-../../../../../../../Utilities/sequencer/stm32_seq.h:
-../../Core/Inc/hw_conf.h:
-../../../../../../../Middlewares/ST/STM32_WPAN/utilities/otp.h:
-../../../../../../../Middlewares/ST/STM32_WPAN/utilities/utilities_common.h:
-../../Core/Inc/app_conf.h:
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Epd/inc/DEV_Config.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h:
 ../../STM32_WPAN/App/app_ble.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h:
 ../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h:
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h:
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/rf_task.h:

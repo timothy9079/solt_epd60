@@ -113,6 +113,9 @@ Middlewares/STM32_WPAN/hrs.o: \
  ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/template_stm.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/svc_ctl.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/uuid.h \
+ ../../STM32_WPAN/App/app_ble.h \
+ ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h \
+ ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h \
  ../../Core/Inc/main.h ../../Core/Inc/app_conf.h \
@@ -244,6 +247,9 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/template_stm.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/svc_ctl.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/svc/Inc/uuid.h:
+../../STM32_WPAN/App/app_ble.h:
+../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h:
+../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:
 ../../Core/Inc/main.h:

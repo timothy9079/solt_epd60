@@ -1,0 +1,4 @@
+../Application/User/Core/app_main.c:27:9:keyScan	2
+../Application/User/Core/app_main.c:39:13:appMainThread	7
+../Application/User/Core/app_main.c:68:6:appMainTsCb	1
+../Application/User/Core/app_main.c:74:6:appMainInit	1

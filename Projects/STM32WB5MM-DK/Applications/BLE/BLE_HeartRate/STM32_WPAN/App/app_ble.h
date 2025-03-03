@@ -47,6 +47,32 @@ typedef enum
   APP_BLE_CONNECTED_CLIENT
 } APP_BLE_ConnStatus_t;
 
+
+typedef enum
+{	
+	BLE_PACKET_HEADER_OBJ_IMAGE = 1,
+	BLE_PACKET_HEADER_OBJ_BELL,
+	BLE_PACKET_HEADER_OBJ_RF,
+	BLE_PACKET_HEADER_OBJ_DEVICID
+}Ble_PacketHeader_Obj;
+
+typedef struct {
+	uint8_t		start;
+	uint8_t 	obj;
+	uint8_t 	type;
+	uint8_t		len_h;
+	uint8_t		len_l;
+} Bl_PacketHeader_t;
+
+typedef enum {
+	BL_RX_STAT_OK = 0,
+	BL_RX_STAT_START,
+	BL_RX_STAT_CONTINUE,
+	BL_RX_STAT_EMPTY
+} Bl_Rx_Status;
+
+
+
 /* USER CODE BEGIN ET */
 
 /* USER CODE END ET */

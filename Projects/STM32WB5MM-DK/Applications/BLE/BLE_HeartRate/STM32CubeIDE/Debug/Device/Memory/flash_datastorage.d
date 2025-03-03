@@ -77,7 +77,12 @@ Device/Memory/flash_datastorage.o: ../Device/Memory/flash_datastorage.c \
  ../../../../../../../Utilities/LCD/../Fonts/fonts.h \
  ../../../../../../../Drivers/BSP/Components/Common/lcd.h \
  ../../Core/Inc/app_common.h \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h \
+ ../../STM32_WPAN/App/app_ble.h \
+ ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h \
+ ../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h \
+ ../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h \
+ ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:
 ../../Core/Inc/main.h:
@@ -158,3 +163,8 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-
 ../../../../../../../Drivers/BSP/Components/Common/lcd.h:
 ../../Core/Inc/app_common.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash_datastorage.h:
+../../STM32_WPAN/App/app_ble.h:
+../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h:
+../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h:
+../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h:
+../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h:

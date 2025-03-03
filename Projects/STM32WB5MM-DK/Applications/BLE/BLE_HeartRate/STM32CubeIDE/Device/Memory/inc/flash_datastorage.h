@@ -25,6 +25,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+#include "app_ble.h"
 //#include "stm32l4xx_hal_flash.h"
 
 /**
@@ -86,6 +87,9 @@ typedef struct
 
 /** @} */ /* SECURE_DATABASE_EXPORTED_TYPES */
 
+extern const char *filePath_img[];
+extern const char *filePath_bell[];
+
 /**
   * @addtogroup SECURE_DATABASE_EXPORTED_FUNCTIONS Secure Database Exported Functions
   * @{
@@ -107,6 +111,8 @@ FDS_Ret  FDS_SearchPath(FDS_Path_t* path, void* data, int size, uint32_t* pos, u
 FDS_Ret  FDS_Delete(FDS_Path_t* path);
 FDS_Ret  FDS_DeleteAddr(uint32_t addr);
 void     FDS_DeleteAll(void);
+FDS_Ret FDS_BlSaveFile(Bl_PacketHeader_t* header, uint8_t *data, uint16_t size );
+
 
 /** @} */ /* SECURE_DATABASE_EXPORTED_FUNCTIONS */
 

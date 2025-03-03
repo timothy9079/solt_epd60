@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 //#include "stm32l4xx_hal_flash.h"
+//#include "app_ble.h"
 #include "w25q_mem.h"
 #include "flash_datastorage.h"
 
@@ -49,6 +50,21 @@
 
 static const uint8_t iv[] __ALIGNED(8) = {0xB2, 0xD3, 0xE9, 0x0F, 0x65, 0x0C, 0xB4, 0x8D, 0x06, 0x3D, 0x9D, 0x60};
 uint8_t	read_buf[400];
+
+const char *filePath_img[5] = {  // 문자열 리터럴을 가리키는 포인터 배열
+    "img/logo",
+    "img/idle",
+    "img/butt",
+    "img/rfsend",
+    "img/rfwait"
+};
+
+const char *filePath_bell[2] = {  // 문자열 리터럴을 가리키는 포인터 배열
+    "bell/bell1",
+    "bell/bell2",
+};
+
+
 
 extern uint8_t testbuf[];
 
@@ -626,6 +642,24 @@ void FDS_DeleteAll(void)
     }
 }
 
+FDS_Ret FDS_BlSaveFile(Bl_PacketHeader_t* header, uint8_t *data, uint16_t size ){
+	switch(header->obj){
+		case BLE_PACKET_HEADER_OBJ_IMAGE:
+			printf("Image File, File path : %s.\r\n", filePath_img[header->type-1]);
+			FDS_Write((uint8_t *)filePath_img[header->type-1], data, size, FDS_PLAIN, NULL);
+			break;
+		case BLE_PACKET_HEADER_OBJ_BELL:
+			printf("Bell File, File path : %s.\r\n", filePath_bell[header->type-1]);
+			FDS_Write((uint8_t *)filePath_bell[header->type-1], data, size, FDS_PLAIN, NULL);
+			break;
+		case BLE_PACKET_HEADER_OBJ_RF:
+			break;
+		case BLE_PACKET_HEADER_OBJ_DEVICID:
+			break;
+	}
+	
+	printf("Save File!\r\n");
+}
 
 
 /** @} */ /* SECURE_DATABASE_EXPORTED_FUNCTIONS */

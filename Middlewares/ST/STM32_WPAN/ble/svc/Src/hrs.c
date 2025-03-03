@@ -19,6 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "common_blesvc.h"
+#include "app_ble.h"
 #include "flash_datastorage.h"
 
 #include "w25q_libs.h"
@@ -67,22 +68,6 @@ static const uint8_t BM_REQ_CHAR_UUID[16] = {0x19, 0xed, 0x82, 0xae,
                                        0x41, 0x45, 0x22, 0x8e,
                                        0x11, 0xFE, 0x00, 0x00};
 #endif
-
-typedef struct {
-	uint8_t		start;
-	uint8_t 	obj;
-	uint8_t 	type;
-	uint8_t		len_h;
-	uint8_t		len_l;
-} Bl_PacketHeader_t;
-
-typedef enum {
-	BL_RX_STAT_OK = 0,
-	BL_RX_STAT_START,
-	BL_RX_STAT_CONTINUE,
-	BL_RX_STAT_EMPTY
-} Bl_Rx_Status;
-
 
 uint8_t 	blRxDataBuffer[BLE_RX_DATA_BUFFER_SIZE];
 uint16_t 	blRxDataBufferIndex = 0;
@@ -168,6 +153,9 @@ static Bl_Rx_Status BlRxData(uint8_t * data, uint16_t len){
  * @param  Event: Address of the buffer holding the Event
  * @retval Ack: Return whether the Event has been managed or not
  */
+
+extern uint8_t keyCode;
+
 static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
 {
   SVCCTL_EvtAckStatus_t return_value;
@@ -201,10 +189,12 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
 			  printArrtoHex("Rx started. Data header", write_perm_req->Data, write_perm_req->Data_Length);
 		  }
 		  else if (ret == BL_RX_STAT_OK){
+		  	  keyCode = blDataHeader.type;
 			  blDataHeader.start = 0;
 			  printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
-		  
-			  FDS_Write((uint8_t *)("flash/image1"), blRxDataBuffer, blRxDataLen, FDS_PLAIN, NULL);
+
+			  FDS_BlSaveFile(&blDataHeader, blRxDataBuffer, blRxDataLen);		  
+//			  FDS_Write((uint8_t *)("flash/image1"), blRxDataBuffer, blRxDataLen, FDS_PLAIN, NULL);
 			  printf("Rx Data received completed!\r\n");
 		  }
 

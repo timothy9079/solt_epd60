@@ -1,6 +1,7 @@
 "./Application/Startup/startup_stm32wb5mmghx.o"
 "./Application/User/Core/app_debug.o"
 "./Application/User/Core/app_entry.o"
+"./Application/User/Core/app_main.o"
 "./Application/User/Core/hw_timerserver.o"
 "./Application/User/Core/hw_uart.o"
 "./Application/User/Core/main.o"

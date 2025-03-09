@@ -695,6 +695,7 @@ typedef enum
   CFG_IDLEEVT_SYSTEM_HCI_CMD_EVT_RSP_ID,
   /* USER CODE BEGIN CFG_IdleEvt_Id_t */
 
+  CFG_IDLEEVT_UI_UPDATE_ID,
   /* USER CODE END CFG_IdleEvt_Id_t */
 } CFG_IdleEvt_Id_t;
 

@@ -33,8 +33,10 @@
 
 #include "w25q_libs.h"
 #include "w25q_mem.h"
+#include "app_main.h"
 
 #include "rf_task.h"
+#include "ft5206.h"
 
 /* USER CODE END Includes */
 
@@ -68,6 +70,9 @@ SPI_HandleTypeDef hspi1;		//RF
 SPI_HandleTypeDef hspi2;
 QSPI_HandleTypeDef hqspi;
 
+I2C_HandleTypeDef hi2c1;
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -81,6 +86,9 @@ static void MX_RF_Init(void);
 
 static void MX_SPI2_Init(void);
 static void MX_QUADSPI_Init(void);
+
+static void MX_I2C1_Init(void);
+
 void appMainInit(void);
 
 
@@ -280,6 +288,13 @@ void test_flash(void){
 
 /* USER CODE END 0 */
 
+int EPD_test_7b(void);
+int EPD_test7b_v2(void);
+int EPD_test_7(void);
+
+int EPD_test_v2(void);
+void epd_test_new( void );
+
 /**
   * @brief  The application entry point.
   * @retval int
@@ -327,7 +342,9 @@ int main(void)
 	MX_LPUART1_UART_Init();
 	MX_RF_Init();
 	MX_SPI2_Init();
+	
 	/* USER CODE BEGIN 2 */
+	MX_I2C1_Init();
 
 	MX_QUADSPI_Init();
 
@@ -337,19 +354,22 @@ int main(void)
 	MX_APPE_Init();
 //	radioModuleInit();
 
-	test_flash();
+//	test_flash();
 		
 //	  example_spimem();
 	EPD_test_2IN9_V2();
-
+//	EPD_test7b_v2();
 	appMainInit();
+	FT5206_Init();
 
+	setUiUpdate(UI_SCREEN_IDLE);
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 	while(1)
 	{
 		/* USER CODE END WHILE */
+	FT5206_Scan_point(0x00);
 		MX_APPE_Process();
 
 		/* USER CODE BEGIN 3 */
@@ -956,6 +976,20 @@ static void MX_GPIO_Init(void)
 	 GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	 HAL_GPIO_Init(RF_PWR_EN_GPIO_Port, &GPIO_InitStruct);
 
+//touch
+	/*Configure GPIO pin : PA6 */
+	GPIO_InitStruct.Pin = GPIO_PIN_6;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	
+	/*Configure GPIO pin : PA5 */
+	GPIO_InitStruct.Pin = GPIO_PIN_5;
+	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 
 	/* EXTI 1~4 RF interrupt init*/
 	HAL_NVIC_SetPriority(EXTI1_IRQn, 5, 0);
@@ -969,6 +1003,9 @@ static void MX_GPIO_Init(void)
 
 	HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
 	HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+
+	HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+	HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 
   
@@ -1085,6 +1122,54 @@ static void MX_QUADSPI_Init(void)
   /* USER CODE BEGIN QUADSPI_Init 2 */
 
   /* USER CODE END QUADSPI_Init 2 */
+
+}
+
+/**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.Timing = 0x10B17DB5;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
 
 }
 

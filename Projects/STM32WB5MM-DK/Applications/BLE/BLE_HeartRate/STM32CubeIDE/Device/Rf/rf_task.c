@@ -315,6 +315,22 @@ static void vDirectDClockIrqCb( void )
 }
 #endif
 
+void rfInitCtrl(Rf_Ctrl_Init initRxTx){
+
+	switch(initRxTx){
+		case RF_CTRL_INIT_RX:
+			vRadioInterfaceInit();
+			vRadioRxInit();
+			vRfEnableGpioInt( TRANS_IO0_INT1_Pin );
+			break;
+		case RF_CTRL_INIT_TX:
+			break;
+		default:
+			break;
+	}
+}
+
+
 /**
  * @brief 
  * 
@@ -359,18 +375,18 @@ static void rfCtrlThread( void * arg )
 		
 		switch ( rmsg.cmd )
 		{
-		case rfMSG_Init:
-			vRadioInterfaceInit();
-			vRadioRxInit();
-			vRfEnableGpioInt( TRANS_IO0_INT1_Pin );
-			break;
+			case rfMSG_Init:
+				vRadioInterfaceInit();
+				vRadioRxInit();
+				vRfEnableGpioInt( TRANS_IO0_INT1_Pin );
+				break;
+				
+			case rfMsg_ValidData:
+	//			appRfDataRecieved( rmsg.data, rmsg.rssi );
+				break;
 			
-		case rfMsg_ValidData:
-//			appRfDataRecieved( rmsg.data, rmsg.rssi );
-			break;
-		
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 #else

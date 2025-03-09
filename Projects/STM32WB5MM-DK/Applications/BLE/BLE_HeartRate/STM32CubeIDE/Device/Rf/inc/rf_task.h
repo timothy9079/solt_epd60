@@ -113,11 +113,16 @@ typedef struct
 } rf_msgQ_t;
 
 
-typedef enum{
+typedef enum {
 	RET_OK = 0,
 	RET_NULL = 404,
 } Ret_Code_e;
 
+
+typedef enum {
+	RF_CTRL_INIT_RX = 0,
+	RF_CTRL_INIT_TX
+} Rf_Ctrl_Init;
 
 #if defined( CERTIFICATION_PROCESS )
 #define NR_OF_CHANNEL	(6)

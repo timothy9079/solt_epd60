@@ -1,4 +1,11 @@
-../Application/User/Core/app_main.c:27:9:keyScan	4	static
-../Application/User/Core/app_main.c:39:13:appMainThread	8	static
-../Application/User/Core/app_main.c:68:6:appMainTsCb	8	static
-../Application/User/Core/app_main.c:74:6:appMainInit	8	static
+../Application/User/Core/app_main.c:31:6:setUiUpdate	16	static
+../Application/User/Core/app_main.c:41:6:clearUiUpdate	4	static
+../Application/User/Core/app_main.c:45:9:getUiUpdate	4	static
+../Application/User/Core/app_main.c:50:6:setRfUiStatus	16	static
+../Application/User/Core/app_main.c:54:14:getRfUiStatus	4	static
+../Application/User/Core/app_main.c:59:6:startRfUiTs	16	static
+../Application/User/Core/app_main.c:62:6:appRfUiTsCb	8	static
+../Application/User/Core/app_main.c:78:9:keyScan	8	static
+../Application/User/Core/app_main.c:90:13:appMainThread	8	static
+../Application/User/Core/app_main.c:126:6:appMainTsCb	8	static
+../Application/User/Core/app_main.c:133:6:appMainInit	8	static

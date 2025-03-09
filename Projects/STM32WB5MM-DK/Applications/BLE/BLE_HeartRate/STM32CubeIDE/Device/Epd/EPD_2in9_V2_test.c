@@ -57,16 +57,25 @@ int EPD_test_2IN9_V2(void)
     printf("show image for array\r\n");
     Paint_SelectImage(BlackImage);
     Paint_Clear(WHITE);
-    Paint_DrawBitMap(gImage_2in9);
+	
+/*	ret = FDS_Read((uint8_t *)("flash/image1"), read_testbuf, &readsize);
+	if(ret == FDS_OK){
+		DbgTrace_mem_print_bin("-- Flash test ---", read_testbuf, readsize);
+    	Paint_DrawBitMap(read_testbuf);
+	}
+	else {
+	*/
+    	Paint_DrawBitMap(gImage_logo);
+	//}
 
     EPD_2IN9_V2_Display(BlackImage);
-    DEV_Delay_ms(3000);
+    DEV_Delay_ms(5000);
 #endif
 
 
-	printf("Clear...\r\n");
-	EPD_2IN9_V2_Init();
-    EPD_2IN9_V2_Clear();
+//	printf("Clear...\r\n");
+//	EPD_2IN9_V2_Init();
+//    EPD_2IN9_V2_Clear();
 	
     printf("Goto Sleep...\r\n");
 //    EPD_2IN9_V2_Sleep();
@@ -116,10 +125,10 @@ int EPD_2IN9_Logo(void)
     Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
     Paint_DrawString_EN(10, 0, "Solt Epd06", &EpdFont16, BLACK, WHITE);
-    Paint_DrawString_EN(10, 20, "hello", &EpdFont12, WHITE, BLACK);
+    Paint_DrawString_EN(10, 20, "hello", &EpdFont24, WHITE, BLACK);
 
-    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
-    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
+//    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
+//    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
 
     Paint_DrawString_CN(130, 0, "你好abc", &Epd_Font12CN, BLACK, WHITE);
     Paint_DrawString_CN(130, 20, "微雪电子", &Epd_Font24CN, WHITE, BLACK);
@@ -167,10 +176,10 @@ int EPD_2IN9_Wait(void)
     Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
     Paint_DrawString_EN(10, 0, "Solt Epd06", &EpdFont16, BLACK, WHITE);
-    Paint_DrawString_EN(10, 20, "RF Wait", &EpdFont12, WHITE, BLACK);
+    Paint_DrawString_EN(10, 20, "Idle", &EpdFont24, WHITE, BLACK);
 
-    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
-    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
+//    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
+//    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
 
     Paint_DrawString_CN(130, 0, "你好abc", &Epd_Font12CN, BLACK, WHITE);
     Paint_DrawString_CN(130, 20, "微雪电子", &Epd_Font24CN, WHITE, BLACK);
@@ -219,10 +228,10 @@ int EPD_2IN9_Button(void)
     Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
     Paint_DrawString_EN(10, 0, "Solt Epd06", &EpdFont16, BLACK, WHITE);
-    Paint_DrawString_EN(10, 20, "Button", &EpdFont12, WHITE, BLACK);
+    Paint_DrawString_EN(10, 20, "Button", &EpdFont24, WHITE, BLACK);
 
-    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
-    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
+ //   Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
+ //   Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
 
     Paint_DrawString_CN(130, 0, "你好abc", &Epd_Font12CN, BLACK, WHITE);
     Paint_DrawString_CN(130, 20, "微雪电子", &Epd_Font24CN, WHITE, BLACK);
@@ -269,10 +278,10 @@ int EPD_2IN9_RF_Send(void)
     Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
     Paint_DrawString_EN(10, 0, "Solt Epd06", &EpdFont16, BLACK, WHITE);
-    Paint_DrawString_EN(10, 20, "Rf Send", &EpdFont12, WHITE, BLACK);
+    Paint_DrawString_EN(10, 20, "Rf Send", &EpdFont24, WHITE, BLACK);
 
-    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
-    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
+//    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
+//    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
 
     Paint_DrawString_CN(130, 0, "你好abc", &Epd_Font12CN, BLACK, WHITE);
     Paint_DrawString_CN(130, 20, "微雪电子", &Epd_Font24CN, WHITE, BLACK);
@@ -321,10 +330,10 @@ int EPD_2IN9_RF_Receive(void)
     Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
     Paint_DrawString_EN(10, 0, "Solt Epd06", &EpdFont16, BLACK, WHITE);
-    Paint_DrawString_EN(10, 20, "Rf Receive", &EpdFont12, WHITE, BLACK);
+    Paint_DrawString_EN(10, 20, "Rf Receive", &EpdFont24, WHITE, BLACK);
 
-    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
-    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
+//    Paint_DrawNum(10, 33, 123456789, &EpdFont12, BLACK, WHITE);
+//    Paint_DrawNum(10, 50, 987654321, &EpdFont16, WHITE, BLACK);
 
     Paint_DrawString_CN(130, 0, "你好abc", &Epd_Font12CN, BLACK, WHITE);
     Paint_DrawString_CN(130, 20, "微雪电子", &Epd_Font24CN, WHITE, BLACK);

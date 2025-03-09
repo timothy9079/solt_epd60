@@ -5,8 +5,9 @@
 ../Device/Rf/rf_task.c:274:13:vDirectPreambleIrqCb	8	static
 ../Device/Rf/rf_task.c:285:13:vDirectRxTimeOutIrqCb	8	static
 ../Device/Rf/rf_task.c:298:13:vDirectDClockIrqCb	88	static
-../Device/Rf/rf_task.c:323:13:rfCtrlThread	96	static
-../Device/Rf/rf_task.c:402:6:rfTsCb	8	static
-../Device/Rf/rf_task.c:431:6:radioModuleInit	16	static
-../Device/Rf/rf_task.c:475:6:radioSignalCb	16	static,ignoring_inline_asm
-../Device/Rf/rf_task.c:503:6:radioCtrlCmd	16	static
+../Device/Rf/rf_task.c:318:6:rfInitCtrl	16	static
+../Device/Rf/rf_task.c:339:13:rfCtrlThread	96	static
+../Device/Rf/rf_task.c:418:6:rfTsCb	8	static
+../Device/Rf/rf_task.c:447:6:radioModuleInit	16	static
+../Device/Rf/rf_task.c:491:6:radioSignalCb	16	static,ignoring_inline_asm
+../Device/Rf/rf_task.c:519:6:radioCtrlCmd	16	static

@@ -1,0 +1,12 @@
+../Device/Epd/EPD_2in7.c:200:13:EPD_2in7_Reset	1
+../Device/Epd/EPD_2in7.c:215:13:EPD_2in7_SendCommand	1
+../Device/Epd/EPD_2in7.c:228:13:EPD_2in7_SendData	1
+../Device/Epd/EPD_2in7.c:240:13:EPD_2in7_ReadBusy	2
+../Device/Epd/EPD_2in7.c:257:13:EPD_2in7_SetLut	6
+../Device/Epd/EPD_2in7.c:286:6:EPD_2in7_gray_SetLut	7
+../Device/Epd/EPD_2in7.c:319:6:EPD_2IN7_Init	1
+../Device/Epd/EPD_2in7.c:386:6:EPD_2IN7_Init_4Gray	1
+../Device/Epd/EPD_2in7.c:460:6:EPD_2IN7_Clear	5
+../Device/Epd/EPD_2in7.c:488:6:EPD_2IN7_Display	5
+../Device/Epd/EPD_2in7.c:511:6:EPD_2IN7_4GrayDisplay	23
+../Device/Epd/EPD_2in7.c:607:6:EPD_2IN7_Sleep	1

@@ -1,0 +1,12 @@
+../Device/Epd/EPD_2in7_new.c:45:6:DELAY_mS	16	static
+../Device/Epd/EPD_2in7_new.c:51:6:DELAY_S	16	static
+../Device/Epd/EPD_2in7_new.c:63:6:epd_RESET	8	static
+../Device/Epd/EPD_2in7_new.c:76:6:READBUSY	8	static
+../Device/Epd/EPD_2in7_new.c:89:6:SPI4W_WRITECOM	24	static
+../Device/Epd/EPD_2in7_new.c:116:6:SPI4W_WRITEDATA	24	static
+../Device/Epd/EPD_2in7_new.c:180:6:INIT_SSD1680	8	static
+../Device/Epd/EPD_2in7_new.c:216:6:enterdeepsleep	8	static
+../Device/Epd/EPD_2in7_new.c:224:6:dis_img_fast	32	static
+../Device/Epd/EPD_2in7_new.c:303:6:dis_partial_img	32	static
+../Device/Epd/EPD_2in7_new.c:381:6:dis_img	32	static
+../Device/Epd/EPD_2in7_new.c:561:6:epd_test_new	16	static

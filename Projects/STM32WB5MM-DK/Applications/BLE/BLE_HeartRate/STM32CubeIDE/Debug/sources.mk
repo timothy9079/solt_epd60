@@ -30,6 +30,7 @@ Application/User/STM32_WPAN/Target \
 Device/Epd \
 Device/Memory \
 Device/Rf \
+Device/Touch \
 Drivers/BSP/STM32WB5MM-DK \
 Drivers/CMSIS \
 Drivers/STM32WBxx_HAL_Driver \

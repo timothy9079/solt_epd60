@@ -15,3 +15,8 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:280:6:EXTI15_10_IRQHandler	1
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:288:6:RTC_WKUP_IRQHandler	1
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:299:6:TIM1_TRG_COM_TIM17_IRQHandler	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:307:6:EXTI1_IRQHandler	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:321:6:EXTI2_IRQHandler	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:335:6:EXTI3_IRQHandler	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:349:6:EXTI4_IRQHandler	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/Core/Src/stm32wbxx_it.c:362:6:EXTI9_5_IRQHandler	1

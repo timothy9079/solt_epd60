@@ -189,6 +189,12 @@ void MX_USART1_UART_Init(void);
 #define RF_PWR_EN_Pin GPIO_PIN_1		//RF_PWR_EN
 #define RF_PWR_EN_GPIO_Port GPIOE
 
+#define TOUCH_RESET_Pin GPIO_PIN_6		//TRANS_DIO
+#define TOUCH_RESET_GPIO_Port GPIOA
+#define TOUCH_INT_Pin GPIO_PIN_5		//RF_GPOA
+#define TOUCH_INT_GPIO_Port GPIOA
+#define TOUCH_INT_EXTI_IRQn EXTI9_5_IRQn
+
 
 
 

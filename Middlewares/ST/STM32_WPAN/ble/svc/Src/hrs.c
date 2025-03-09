@@ -181,7 +181,7 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
         {
           aci_gatt_write_permit_req_event_rp0 * write_perm_req;
 
-          BLE_DBG_HRS_MSG("ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE\r\n");
+//          BLE_DBG_HRS_MSG("ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE\r\n");
           write_perm_req = (aci_gatt_write_permit_req_event_rp0*)blecore_evt->data;
 
 		  ret = BlRxData(write_perm_req->Data, write_perm_req->Data_Length);
@@ -191,16 +191,19 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
 		  else if (ret == BL_RX_STAT_OK){
 		  	  keyCode = blDataHeader.type;
 			  blDataHeader.start = 0;
-			  printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
+//			  printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
 
-			  FDS_BlSaveFile(&blDataHeader, blRxDataBuffer, blRxDataLen);		  
+			  FDS_BlSaveFile(&blDataHeader, blRxDataBuffer, blRxDataLen);
+			  
 //			  FDS_Write((uint8_t *)("flash/image1"), blRxDataBuffer, blRxDataLen, FDS_PLAIN, NULL);
 			  printf("Rx Data received completed!\r\n");
+
+			  UTIL_SEQ_SetEvt(CFG_IDLEEVT_UI_UPDATE_ID);
 		  }
 
-		  if(blDataHeader.start == BLE_DATA_HEADER_START){
-		  	printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
-		  }
+//		  if(blDataHeader.start == BLE_DATA_HEADER_START){
+//		  	printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
+//		  }
 
 //		  Osal_MemCpy((uint8_t *)(blRxDataBuffer + blRxDataBufferIndex), (uint8_t *)(write_perm_req->Data), write_perm_req->Data_Length);
 //		  blRxDataBufferIndex += write_perm_req->Data_Length;

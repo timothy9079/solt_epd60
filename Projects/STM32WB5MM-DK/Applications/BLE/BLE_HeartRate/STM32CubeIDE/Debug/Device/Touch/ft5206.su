@@ -1,0 +1,5 @@
+../Device/Touch/ft5206.c:11:9:FT5206_WR_Reg	40	static
+../Device/Touch/ft5206.c:42:6:FT5206_RD_Reg	32	static
+../Device/Touch/ft5206.c:73:9:FT5206_Init	32	static
+../Device/Touch/ft5206.c:112:9:FT5206_Scan	40	static
+../Device/Touch/ft5206.c:162:6:FT5206_Scan_point	40	static

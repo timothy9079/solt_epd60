@@ -205,6 +205,8 @@ void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, sEpdFONT* Fon
 
 //pic
 void Paint_DrawBitMap(const unsigned char* image_buffer);
+void Paint_DrawBitMap_xy(const unsigned char* image_buffer, UWORD xStart, UWORD yStart, UWORD imageWidth, UWORD imageHeight );
+
 void Paint_DrawBitMap_Paste(const unsigned char* image_buffer, UWORD Xstart, UWORD Ystart, UWORD imageWidth, UWORD imageHeight, UBYTE flipColor);
 //void Paint_DrawBitMap_Half(const unsigned char* image_buffer, UBYTE Region);
 //void Paint_DrawBitMap_OneQuarter(const unsigned char* image_buffer, UBYTE Region);

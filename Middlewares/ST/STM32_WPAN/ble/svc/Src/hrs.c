@@ -54,7 +54,7 @@ uint16_t        RebootReqCharHdle;                      /**< Characteristic hand
 #define BM_REQ_CHAR_SIZE    (3)
 
 
-#define BLE_RX_DATA_BUFFER_SIZE		1024*5
+#define BLE_RX_DATA_BUFFER_SIZE		1024*6
 #define BLE_DATA_HEADER_START		0x55
 
 /* Private variables ---------------------------------------------------------*/
@@ -107,7 +107,7 @@ void printArrtoHex(uint8_t* txt, uint8_t* buf, uint16_t len){
 	
     for (int i = 0; i < len; i++) {
         printf("0x%02X ", buf[i]);
-        if ((i + 1) % 16 == 0 || i == len - 1) {
+        if ((i + 1) % 22 == 0 || i == len - 1) {
             printf("\r\n");
         }
     }
@@ -118,7 +118,7 @@ static Bl_Rx_Status BlRxData(uint8_t * data, uint16_t len){
 	Bl_Rx_Status ret = BL_RX_STAT_CONTINUE;
 	
 	if(blDataHeader.start == BLE_DATA_HEADER_START) {
-		Osal_MemCpy((uint8_t *)(blRxDataBuffer + blRxDataBufferIndex), (uint8_t *)(data + sizeof(Bl_PacketHeader_t)), len - sizeof(Bl_PacketHeader_t));
+		Osal_MemCpy((uint8_t *)(blRxDataBuffer + blRxDataBufferIndex), data, len);
 		blRxDataBufferIndex += len;
 	}
 	else {
@@ -192,6 +192,7 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
 		  	  keyCode = blDataHeader.type;
 			  blDataHeader.start = 0;
 //			  printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
+			  printArrtoHex(NULL, blRxDataBuffer, blRxDataLen);
 
 			  FDS_BlSaveFile(&blDataHeader, blRxDataBuffer, blRxDataLen);
 			  
@@ -201,14 +202,14 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
 			  UTIL_SEQ_SetEvt(CFG_IDLEEVT_UI_UPDATE_ID);
 		  }
 
-//		  if(blDataHeader.start == BLE_DATA_HEADER_START){
-//		  	printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
-//		  }
+		  if(blDataHeader.start == BLE_DATA_HEADER_START){
+		  	printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
+		  }
 
 //		  Osal_MemCpy((uint8_t *)(blRxDataBuffer + blRxDataBufferIndex), (uint8_t *)(write_perm_req->Data), write_perm_req->Data_Length);
 //		  blRxDataBufferIndex += write_perm_req->Data_Length;
 
-//		  printArrtoHex(NULL, write_perm_req->Data, write_perm_req->Data_Length);
+		  printArrtoHex(NULL, write_perm_req->Data, write_perm_req->Data_Length);
 
           if(write_perm_req->Attribute_Handle == (HRS_Context.ControlPointCharHdle + 1))
           {

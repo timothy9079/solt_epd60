@@ -81,7 +81,7 @@
 **/
 #define DEV_Delay_ms(__xms) HAL_Delay(__xms);
 
-int EPD_test_2IN9_V2(void);
+int EPD_test_2IN7_V2(void);
 int EPD_test_2in9bc(void);
 int EPD_test_2IN9B_V3(void);
 int EPD_test_2IN9D(void);

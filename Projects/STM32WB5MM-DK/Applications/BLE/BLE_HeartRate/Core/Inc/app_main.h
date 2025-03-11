@@ -11,11 +11,11 @@ typedef enum {
 } App_Ret;
 
 typedef enum {
-	UI_SCREEN_LOGO = 1,
-	UI_SCREEN_IDLE,
-	UI_SCREEN_BUTTON,
-	UI_SCREEN_RF_SEND,
-	UI_SCREEN_RF_RECEIVE
+	UI_SCREEN_LOGO 			= 0x01,
+	UI_SCREEN_IDLE 			= 0x02,
+	UI_SCREEN_BUTTON 		= 0x04,
+	UI_SCREEN_RF_SEND 		= 0x08,
+	UI_SCREEN_RF_RECEIVE 	= 0x10
 } Ui_Screen_t;
 
 typedef enum {

@@ -288,12 +288,7 @@ void test_flash(void){
 
 /* USER CODE END 0 */
 
-int EPD_test_7b(void);
-int EPD_test7b_v2(void);
-int EPD_test_7(void);
-
-int EPD_test_v2(void);
-void epd_test_new( void );
+int EPD_test_2IN7_V2(void);
 
 /**
   * @brief  The application entry point.
@@ -357,8 +352,12 @@ int main(void)
 //	test_flash();
 		
 //	  example_spimem();
-	EPD_test_2IN9_V2();
-//	EPD_test7b_v2();
+//	EPD_test_2IN7_V2();
+	EPD_test_2IN7_V2();
+
+//	FDS_DeleteAll_test();
+
+
 	appMainInit();
 	FT5206_Init();
 
@@ -369,7 +368,6 @@ int main(void)
 	while(1)
 	{
 		/* USER CODE END WHILE */
-	FT5206_Scan_point(0x00);
 		MX_APPE_Process();
 
 		/* USER CODE BEGIN 3 */

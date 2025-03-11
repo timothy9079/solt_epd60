@@ -24,7 +24,7 @@
 #include "stm_queue.h"
 #include "dbg_trace.h"
 
-#define LINE_LEN 16
+#define LINE_LEN 22
 
 extern UART_HandleTypeDef hlpuart1;
 

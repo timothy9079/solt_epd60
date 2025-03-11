@@ -845,6 +845,26 @@ void Paint_DrawBitMap(const unsigned char* image_buffer)
     }
 }
 
+
+void Paint_DrawBitMap_xy(const unsigned char* image_buffer, UWORD xStart, UWORD yStart, UWORD imageWidth, UWORD imageHeight)
+{
+    UWORD x, y;
+    UDOUBLE Addr = 0;
+	UDOUBLE imageAddr;
+	imageAddr = 0;
+
+    for (y = yStart; y < (yStart+imageHeight); y++) {
+        for (x = (xStart/8); x < ((xStart +imageWidth)/8); x++) {//8 pixel =  1 byte
+            Addr = x + y * Paint.WidthByte;
+			
+//			printf("%d,  0x%02x\r\n", Addr, (unsigned char)image_buffer[imageAddr]);
+            Paint.Image[Addr] = (unsigned char)image_buffer[imageAddr++];
+		
+        }
+    }
+}
+
+
 /******************************************************************************
 function:	paste monochrome bitmap to a frame buff
 parameter:

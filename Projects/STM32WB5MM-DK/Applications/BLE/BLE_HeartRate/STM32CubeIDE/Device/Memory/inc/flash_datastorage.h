@@ -111,6 +111,8 @@ FDS_Ret  FDS_SearchPath(FDS_Path_t* path, void* data, int size, uint32_t* pos, u
 FDS_Ret  FDS_Delete(FDS_Path_t* path);
 FDS_Ret  FDS_DeleteAddr(uint32_t addr);
 void     FDS_DeleteAll(void);
+void 	FDS_DeleteAll_test(void);
+
 FDS_Ret FDS_BlSaveFile(Bl_PacketHeader_t* header, uint8_t *data, uint16_t size );
 
 

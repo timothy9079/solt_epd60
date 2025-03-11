@@ -32,6 +32,10 @@
 #ifndef _IMAGEDATA_H_
 #define _IMAGEDATA_H_
 extern const unsigned char gImage_logo[];
+extern const unsigned char gImage_button[];
+extern const unsigned char gImage_battery[];
+extern const unsigned char gImage_idle[];
+
 
 #if 0
 // ImageData2.c

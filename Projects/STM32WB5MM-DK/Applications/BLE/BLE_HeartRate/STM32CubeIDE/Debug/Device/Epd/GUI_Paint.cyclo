@@ -17,5 +17,6 @@
 ../Device/Epd/GUI_Paint.c:750:6:Paint_DrawNumDecimals	8
 ../Device/Epd/GUI_Paint.c:809:6:Paint_DrawTime	1
 ../Device/Epd/GUI_Paint.c:835:6:Paint_DrawBitMap	3
-../Device/Epd/GUI_Paint.c:860:6:Paint_DrawBitMap_Paste	5
-../Device/Epd/GUI_Paint.c:954:6:Paint_DrawBitMap_Block	3
+../Device/Epd/GUI_Paint.c:849:6:Paint_DrawBitMap_xy	4
+../Device/Epd/GUI_Paint.c:880:6:Paint_DrawBitMap_Paste	5
+../Device/Epd/GUI_Paint.c:974:6:Paint_DrawBitMap_Block	3

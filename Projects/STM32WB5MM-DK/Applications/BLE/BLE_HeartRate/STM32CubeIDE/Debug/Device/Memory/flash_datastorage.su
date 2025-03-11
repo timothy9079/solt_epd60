@@ -14,4 +14,5 @@
 ../Device/Memory/flash_datastorage.c:575:9:FDS_Delete	368	static
 ../Device/Memory/flash_datastorage.c:610:9:FDS_DeleteAddr	360	static
 ../Device/Memory/flash_datastorage.c:635:6:FDS_DeleteAll	16	static
-../Device/Memory/flash_datastorage.c:645:9:FDS_BlSaveFile	32	static
+../Device/Memory/flash_datastorage.c:651:6:FDS_DeleteAll_test	16	static
+../Device/Memory/flash_datastorage.c:665:9:FDS_BlSaveFile	32	static

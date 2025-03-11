@@ -65,6 +65,9 @@ BLE_HeartRate.list \
 OBJCOPY_HEX += \
 BLE_HeartRate.hex \
 
+OBJCOPY_BIN += \
+BLE_HeartRate.bin \
+
 
 # All Target
 all: main-build
@@ -93,12 +96,17 @@ BLE_HeartRate.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+BLE_HeartRate.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "BLE_HeartRate.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) BLE_HeartRate.elf BLE_HeartRate.hex BLE_HeartRate.list BLE_HeartRate.map default.size.stdout
+	-$(RM) BLE_HeartRate.bin BLE_HeartRate.elf BLE_HeartRate.hex BLE_HeartRate.list BLE_HeartRate.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

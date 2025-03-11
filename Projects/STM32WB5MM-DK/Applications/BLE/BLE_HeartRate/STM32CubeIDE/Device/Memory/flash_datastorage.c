@@ -635,12 +635,32 @@ FDS_Ret FDS_DeleteAddr(uint32_t addr)
 void FDS_DeleteAll(void)
 {
     uint32_t nodeAddr;
+	
+	printf("Image File, Delete All .\r\n");
 
     for ( nodeAddr=FDS_START_ADDR; nodeAddr<FDS_END_ADDR; nodeAddr+=FDS_BLOCK_SIZE )
     {
         ErasePageFlash(nodeAddr);
     }
 }
+
+/**
+  * @brief      The function deletes the all data.
+  * @return     None
+  */
+void FDS_DeleteAll_test(void)
+{
+    uint32_t nodeAddr;
+	
+	printf("Image File, Delete All .\r\n");
+
+    for ( nodeAddr=FDS_START_ADDR; nodeAddr<(100* FDS_BLOCK_SIZE); nodeAddr+=FDS_BLOCK_SIZE )
+    {
+        ErasePageFlash(nodeAddr);
+		printf("delete address : 0x%x\r\n", nodeAddr);
+    }
+}
+
 
 FDS_Ret FDS_BlSaveFile(Bl_PacketHeader_t* header, uint8_t *data, uint16_t size ){
 	switch(header->obj){

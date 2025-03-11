@@ -16,11 +16,11 @@ uint8_t	appMainTsId;
 uint8_t	rfUiTsId;
 
 
-int EPD_2IN9_Logo(void);
-int EPD_2IN9_Wait(void);
-int EPD_2IN9_Button(void);
-int EPD_2IN9_RF_Send(void);
-int EPD_2IN9_RF_Receive(void);
+int EPD_2IN7_Logo(void);
+int EPD_2IN7_Wait(void);
+int EPD_2IN7_Button(void);
+int EPD_2IN7_RF_Send(void);
+int EPD_2IN7_RF_Receive(void);
 
 Ui_Screen_t menuState = 1;
 Ui_Rf_Status	rfUiStatus = UI_RF_STAT_IDLE;
@@ -77,7 +77,7 @@ void appRfUiTsCb(void){
 
 App_Ret keyScan(void){
 	if(keyCode){
-		setUiUpdate(keyCode);
+		setUiUpdate(0x01<<(keyCode -1));
 		keyCode = 0;
 		return APP_RET_OK;
 	}
@@ -89,33 +89,34 @@ App_Ret keyScan(void){
 
 static void appMainThread( void){
 
+	if(menuState & (UI_SCREEN_IDLE | UI_SCREEN_BUTTON))
 	keyScan();
 
 	if(getUiUpdate()){
 		clearUiUpdate();
 		switch(menuState){
 			case UI_SCREEN_LOGO:
-				EPD_2IN9_Logo();
+				EPD_2IN7_Logo();
 				break;
 			case UI_SCREEN_IDLE:
-				EPD_2IN9_Wait();
+				EPD_2IN7_Wait();
 				setRfUiStatus(UI_RF_STAT_IDLE);
 				break;
 			case UI_SCREEN_BUTTON:
-				EPD_2IN9_Button();
+				EPD_2IN7_Button();
 				break;
 			case UI_SCREEN_RF_SEND:
-				EPD_2IN9_RF_Send();
+				EPD_2IN7_RF_Send();
 				setRfUiStatus(UI_RF_STAT_SEND);
 				startRfUiTs(3);
 				break;
 			case UI_SCREEN_RF_RECEIVE:
-				EPD_2IN9_RF_Receive();
+				EPD_2IN7_RF_Receive();
 				setRfUiStatus(UI_RF_STAT_RESPONSE_WAIT);
 				startRfUiTs(10);
 				break;
 			default:
-				EPD_2IN9_Logo();
+				EPD_2IN7_Logo();
 				break;
 		
 		}

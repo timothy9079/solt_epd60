@@ -36,15 +36,23 @@
 
 typedef struct {
 	uint8_t sta;
-	uint16_t x[20];
-	uint16_t y[20];
+	uint16_t x[6];
+	uint16_t y[6];
+	uint16_t x_start;
+	uint16_t y_start;
+	uint16_t x_last;
+	uint16_t y_last;
+	uint16_t release_cnt;
 	
 } Ft5206_TouchPoint_t;
 
 typedef enum {
-	TP_PRES_DOWN = 0x10,
-	TP_CATH_PRES = 0x20,
+	TP_PRES_DOWN = 0x01,
+	TP_CATH_PRES = 0x02,
+	TP_PRES_RELEASE = 0x04
 }Ft_Tp_Sta;
+
+extern Ft5206_TouchPoint_t tp_dev;
 
 uint8_t FT5206_WR_Reg(uint16_t reg, uint8_t *buf, uint8_t len);
 void FT5206_RD_Reg(uint16_t reg, uint8_t *buf, uint8_t len);

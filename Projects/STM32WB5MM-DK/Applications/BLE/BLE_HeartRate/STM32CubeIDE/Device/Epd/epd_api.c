@@ -33,6 +33,8 @@
 #include "imagedata.h"
 #include "flash_datastorage.h"
 
+#include "app_main.h"
+
 
 int EPD_test_2IN7_V2(void)
 {
@@ -105,7 +107,6 @@ int EPD_2IN7_Logo(void)
     }
 
 	Paint_NewImage(BlackImage, EPD_2IN7_V2_WIDTH, EPD_2IN7_V2_HEIGHT, 90, WHITE);  	
-    printf("Drawing\r\n");
     //1.Select Image
     Paint_SelectImage(BlackImage);
     Paint_Clear(WHITE);
@@ -168,30 +169,41 @@ int EPD_2IN7_Wait(void)
     }
 
 	Paint_NewImage(BlackImage, EPD_2IN7_V2_WIDTH, EPD_2IN7_V2_HEIGHT, 90, WHITE);  	
-    printf("Drawing\r\n");
     //1.Select Image
     Paint_SelectImage(BlackImage);
     Paint_Clear(WHITE);
 	
     // 2.Drawing on the image
-    printf("Drawing:BlackImage\r\n");
 
+#if 0
 	ret = FDS_GetFileAddress((uint8_t *)filePath_img[1], &path, &nodeAddr);
-	
-	printf("Write address : 0x%x\r\n", nodeAddr);
 	if(ret == FDS_OK){
 		printf("File find success.\r\n");
 		ret = FDS_Read((uint8_t *)filePath_img[1], read_img, &readSize);
 		if(ret == FDS_OK){
-			DbgTrace_mem_print_bin((uint8_t *)filePath_img[1], read_img, readSize);
+//			DbgTrace_mem_print_bin((uint8_t *)filePath_img[1], read_img, readSize);
 			Paint_DrawBitMap_xy(read_img, 0, 0, 176, 263);
 		}
 	}
 	else {
 		printf("File not found.\r\n");
-	    Paint_DrawString_EN(16, 0, "BT On", &EpdFont16, WHITE, BLACK);
-		Paint_DrawBitMap_xy(gImage_button, 0, 0, 160, 263);
+		Paint_DrawBitMap_xy(gImage_idle, 0, 0, 176, 263);
+		Paint_DrawString_EN(16, 100, "default", &EpdFont16, WHITE, BLACK);
 	}
+#else
+	if(imgChangeFlag & UI_SCREEN_IDLE){
+		printf("File find success.\r\n");
+		memcpy(read_img, imgBuf_Idle, 22*263);
+//			DbgTrace_mem_print_bin((uint8_t *)filePath_img[1], read_img, readSize);
+		Paint_DrawBitMap_xy(read_img, 0, 0, 176, 263);
+	}
+	else {
+		printf("File not found.\r\n");
+		Paint_DrawBitMap_xy(gImage_idle, 0, 0, 176, 263);
+		Paint_DrawString_EN(16, 100, "default", &EpdFont16, WHITE, BLACK);
+	}
+
+#endif
 
 //	Paint_DrawBitMap_xy(gImage_battery, 64, 200, 24, 16);
 
@@ -274,6 +286,164 @@ Paint_DrawString_EN(0, 160, "BT On10", &EpdFont16, WHITE, BLACK);
 }
 #endif
 
+
+#if 1
+int EPD_2IN7_Button(void)
+{
+    uint32_t nodeAddr = 0;
+	FDS_Path_t path = {0,};
+	FDS_Ret ret;
+	uint8_t read_img[22*264+5];
+	int readSize;
+
+    printf("Demo Button\r\n");
+
+
+    //Create a new image cache
+    UBYTE *BlackImage;
+    UWORD Imagesize = ((EPD_2IN7_V2_WIDTH % 8 == 0)? (EPD_2IN7_V2_WIDTH / 8 ): (EPD_2IN7_V2_WIDTH / 8 + 1)) * EPD_2IN7_V2_HEIGHT;
+    if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+        printf("Failed to apply for black memory...\r\n");
+        return -1;
+    }
+
+	Paint_NewImage(BlackImage, EPD_2IN7_V2_WIDTH, EPD_2IN7_V2_HEIGHT, 90, WHITE);  	
+    //1.Select Image
+    Paint_SelectImage(BlackImage);
+    Paint_Clear(WHITE);
+	
+#if 0
+	ret = FDS_GetFileAddress((uint8_t *)filePath_img[2], &path, &nodeAddr);
+
+	if(ret == FDS_OK){
+		printf("File find success.\r\n");
+		ret = FDS_Read((uint8_t *)filePath_img[2], read_img, &readSize);
+		if(ret == FDS_OK){
+//			DbgTrace_mem_print_bin((uint8_t *)filePath_img[2], read_img, readSize);
+			Paint_DrawString_EN(16, 0, "BT On", &EpdFont16, WHITE, BLACK);
+			Paint_DrawBitMap_xy(read_img, 0, 0, 160, 263);
+		}
+	}
+	else {
+		printf("File not found.\r\n");
+	    Paint_DrawString_EN(16, 0, "BT On", &EpdFont16, WHITE, BLACK);
+		Paint_DrawBitMap_xy(gImage_button, 0, 0, 160, 263);
+		Paint_DrawString_EN(16, 100, "default", &EpdFont16, WHITE, BLACK);
+	}
+#else
+		if(imgChangeFlag & UI_SCREEN_BUTTON){
+			printf("File find success.\r\n");
+			memcpy(read_img, imgBuf_Button, 22*263);
+	//			DbgTrace_mem_print_bin((uint8_t *)filePath_img[1], read_img, readSize);
+			Paint_DrawBitMap_xy(read_img, 0, 0, 160, 263);
+			Paint_DrawString_EN(16, 0, "BT On", &EpdFont16, WHITE, BLACK);
+		}
+		else {
+			printf("File not found.\r\n");
+			Paint_DrawString_EN(16, 0, "BT On", &EpdFont16, WHITE, BLACK);
+			Paint_DrawBitMap_xy(gImage_button, 0, 0, 160, 263);
+			Paint_DrawString_EN(16, 100, "default", &EpdFont16, WHITE, BLACK);
+		}
+
+#endif
+    EPD_2IN7_V2_Display_Base(BlackImage);
+	
+    free(BlackImage);
+    BlackImage = NULL;
+}
+
+
+int EPD_2IN7_RF_Send(void)
+{
+    uint32_t nodeAddr = 0;
+	FDS_Path_t path = {0,};
+	FDS_Ret ret;
+	uint8_t read_img[22*264+5];
+	int readSize;
+
+    printf("Demo Rf Send\r\n");
+    //Create a new image cache
+    UBYTE *BlackImage;
+    UWORD Imagesize = ((EPD_2IN7_V2_WIDTH % 8 == 0)? (EPD_2IN7_V2_WIDTH / 8 ): (EPD_2IN7_V2_WIDTH / 8 + 1)) * EPD_2IN7_V2_HEIGHT;
+    if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+        printf("Failed to apply for black memory...\r\n");
+        return -1;
+    }
+
+	Paint_NewImage(BlackImage, EPD_2IN7_V2_WIDTH, EPD_2IN7_V2_HEIGHT, 90, WHITE);  	
+    //1.Select Image
+    Paint_SelectImage(BlackImage);
+    Paint_Clear(WHITE);
+
+	ret = FDS_GetFileAddress((uint8_t *)filePath_img[3], &path, &nodeAddr);
+	
+	if(ret == FDS_OK){
+		printf("File find success.\r\n");
+		ret = FDS_Read((uint8_t *)filePath_img[3], read_img, &readSize);
+		if(ret == FDS_OK){
+//			DbgTrace_mem_print_bin((uint8_t *)filePath_img[3], read_img, readSize);
+			Paint_DrawBitMap_xy(read_img, 0, 0, 176, 263);
+		}
+	}
+	else {
+		printf("File not found.\r\n");
+		Paint_DrawBitMap_xy(gImage_rfTx, 0, 0, 176, 263);
+	}
+
+
+    EPD_2IN7_V2_Display_Base(BlackImage);
+	
+    free(BlackImage);
+    BlackImage = NULL;
+}
+
+
+int EPD_2IN7_RF_Receive(void)
+{
+    uint32_t nodeAddr = 0;
+	FDS_Path_t path = {0,};
+	FDS_Ret ret;
+	uint8_t read_img[22*264+5];
+	int readSize;
+
+    printf("Demo Rf Receive\r\n");
+
+    //Create a new image cache
+    UBYTE *BlackImage;
+    UWORD Imagesize = ((EPD_2IN7_V2_WIDTH % 8 == 0)? (EPD_2IN7_V2_WIDTH / 8 ): (EPD_2IN7_V2_WIDTH / 8 + 1)) * EPD_2IN7_V2_HEIGHT;
+    if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+        printf("Failed to apply for black memory...\r\n");
+        return -1;
+    }
+
+	Paint_NewImage(BlackImage, EPD_2IN7_V2_WIDTH, EPD_2IN7_V2_HEIGHT, 90, WHITE);  	
+    //1.Select Image
+    Paint_SelectImage(BlackImage);
+    Paint_Clear(WHITE);
+
+	ret = FDS_GetFileAddress((uint8_t *)filePath_img[4], &path, &nodeAddr);
+	
+	if(ret == FDS_OK){
+		printf("File find success.\r\n");
+		ret = FDS_Read((uint8_t *)filePath_img[4], read_img, &readSize);
+		if(ret == FDS_OK){
+//			DbgTrace_mem_print_bin((uint8_t *)filePath_img[4], read_img, readSize);
+			Paint_DrawBitMap_xy(read_img, 0, 0, 176, 263);
+		}
+	}
+	else {
+		printf("File not found.\r\n");
+		Paint_DrawBitMap_xy(gImage_rfRx, 0, 0, 176, 263);
+	}
+
+    EPD_2IN7_V2_Display_Base(BlackImage);
+	
+    free(BlackImage);
+    BlackImage = NULL;
+}
+
+
+#else
 int EPD_2IN7_Button(void)
 {
     printf("Demo Button\r\n");
@@ -427,4 +597,4 @@ int EPD_2IN7_RF_Receive(void)
     free(BlackImage);
     BlackImage = NULL;
 }
-
+#endif

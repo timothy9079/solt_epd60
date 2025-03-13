@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#define		BUTTON_CNT
+
 typedef enum {
 	APP_RET_OK = 0,
 	APP_RET_FAIL,
@@ -19,13 +21,37 @@ typedef enum {
 } Ui_Screen_t;
 
 typedef enum {
+	UI_SCID_LOGO = 0,
+	UI_SCID_IDLE,
+	UI_SCID_BUTTON,
+	UI_SCID_SEND,
+	UI_SCID_RESPONSE
+}Ui_Screen_Id;
+
+
+typedef enum {
 	UI_RF_STAT_IDLE = 0,
+	UI_RF_STAT_BUTTON,
 	UI_RF_STAT_SEND,
 	UI_RF_STAT_RESPONSE_WAIT
 }Ui_Rf_Status;
+
+
+extern uint8_t imgBuf_Logo[];
+extern uint8_t imgBuf_Idle[];
+extern uint8_t imgBuf_Button[];
+extern uint8_t imgBuf_RfSend[];
+extern uint8_t imgBuf_RfReceive[];
+
+extern uint8_t imgChangeFlag;
+extern Ui_Screen_t menuState;
+extern uint8_t imgButtonCnt[];
+
 	
 void setUiUpdate(Ui_Screen_t screen);
 uint8_t getUiUpdate(void);	
+void setUiUpdate2(Ui_Screen_t screen);
+
 
 #ifdef __cplusplus
 }

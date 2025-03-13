@@ -33,8 +33,11 @@
 #define _IMAGEDATA_H_
 extern const unsigned char gImage_logo[];
 extern const unsigned char gImage_button[];
-extern const unsigned char gImage_battery[];
 extern const unsigned char gImage_idle[];
+extern const unsigned char gImage_rfTx[];
+extern const unsigned char gImage_rfRx[];
+extern const unsigned char gImage_battery[];
+
 
 
 #if 0

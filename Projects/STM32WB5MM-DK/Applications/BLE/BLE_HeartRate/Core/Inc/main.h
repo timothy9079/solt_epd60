@@ -60,6 +60,7 @@ extern "C" {
 
 #define GPIO_HIGH(x)	HAL_GPIO_WritePin(x, GPIO_PIN_SET)
 #define GPIO_LOW(x)	HAL_GPIO_WritePin(x, GPIO_PIN_RESET)
+#define GPIO_TOG(x)	HAL_GPIO_TogglePin(x)		//add rf
 
 #define GPIO_STATUS(x)	HAL_GPIO_ReadPin(x)
 
@@ -199,7 +200,7 @@ void MX_USART1_UART_Init(void);
 
 
 /* USER CODE BEGIN Private defines */
-
+#define ADD_RF_WORK_MODE_PROC
 /* USER CODE BEGIN Private defines */
 
 extern SPI_HandleTypeDef hspi2;

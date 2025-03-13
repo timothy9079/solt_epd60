@@ -89,6 +89,7 @@ Application/User/Core/main.o: \
  ../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h \
  ../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h \
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h \
@@ -185,6 +186,7 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-
 ../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h:
 ../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h:
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/flash.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:

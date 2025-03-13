@@ -5,14 +5,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Device/Memory/flash.c \
 ../Device/Memory/flash_datastorage.c \
 ../Device/Memory/w25q_mem.c 
 
 OBJS += \
+./Device/Memory/flash.o \
 ./Device/Memory/flash_datastorage.o \
 ./Device/Memory/w25q_mem.o 
 
 C_DEPS += \
+./Device/Memory/flash.d \
 ./Device/Memory/flash_datastorage.d \
 ./Device/Memory/w25q_mem.d 
 
@@ -24,7 +27,7 @@ Device/Memory/%.o Device/Memory/%.su Device/Memory/%.cyclo: ../Device/Memory/%.c
 clean: clean-Device-2f-Memory
 
 clean-Device-2f-Memory:
-	-$(RM) ./Device/Memory/flash_datastorage.cyclo ./Device/Memory/flash_datastorage.d ./Device/Memory/flash_datastorage.o ./Device/Memory/flash_datastorage.su ./Device/Memory/w25q_mem.cyclo ./Device/Memory/w25q_mem.d ./Device/Memory/w25q_mem.o ./Device/Memory/w25q_mem.su
+	-$(RM) ./Device/Memory/flash.cyclo ./Device/Memory/flash.d ./Device/Memory/flash.o ./Device/Memory/flash.su ./Device/Memory/flash_datastorage.cyclo ./Device/Memory/flash_datastorage.d ./Device/Memory/flash_datastorage.o ./Device/Memory/flash_datastorage.su ./Device/Memory/w25q_mem.cyclo ./Device/Memory/w25q_mem.d ./Device/Memory/w25q_mem.o ./Device/Memory/w25q_mem.su
 
 .PHONY: clean-Device-2f-Memory
 

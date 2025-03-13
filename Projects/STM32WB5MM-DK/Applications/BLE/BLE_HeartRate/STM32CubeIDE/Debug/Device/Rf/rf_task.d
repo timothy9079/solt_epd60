@@ -81,6 +81,7 @@ Device/Rf/rf_task.o: ../Device/Rf/rf_task.c \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/CMT2310A_reg.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/CMT2310A_def.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/rf_task.h \
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/rf_cmd.h \
  ../../../../../../../Utilities/sequencer/stm32_seq.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/utilities/stm_queue.h
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/radio_hal.h:
@@ -166,5 +167,6 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/CMT2310A_reg.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/CMT2310A_def.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/rf_task.h:
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Rf/inc/rf_cmd.h:
 ../../../../../../../Utilities/sequencer/stm32_seq.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/utilities/stm_queue.h:

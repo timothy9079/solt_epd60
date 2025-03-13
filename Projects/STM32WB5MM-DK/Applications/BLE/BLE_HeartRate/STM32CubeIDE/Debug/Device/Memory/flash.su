@@ -1,0 +1,3 @@
+../Device/Memory/flash.c:27:19:ATHW_ErasePageFlash	48	static
+../Device/Memory/flash.c:68:19:ATHW_WriteFlash	56	static
+../Device/Memory/flash.c:190:10:ATHW_GetPageNum	24	static

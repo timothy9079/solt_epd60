@@ -33,4 +33,4 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Drivers/BSP/STM32WB5
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.c:1067:13:LCD_MspDeInit	1
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.c:1079:16:SSD1315_Probe	3
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.c:1119:16:LCD_IO_Init	2
-C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.c:1175:16:LCD_IO_DeInit	1
+C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Drivers/BSP/STM32WB5MM-DK/stm32wb5mm_dk_lcd.c:1177:16:LCD_IO_DeInit	1

@@ -101,7 +101,8 @@ void vRfGpioInit( void )
 
 // Outputs
 	GPIO_LOW( RF_PWR_EN );
-	GPIO_HIGH( RF_SPI_NSS );
+	// GPIO_HIGH( RF_SPI_NSS );		//add rf
+	GPIO_LOW( RF_SPI_NSS );
 
   GPIO_InitStruct.Pin = RF_PWR_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -139,6 +140,11 @@ void vRfGpioInit( void )
   HAL_GPIO_Init( TRANS_IO2_INT3_GPIO_Port, &GPIO_InitStruct );
 #endif
 
+	GPIO_InitStruct.Pin = TRANS_LOCK_Pin;		//add rf
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
   GPIO_InitStruct.Pin = TRANS_DCK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -151,6 +157,18 @@ void vRfGpioInit( void )
   HAL_GPIO_Init( TRANS_DIO_GPIO_Port, &GPIO_InitStruct );
 
 }
+
+//add rf
+void vRfSetDout(void)
+{
+
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitStruct.Pin = TRANS_DIO_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init( TRANS_DIO_GPIO_Port, &GPIO_InitStruct );
+}
+
 
 /**
  * @brief 
@@ -433,5 +451,27 @@ void vRfSpiBurstRead( uint8_t addr, uint8_t * rd_data, uint8_t length )
 	HAL_SPI_Receive( &hspi1, rd_data, length, RADIO_SPI_TIMEOUT );
 	GPIO_HIGH( RF_SPI_NSS );
 #endif
+}
+
+
+//add rf
+void rf_delay_1us(void)
+{
+	__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();
+	__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();
+	__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();
+	__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();__NOP();
+}
+
+void rf_delay_us( uint16_t dly_us)
+{
+	while(dly_us--)
+		rf_delay_1us();
+}
+
+void rf_delay_ms(uint16_t dly_ms)
+{
+	while(dly_ms--)
+		rf_delay_us(1000);
 }
 

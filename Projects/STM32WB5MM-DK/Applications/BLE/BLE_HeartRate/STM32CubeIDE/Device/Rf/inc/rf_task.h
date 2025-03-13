@@ -46,8 +46,8 @@ extern "C"
 #define FREQ_BAND_433M			(2)		// CE
 
 // #define FREQ_BAND_CURR		FREQ_BAND_447M
-#define FREQ_BAND_CURR		FREQ_BAND_429M
-// #define FREQ_BAND_CURR		FREQ_BAND_433M
+// #define FREQ_BAND_CURR		FREQ_BAND_429M		//add rf
+#define FREQ_BAND_CURR		FREQ_BAND_433M
 
 // -------------------------------------------------
 // ! Frequency Channel
@@ -92,13 +92,13 @@ extern "C"
 typedef enum
 {
 	rfMSG_Init=0,
-	rfMsg_GoRxInit,
-	rfMsg_GoTxInit,
-	rfMsg_DetPream,
-	rfMsg_DetSync,
-	rfMsg_CheckData,
+	rfMsg_RxInit,
+	rfMsg_TxInit,
+	// rfMsg_DetPream,			//add rf
+	// rfMsg_DetSync,
+	// rfMsg_CheckData,
+	// rfMsg_RxTimeOut,
 	rfMsg_ValidData,
-	rfMsg_RxTimeOut,
 	rfMsg_Send,
 	rfMsg_DeInit,
 } rf_msg_e;
@@ -137,6 +137,9 @@ typedef enum {
 void radioModuleInit( void );
 void radioSignalCb( uint16_t gpio_pin );
 void radioCtrlCmd( uint8_t cmd );
+void radioFskSendData(uint32_t data, uint16_t retry);		//add rf
+void rfInitCtrl(Rf_Ctrl_Init initRxTx, uint8_t rfKeyCode);
+void rfTxData(uint8_t rfKeyCode);
 
 
 #ifdef __cplusplus

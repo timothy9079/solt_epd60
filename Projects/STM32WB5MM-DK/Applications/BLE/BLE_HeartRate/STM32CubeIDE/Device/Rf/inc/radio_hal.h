@@ -84,7 +84,8 @@ extern "C"
 #define RF_GPIO_Read(_in) HAL_GPIO_ReadPin(_in)
 
 // #define RF_Delay(_ms)	osDelay(_ms/portTICK_PERIOD_MS)
-#define RF_Delay(_ms)	HAL_Delay(_ms)
+// #define RF_Delay(_ms)	HAL_Delay(_ms)		//add rf
+#define RF_Delay(_ms)	rf_delay_ms(_ms)
 
 /* Exported functions ----------------------------------------------------------1--*/
 void vRfGpioInit( void );
@@ -92,13 +93,16 @@ void vRfEnableGpioInt( uint16_t pin );
 void vRfDisableGpioInt( uint16_t pin );
 void vRfConfigGpioOutput( GPIO_TypeDef *port, uint16_t pin );
 void vRfConfigGpioInput( GPIO_TypeDef *port, uint16_t pin );
-
+void vRfSetDout(void);			//add rf
+	
 void vRfSpiInit( void );
 void vRfSpiWriteByte( uint8_t addr, uint8_t * wr_data );
 void vRfSpiReadByte( uint8_t addr, uint8_t * rf_data );
 void vRfSpiBurstWrite( uint8_t addr, uint8_t * wr_data, uint8_t length );
 void vRfSpiBurstRead( uint8_t addr, uint8_t * rd_data, uint8_t length );
 // void vRfSpiWriteReadBytes( uint8_t * wr_data, uint8_t * rd_data, uint16_t length );
+
+void rf_delay_ms(uint16_t dly);			//add rf
 
 #ifdef __cplusplus
 }

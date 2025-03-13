@@ -55,6 +55,7 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
+void TIM1_UP_TIM16_IRQHandler(void); 	//add rf
 void USART1_IRQHandler(void);
 void HSEM_IRQHandler(void);
 void DMA2_Channel4_IRQHandler(void);

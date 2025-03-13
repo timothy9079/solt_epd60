@@ -38,9 +38,15 @@ extern const uint8_t g_cmt2310a_434_mode7_cdrcnt_page2[CMT2310A_PAGE2_SIZE];
 #endif
 
 #if (FREQ_BAND_CURR == FREQ_BAND_433M)
+#if 1			//add rf
+extern const uint8_t g_cmt2310a_page0[CMT2310A_PAGE0_SIZE];
+extern const uint8_t g_cmt2310a_page1[CMT2310A_PAGE1_SIZE];
+extern const uint8_t g_cmt2310a_page2[CMT2310A_PAGE2_SIZE];
+#else
 extern const uint8_t g_cmt2310a_434_mode7_cdrcnt_rssi124_page0[CMT2310A_PAGE0_SIZE];
 extern const uint8_t g_cmt2310a_434_mode7_cdrcnt_rssi124_page1[CMT2310A_PAGE1_SIZE];
 extern const uint8_t g_cmt2310a_434_mode7_cdrcnt_rssi124_page2[CMT2310A_PAGE2_SIZE];
+#endif
 #elif ( FREQ_BAND_CURR == FREQ_BAND_429M )
 extern const uint8_t g_cmt2310a_429_mode7_cdrcnt_rssi124_page0[CMT2310A_PAGE0_SIZE];
 extern const uint8_t g_cmt2310a_429_mode7_cdrcnt_rssi124_page1[CMT2310A_PAGE1_SIZE];
@@ -136,6 +142,7 @@ void vRadioDCTimerConfig( void )
 
 /* Public variables --------------------------------------------------------------*/
 /* Public functions --------------------------------------------------------------*/
+#if defined(ADD_RF_WORK_MODE_PROC)		//add rf
 /**
  * @brief
  * 
@@ -144,8 +151,174 @@ void vRadioDCTimerConfig( void )
  */
 void vRadioTxInit( void )
 {
-	__NOP();
+	vRadioSoftReset();
+
+#if (FREQ_BAND_CURR == FREQ_BAND_433M)
+	vRadioConfigPageReg( 0, g_cmt2310a_page0, CMT2310A_PAGE0_SIZE );
+	vRadioConfigPageReg( 1, g_cmt2310a_page1, CMT2310A_PAGE1_SIZE );
+#elif (FREQ_BAND_CURR == FREQ_BAND_429M)
+	vRadioConfigPageReg( 0, g_cmt2310a_429_mode7_cdrcnt_rssi124_page0, CMT2310A_PAGE0_SIZE );
+	vRadioConfigPageReg( 1, g_cmt2310a_429_mode7_cdrcnt_rssi124_page1, CMT2310A_PAGE1_SIZE );
+#endif
+
+	vRadioSetNirq( CMT2310A_nIRQ_TCXO );
+	vRadioSelTcxoDrv( 0 );
+
+	vRadioXoWaitCfg(RADIO_CGU_DIV4);
+	vRadioPowerUpBoot();
+	RF_Delay(10);
+
+	bRadioGoStandby();
+	RF_Delay(2);
+	bRadioApiCommand( 0x02 );
+	RF_Delay(10);
+	bRadioApiCommand( 0x01 );
+
+	// vRadioCapLoad( 2 );
+	while ( bRadioIsExist() == RESET )
+	{
+		// RF_Delay(1000);
+		RF_Delay(100);
+	} 
+
+	// GPIOn setting
+	vRadioSetGpio0( CMT2310A_GPIO0_INT1 );
+	vRadioSetGpio1( CMT2310A_GPIO1_INT2 );
+#if 0
+	vRadioSetGpio2( CMT2310A_GPIO2_DCLK );
+	vRadioSetGpio3( CMT2310A_GPIO3_DOUT );
+	vRadioSetGpio4( CMT2310A_GPIO4_DIN );
+#else
+	vRadioSetGpio2( CMT2310A_GPIO2_INT3 );
+	// vRadioSetGpio3( CMT2310A_GPIO3_DCLK );
+	vRadioSetGpio3( CMT2310A_GPIO3_DIN );
+	// vRadioSetGpio4( CMT2310A_GPIO4_DOUT );
+	vRadioSetGpio4( CMT2310A_GPIO4_DIN );
+#endif
+	vRadioSetGpio5( CMT2310A_GPIO5_nRST );
+
+	// vRadioSetInt1Sel( INT_SRC_PREAM_PASS );
+	// vRadioSetInt2Sel( INT_SRC_RX_TMO );
+	//INT1 = RX_FIFO_WBYTE,   INT2 = PKT_DONE
+	vRadioSetInt1Sel(INT_SRC_RX_FIFO_WBYTE);
+	vRadioSetInt2Sel(INT_SRC_PKT_DONE);
+	vRadioSetInt1Polar( RESET );
+	vRadioSetInt2Polar( RESET );
+	vRadioSetInt3Polar( RESET );
+
+	//interrupt source enable config
+	radio_cmt.int_src_en._BITS.PKT_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.CRC_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.ADDR_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.SYNC_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.PREAM_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_TOUT_EN = 0;
+	radio_cmt.int_src_en._BITS.LD_STOP_EN = 0;
+	radio_cmt.int_src_en._BITS.LBD_STOP_EN = 0;
+	radio_cmt.int_src_en._BITS.LBD_STAT_EN = 0;
+	radio_cmt.int_src_en._BITS.PKT_ERR_EN = 0;
+	radio_cmt.int_src_en._BITS.RSSI_COLL_EN = 0;
+	radio_cmt.int_src_en._BITS.OP_CMD_FAILED_EN = 0;
+	radio_cmt.int_src_en._BITS.RSSI_PJD_EN = 0;
+	radio_cmt.int_src_en._BITS.SEQ_MATCH_EN = 0;
+	radio_cmt.int_src_en._BITS.NACK_RECV_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_RESEND_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.ACK_RECV_FAILED_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_DC_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.CSMA_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.CCA_STAT_EN = 0;
+	radio_cmt.int_src_en._BITS.API_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_FIFO_TH_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_FIFO_NMTY_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_FIFO_FULL_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_OVF_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_TH_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_NMTY_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_FULL_EN = 0;
+	vRadioInterruptSourceCfg( &radio_cmt.int_src_en );
+
+#if 0
+	// preamble config
+	radio_cmt.preamble_cfg.PREAM_LENG_UNIT = 0;		// 8bit mode
+	radio_cmt.preamble_cfg.PREAM_VALUE = 0xAA;
+	// radio_cmt.preamble_cfg.RX_PREAM_SIZE = 3;
+	radio_cmt.preamble_cfg.RX_PREAM_SIZE = 2;
+	radio_cmt.preamble_cfg.TX_PREAM_SIZE = 16;
+	vRadioCfgPreamble( &radio_cmt.preamble_cfg );
+#endif
+#if 0
+	// syncword config
+	radio_cmt.sync_cfg.SYN_CFG_u._BITS.SYNC_MAN_EN   = 0;			//disable syncword manchester coding
+	radio_cmt.sync_cfg.SYN_CFG_u._BITS.SYNC_SIZE     = 0;			//enable 1 bytes for syncword 
+	radio_cmt.sync_cfg.SYN_CFG_u._BITS.SYNC_TOL      = 0;
+	radio_cmt.sync_cfg.SYN_CFG_u._BITS.SYNC_MODE_SEL = 0;			//normal packet
+	radio_cmt.sync_cfg.SYNC_VALUE[0] = 0xA9;
+	// radio_cmt.sync_cfg.SYNC_VALUE[0] = 0xAA;
+	// radio_cmt.sync_cfg.SYNC_VALUE[1] = 0xA9;
+	radio_cmt.sync_cfg.SYNC_VALUE_SEL= 0;							//select SYN_VAL
+	vRadioCfgSyncWord( &radio_cmt.sync_cfg );
+#endif
+
+#if 1
+	//packet frame format
+	radio_cmt.frame_cfg.DATA_MODE = 0;								//0=direct mode, 	2=packet mode
+	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.PKT_TYPE 	       = 0;		//fixd-length packet mode
+	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.PAYLOAD_BIT_ORDER = 0;		//msb first
+	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.ADDR_LEN_CONF     = 0;		
+	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.PAGGYBACKING_EN   = 0;
+	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.LENGTH_SIZE 	   = 0;
+	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.INTERLEAVE_EN     = 0;		//note: when FEC enable, INTERLEAVE_EN should be set 1	
+
+	radio_cmt.frame_cfg.FRAME_CFG2_u._BITS.TX_PREFIX_TYPE    = TX_PREFIX_SEL_PREAMBLE;		//transmit preamble
+	radio_cmt.frame_cfg.FRAME_CFG2_u._BITS.SEQNUM_EN  	   = 0;
+	radio_cmt.frame_cfg.FRAME_CFG2_u._BITS.SEQNUM_AUTO_INC   = 0;
+	radio_cmt.frame_cfg.FRAME_CFG2_u._BITS.SEQNUM_SIZE	   = 0;
+	radio_cmt.frame_cfg.FRAME_CFG2_u._BITS.SEQNUM_MACH_EN    = 0;
+	radio_cmt.frame_cfg.FRAME_CFG2_u._BITS.FCS2_EN    	   = 0;
+	
+	radio_cmt.frame_cfg.TX_PKT_NUM     = 0;
+	radio_cmt.frame_cfg.TX_PKT_GAP     = 0;
+	radio_cmt.frame_cfg.FCS2_TX_IN     = 0;
+	radio_cmt.frame_cfg.PAYLOAD_LENGTH = 20;
+	vRadioCfgFrameFormat(&radio_cmt.frame_cfg);
+#endif
+
+#if 1
+	//FIFO Init
+	vRadioFifoMerge(FALSE);                                 //7.不合并fifo，txrx每个128BYTE，合并之后256BYTE
+	vRadioSetFifoTH(30);                                    //8.设置EIEO 阔值中断
+	vRadioClearRxFifo();                                    //9.reset & clear fifo
+	vRadioClearTxFifo();
+
+	vRadioFifoAutoClearGoRx(TRUE);                          //10.when crc error, need to auto clear fifo, should enable
+#endif
+	// vRadioSetRssiAbsThValue(-115);
+	// vRadioSetRssiAbsThValue(-124);
+
+	vRadioRssiUpdateSel(CMT2310A_RSSI_UPDATE_ALWAYS);				//11.rssi 
+	vRadioSetAntSwitch(FALSE, FALSE);                       //12 .
+
+	vRadioDcdcFreqCfg(0);
+	vRadioDcdcVoltageCfg(0);
+
+#if 0
+	radio_cmt.frame_cfg.PAYLOAD_LENGTH = 47;
+	vRadioSetPayloadLength( &radio_cmt.frame_cfg );
+	vRadioSetInt1Sel(CMT2310A_INT_PKT_DONE);
+	vRadioSetInt2Sel(CMT2310A_INT_RX_FIFO_WBYTE);
+	vRadioRssiUpdateSel(CMT2310A_RSSI_UPDATE_SYNC_OK);      //11.  
+	bRadioGoRx();
+	IRQ1_Bounding();
+#endif
+	vRadioClearInterrupt();
+
+	bRadioGoStandby();
+	vRadioSetTxDin( TRUE, CMT2310A_TX_DIN_GPIO4 );
+	// vRadioSetTxDin( TRUE, CMT2310A_TX_DIN_GPIO3 );
+	bRadioGoTx();
 }
+#endif		//add rf
 
 /**
  * @brief
@@ -156,13 +329,15 @@ void vRadioTxInit( void )
 void vRadioRxInit( void )
 {
 	vRadioSoftReset();
-#if 0
-	vRadioConfigPageReg( 0, g_cmt2310a_434_mode7_cdrcnt_page0, CMT2310A_PAGE0_SIZE );
-	vRadioConfigPageReg( 1, g_cmt2310a_434_mode7_cdrcnt_page1, CMT2310A_PAGE1_SIZE );
-#endif
-#if (FREQ_BAND_CURR == FREQ_BAND_433M)
+
+#if (FREQ_BAND_CURR == FREQ_BAND_433M)		//add rf
+#if 1
+	vRadioConfigPageReg( 0, g_cmt2310a_page0, CMT2310A_PAGE0_SIZE );
+	vRadioConfigPageReg( 1, g_cmt2310a_page1, CMT2310A_PAGE1_SIZE );
+#else
 	vRadioConfigPageReg( 0, g_cmt2310a_434_mode7_cdrcnt_rssi124_page0, CMT2310A_PAGE0_SIZE );
 	vRadioConfigPageReg( 1, g_cmt2310a_434_mode7_cdrcnt_rssi124_page1, CMT2310A_PAGE1_SIZE );
+#endif
 #elif (FREQ_BAND_CURR == FREQ_BAND_429M)
 	vRadioConfigPageReg( 0, g_cmt2310a_429_mode7_cdrcnt_rssi124_page0, CMT2310A_PAGE0_SIZE );
 	vRadioConfigPageReg( 1, g_cmt2310a_429_mode7_cdrcnt_rssi124_page1, CMT2310A_PAGE1_SIZE );
@@ -180,7 +355,7 @@ void vRadioRxInit( void )
 	RF_Delay(10);
 	bRadioApiCommand( 0x01 );
 
-	vRadioCapLoad( 2 );
+//  	vRadioCapLoad( 2 );  //add rf
 	while ( bRadioIsExist() == RESET )
 	{
 		RF_Delay(1000);
@@ -197,6 +372,7 @@ void vRadioRxInit( void )
 	vRadioSetGpio2( CMT2310A_GPIO2_INT3 );
 	vRadioSetGpio3( CMT2310A_GPIO3_DCLK );
 	vRadioSetGpio4( CMT2310A_GPIO4_DOUT );
+	vRadioSetTxDin( RESET, CMT2310A_TX_DIN_GPIO4 );		//add rf
 #endif
 	vRadioSetGpio5( CMT2310A_GPIO5_nRST );
 
@@ -207,6 +383,39 @@ void vRadioRxInit( void )
 	vRadioSetInt2Polar( RESET );
 	vRadioSetInt3Polar( RESET );
 
+#if 1		//add rf
+	//interrupt source enable config
+	radio_cmt.int_src_en._BITS.PKT_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.CRC_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.ADDR_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.SYNC_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.PREAM_PASS_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_TOUT_EN = 0;
+	radio_cmt.int_src_en._BITS.LD_STOP_EN = 0;
+	radio_cmt.int_src_en._BITS.LBD_STOP_EN = 0;
+	radio_cmt.int_src_en._BITS.LBD_STAT_EN = 0;
+	radio_cmt.int_src_en._BITS.PKT_ERR_EN = 0;
+	radio_cmt.int_src_en._BITS.RSSI_COLL_EN = 0;
+	radio_cmt.int_src_en._BITS.OP_CMD_FAILED_EN = 0;
+	radio_cmt.int_src_en._BITS.RSSI_PJD_EN = 0;
+	radio_cmt.int_src_en._BITS.SEQ_MATCH_EN = 0;
+	radio_cmt.int_src_en._BITS.NACK_RECV_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_RESEND_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.ACK_RECV_FAILED_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_DC_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.CSMA_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.CCA_STAT_EN = 0;
+	radio_cmt.int_src_en._BITS.API_DONE_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_FIFO_TH_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_FIFO_NMTY_EN = 0;
+	radio_cmt.int_src_en._BITS.TX_FIFO_FULL_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_OVF_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_TH_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_NMTY_EN = 0;
+	radio_cmt.int_src_en._BITS.RX_FIFO_FULL_EN = 0;
+	vRadioInterruptSourceCfg( &radio_cmt.int_src_en );
+#else
 	//interrupt source enable config
 	radio_cmt.int_src_en._BITS.PKT_DONE_EN = 0;
 	radio_cmt.int_src_en._BITS.CRC_PASS_EN = 0;
@@ -238,14 +447,16 @@ void vRadioRxInit( void )
 	radio_cmt.int_src_en._BITS.RX_FIFO_NMTY_EN = 0;
 	radio_cmt.int_src_en._BITS.RX_FIFO_FULL_EN = 0;
 	vRadioInterruptSourceCfg( &radio_cmt.int_src_en );
-
+#endif			//add rf
+#if 0
 	// preamble config
 	radio_cmt.preamble_cfg.PREAM_LENG_UNIT = 0;		// 8bit mode
 	radio_cmt.preamble_cfg.PREAM_VALUE = 0xAA;
 	// radio_cmt.preamble_cfg.RX_PREAM_SIZE = 3;
-	radio_cmt.preamble_cfg.RX_PREAM_SIZE = 1;
+	radio_cmt.preamble_cfg.RX_PREAM_SIZE = 2;		//add rf
 	radio_cmt.preamble_cfg.TX_PREAM_SIZE = 16;
 	vRadioCfgPreamble( &radio_cmt.preamble_cfg );
+#endif		//add rf
 #if 0
 	// syncword config
 	radio_cmt.sync_cfg.SYN_CFG_u._BITS.SYNC_MAN_EN   = 0;			//disable syncword manchester coding
@@ -258,9 +469,9 @@ void vRadioRxInit( void )
 	radio_cmt.sync_cfg.SYNC_VALUE_SEL= 0;							//select SYN_VAL
 	vRadioCfgSyncWord( &radio_cmt.sync_cfg );
 #endif
-#if 0
+#if 1		//add rf
 	//packet frame format
-	radio_cmt.frame_cfg.DATA_MODE = 2;								//0=direct mode, 	2=packet mode
+	radio_cmt.frame_cfg.DATA_MODE = 0;								//0=direct mode, 	2=packet mode  //add rf
 	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.PKT_TYPE 	       = 0;		//fixd-length packet mode
 	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.PAYLOAD_BIT_ORDER = 0;		//msb first
 	radio_cmt.frame_cfg.FRAME_CFG1_u._BITS.ADDR_LEN_CONF     = 0;		
@@ -292,12 +503,15 @@ void vRadioRxInit( void )
 	vRadioFifoAutoClearGoRx(TRUE);                          //10.when crc error, need to auto clear fifo, should enable
 #endif
 	// vRadioSetRssiAbsThValue(-115);
-	vRadioSetRssiAbsThValue(-124);
+	// vRadioSetRssiAbsThValue(-124);		//add rf
 
-	// vRadioRssiUpdateSel(CMT2310A_RSSI_UPDATE_ALWAYS);				//11.rssi 
-	vRadioRssiUpdateSel(CMT2310A_RSSI_UPDATE_PREAM_OK);				//11.rssi 
+	vRadioRssiUpdateSel(CMT2310A_RSSI_UPDATE_ALWAYS);				//11.rssi 		//add rf
+	// vRadioRssiUpdateSel(CMT2310A_RSSI_UPDATE_PREAM_OK);				//11.rssi 
 	vRadioSetAntSwitch(FALSE, FALSE);                       //12 .
-	vRadioDcdcCfg(TRUE);                                    //13 . dc-dc on
+	// vRadioDcdcCfg(TRUE);                                    //13 . dc-dc on			//add rf
+
+	vRadioDcdcFreqCfg(0);
+	vRadioDcdcVoltageCfg(0);
 
 #if 0
 	radio_cmt.frame_cfg.PAYLOAD_LENGTH = 47;
@@ -309,6 +523,8 @@ void vRadioRxInit( void )
 	IRQ1_Bounding();
 #endif
 	vRadioClearInterrupt();
+	bRadioGoRx();			//add rf
+#if 0
 #if !defined( USE_SLP )
 	vRadioDCTimerConfig();
 #endif
@@ -327,6 +543,7 @@ void vRadioRxInit( void )
 	RF_Delay(10);
 	vRadioReadRunModeCfg( &radio_cmt.work_mode_cfg );
 	vRadioReadAllStatus();
+#endif				//add rf
 	// vRadioEnPreamIrq( ENABLE );
 }
 

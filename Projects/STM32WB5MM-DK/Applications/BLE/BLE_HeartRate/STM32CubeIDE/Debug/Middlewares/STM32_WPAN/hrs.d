@@ -131,7 +131,8 @@ Middlewares/STM32_WPAN/hrs.o: \
  ../../../../../../../Drivers/BSP/Components/Common/lcd.h \
  ../../Core/Inc/app_common.h \
  C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h \
- C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h
+ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h \
+ ../../Core/Inc/app_main.h
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Middlewares/ST/STM32_WPAN/ble/svc/Src/common_blesvc.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/ble/ble_common.h:
 ../../STM32_WPAN/App/ble_conf.h:
@@ -267,3 +268,4 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-
 ../../Core/Inc/app_common.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_mem.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Memory/inc/w25q_libs.h:
+../../Core/Inc/app_main.h:

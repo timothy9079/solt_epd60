@@ -1124,6 +1124,8 @@ static int32_t LCD_IO_Init(void)
   
   /* Configure the LCD Chip Select pin --------------------------------------*/
   LCD_CS_GPIO_CLK_ENABLE();
+
+#if 0 		//gpio delete
   
   /* Configure NCS in Output Push-Pull mode */
   GPIO_InitStruct.Pin     = LCD_CS_PIN;
@@ -1131,7 +1133,7 @@ static int32_t LCD_IO_Init(void)
   GPIO_InitStruct.Pull    = GPIO_NOPULL;
   GPIO_InitStruct.Speed   = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LCD_CS_GPIO_PORT, &GPIO_InitStruct);
-  
+#endif  
   /* Set or Reset the control line */
   LCD_CS_LOW();
   

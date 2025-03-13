@@ -7,6 +7,9 @@
 C_SRCS += \
 ../Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.c \
 ../Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.c \
+../Device/Rf/cmt2310a_params_447.c \
+../Device/Rf/cmt2310a_params_test0225.c \
+../Device/Rf/cmt2310a_params_test0311.c \
 ../Device/Rf/radio_cmt.c \
 ../Device/Rf/radio_drv.c \
 ../Device/Rf/radio_hal.c \
@@ -17,6 +20,9 @@ C_SRCS += \
 OBJS += \
 ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.o \
 ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.o \
+./Device/Rf/cmt2310a_params_447.o \
+./Device/Rf/cmt2310a_params_test0225.o \
+./Device/Rf/cmt2310a_params_test0311.o \
 ./Device/Rf/radio_cmt.o \
 ./Device/Rf/radio_drv.o \
 ./Device/Rf/radio_hal.o \
@@ -27,6 +33,9 @@ OBJS += \
 C_DEPS += \
 ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.d \
 ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.d \
+./Device/Rf/cmt2310a_params_447.d \
+./Device/Rf/cmt2310a_params_test0225.d \
+./Device/Rf/cmt2310a_params_test0311.d \
 ./Device/Rf/radio_cmt.d \
 ./Device/Rf/radio_drv.d \
 ./Device/Rf/radio_hal.d \
@@ -42,7 +51,7 @@ Device/Rf/%.o Device/Rf/%.su Device/Rf/%.cyclo: ../Device/Rf/%.c Device/Rf/subdi
 clean: clean-Device-2f-Rf
 
 clean-Device-2f-Rf:
-	-$(RM) ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.cyclo ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.d ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.o ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.su ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.cyclo ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.d ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.o ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.su ./Device/Rf/radio_cmt.cyclo ./Device/Rf/radio_cmt.d ./Device/Rf/radio_cmt.o ./Device/Rf/radio_cmt.su ./Device/Rf/radio_drv.cyclo ./Device/Rf/radio_drv.d ./Device/Rf/radio_drv.o ./Device/Rf/radio_drv.su ./Device/Rf/radio_hal.cyclo ./Device/Rf/radio_hal.d ./Device/Rf/radio_hal.o ./Device/Rf/radio_hal.su ./Device/Rf/radio_mac.cyclo ./Device/Rf/radio_mac.d ./Device/Rf/radio_mac.o ./Device/Rf/radio_mac.su ./Device/Rf/radio_phy.cyclo ./Device/Rf/radio_phy.d ./Device/Rf/radio_phy.o ./Device/Rf/radio_phy.su ./Device/Rf/rf_task.cyclo ./Device/Rf/rf_task.d ./Device/Rf/rf_task.o ./Device/Rf/rf_task.su
+	-$(RM) ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.cyclo ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.d ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.o ./Device/Rf/cmt2310a_gfsk_429187kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rss124.su ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.cyclo ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.d ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.o ./Device/Rf/cmt2310a_gfsk_434650kHz_1800bps_3kHz_20dBm_10ppm_mode7_cdrcnt_rssi124.su ./Device/Rf/cmt2310a_params_447.cyclo ./Device/Rf/cmt2310a_params_447.d ./Device/Rf/cmt2310a_params_447.o ./Device/Rf/cmt2310a_params_447.su ./Device/Rf/cmt2310a_params_test0225.cyclo ./Device/Rf/cmt2310a_params_test0225.d ./Device/Rf/cmt2310a_params_test0225.o ./Device/Rf/cmt2310a_params_test0225.su ./Device/Rf/cmt2310a_params_test0311.cyclo ./Device/Rf/cmt2310a_params_test0311.d ./Device/Rf/cmt2310a_params_test0311.o ./Device/Rf/cmt2310a_params_test0311.su ./Device/Rf/radio_cmt.cyclo ./Device/Rf/radio_cmt.d ./Device/Rf/radio_cmt.o ./Device/Rf/radio_cmt.su ./Device/Rf/radio_drv.cyclo ./Device/Rf/radio_drv.d ./Device/Rf/radio_drv.o ./Device/Rf/radio_drv.su ./Device/Rf/radio_hal.cyclo ./Device/Rf/radio_hal.d ./Device/Rf/radio_hal.o ./Device/Rf/radio_hal.su ./Device/Rf/radio_mac.cyclo ./Device/Rf/radio_mac.d ./Device/Rf/radio_mac.o ./Device/Rf/radio_mac.su ./Device/Rf/radio_phy.cyclo ./Device/Rf/radio_phy.d ./Device/Rf/radio_phy.o ./Device/Rf/radio_phy.su ./Device/Rf/rf_task.cyclo ./Device/Rf/rf_task.d ./Device/Rf/rf_task.o ./Device/Rf/rf_task.su
 
 .PHONY: clean-Device-2f-Rf
 

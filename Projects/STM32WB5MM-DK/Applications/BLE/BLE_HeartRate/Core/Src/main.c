@@ -30,6 +30,7 @@
 #include "DEV_Config.h"
 
 #include "flash_datastorage.h"
+#include "flash.h"
 
 #include "w25q_libs.h"
 #include "w25q_mem.h"
@@ -58,6 +59,8 @@
 IPCC_HandleTypeDef hipcc;
 
 RTC_HandleTypeDef hrtc;
+//add rf
+TIM_HandleTypeDef htim16;
 
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_tx;
@@ -82,6 +85,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_RTC_Init(void);
 static void MX_IPCC_Init(void);
+static void MX_TIM16_Init(void);   //add rf
 static void MX_RF_Init(void);
 
 static void MX_SPI2_Init(void);
@@ -101,7 +105,7 @@ void PeriphClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
+#if 0
 uint8_t testbuf[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
 						0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
 						0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
@@ -203,54 +207,6 @@ W25Q_EraseSector(0); // erase 4K sector - required before recording
 }
 
 
-/**
-  * @brief LPUART1 Initialization Function
-  * @param None
-  * @retval None
-  */
-void MX_LPUART1_UART_Init(void)
-{
-
-	/* USER CODE BEGIN LPUART1_Init 0 */
-
-	/* USER CODE END LPUART1_Init 0 */
-
-	/* USER CODE BEGIN LPUART1_Init 1 */
-
-	/* USER CODE END LPUART1_Init 1 */
-	hlpuart1.Instance = LPUART1;
-	hlpuart1.Init.BaudRate = 115200;
-	hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
-	hlpuart1.Init.StopBits = UART_STOPBITS_1;
-	hlpuart1.Init.Parity = UART_PARITY_NONE;
-	hlpuart1.Init.Mode = UART_MODE_TX_RX;
-	hlpuart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-	hlpuart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-	hlpuart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
-	hlpuart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-	hlpuart1.FifoMode = UART_FIFOMODE_DISABLE;
-	if (HAL_UART_Init(&hlpuart1) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	if (HAL_UARTEx_SetTxFifoThreshold(&hlpuart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	if (HAL_UARTEx_SetRxFifoThreshold(&hlpuart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	if (HAL_UARTEx_DisableFifoMode(&hlpuart1) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN LPUART1_Init 2 */
-
-	/* USER CODE END LPUART1_Init 2 */
-
-}
-
 
 
 void test_flash(void){
@@ -284,11 +240,41 @@ void test_flash(void){
 		DbgTrace_mem_print_bin("-- Flash test ---", read_testbuf, readsize);
 	}
 }
+#endif
 
+
+/*
+  uint8_t testbuf1[64] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+						  0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
+						  0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+						  0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F};
+  
+  uint8_t read_testbuf2[64];
+
+void test_flash1(void){
+	int readsize;
+	ATHW_ErasePageFlash(160*4096);
+	ATHW_WriteFlash(160*4096, testbuf1, 64);
+
+	memcpy(read_testbuf2, (uint8_t *)(160*4096), 64);
+	
+	DbgTrace_mem_print_bin("-- Flash test ---", read_testbuf2, 64);
+	
+
+
+}
+
+*/
 
 /* USER CODE END 0 */
 
 int EPD_test_2IN7_V2(void);
+void ledCtrl();
+void ledModeSet(uint8_t mod);
+
+
+
+extern uint8_t testflag;
 
 /**
   * @brief  The application entry point.
@@ -340,6 +326,7 @@ int main(void)
 	
 	/* USER CODE BEGIN 2 */
 	MX_I2C1_Init();
+	MX_TIM16_Init();
 
 	MX_QUADSPI_Init();
 
@@ -347,6 +334,8 @@ int main(void)
 
 	/* Init code for STM32_WPAN */
 	MX_APPE_Init();
+	ledModeSet(0);
+//	test_flash1();
 //	radioModuleInit();
 
 //	test_flash();
@@ -363,10 +352,14 @@ int main(void)
 
 	setUiUpdate(UI_SCREEN_IDLE);
 
+//	rfInitCtrl(RF_CTRL_INIT_TX);		//add rf
+
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 	while(1)
 	{
+		
+
 		/* USER CODE END WHILE */
 		MX_APPE_Process();
 
@@ -551,6 +544,89 @@ static void MX_RTC_Init(void)
 	/* USER CODE END RTC_Init 2 */
 
 }
+
+
+//add rf
+/**
+  * @brief TIM16 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM16_Init(void)
+{
+
+  /* USER CODE BEGIN TIM16_Init 0 */
+
+  /* USER CODE END TIM16_Init 0 */
+
+  /* USER CODE BEGIN TIM16_Init 1 */
+
+  /* USER CODE END TIM16_Init 1 */
+  htim16.Instance = TIM16;
+  htim16.Init.Prescaler = 0;
+  htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim16.Init.Period = 65535;
+  htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim16.Init.RepetitionCounter = 0;
+  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim16) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM16_Init 2 */
+
+  /* USER CODE END TIM16_Init 2 */
+
+}
+
+/**
+  * @brief LPUART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+void MX_LPUART1_UART_Init(void)
+{
+
+	/* USER CODE BEGIN LPUART1_Init 0 */
+
+	/* USER CODE END LPUART1_Init 0 */
+
+	/* USER CODE BEGIN LPUART1_Init 1 */
+
+	/* USER CODE END LPUART1_Init 1 */
+	hlpuart1.Instance = LPUART1;
+	hlpuart1.Init.BaudRate = 115200;
+	hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
+	hlpuart1.Init.StopBits = UART_STOPBITS_1;
+	hlpuart1.Init.Parity = UART_PARITY_NONE;
+	hlpuart1.Init.Mode = UART_MODE_TX_RX;
+	hlpuart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+	hlpuart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+	hlpuart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+	hlpuart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+	hlpuart1.FifoMode = UART_FIFOMODE_DISABLE;
+	if (HAL_UART_Init(&hlpuart1) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	if (HAL_UARTEx_SetTxFifoThreshold(&hlpuart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	if (HAL_UARTEx_SetRxFifoThreshold(&hlpuart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	if (HAL_UARTEx_DisableFifoMode(&hlpuart1) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	/* USER CODE BEGIN LPUART1_Init 2 */
+
+	/* USER CODE END LPUART1_Init 2 */
+
+}
+
 
 /**
   * @brief USART1 Initialization Function
@@ -918,13 +994,14 @@ static void MX_GPIO_Init(void)
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
 	HAL_GPIO_Init(EPD_RST_GPIO_Port, &GPIO_InitStruct);
 
+#if 0
 	/*Configure GPIO pin : LCD_BL_LED_Pin */
 	GPIO_InitStruct.Pin = LCD_BL_LED_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(LCD_BL_LED_GPIO_Port, &GPIO_InitStruct);
-
+#endif
 
 	/* RF*/
 
@@ -990,6 +1067,7 @@ static void MX_GPIO_Init(void)
 
 
 	/* EXTI 1~4 RF interrupt init*/
+
 	HAL_NVIC_SetPriority(EXTI1_IRQn, 5, 0);
 	HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
@@ -1002,9 +1080,10 @@ static void MX_GPIO_Init(void)
 	HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
 	HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
+/*
 	HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
 	HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-
+*/
 
   
 /* USER CODE END MX_GPIO_Init_2 */

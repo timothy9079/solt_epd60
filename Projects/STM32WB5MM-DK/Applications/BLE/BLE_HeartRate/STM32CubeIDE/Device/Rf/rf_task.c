@@ -16,6 +16,7 @@
 #include "radio_cmt.h"
 #include "radio_drv.h"
 #include "rf_task.h"
+#include "rf_cmd.h"		//add rf
 
 #include "stm32_seq.h"
 #include "stm_queue.h"
@@ -35,6 +36,16 @@
 
 #define RX_BIT_TOTAL_COUNT		64
 #define RF_TX_RETRY_DEFAULT	8
+
+
+//add rf
+#if defined(ADD_RF_WORK_MODE_PROC)
+#define RF_TX_PREAMBLE_VAL	0x55555555
+#define RF_TX_SYNCWORD_VAL	0x95555555
+
+#define RF_TX_DELAY_CLK	32
+#endif
+
 #elif ( DATA_MODE_CURR == DATA_MODE_PACKET )
 
 #else
@@ -65,10 +76,29 @@ typedef enum
 	RxProc_CheckData,
 	RxProc_RxDataDone,
 } rf_direct_rxproc_state_e;
+
+
+//add rf
+#if defined(ADD_RF_WORK_MODE_PROC)
+typedef enum
+{
+	TxProc_Preamble,
+	TxProc_Syncword,
+	TxProc_TxData,
+	TxProc_Delay,
+	TxProc_TxDone,
+} rf_direct_txproc_state_e;
+#endif
 #endif
 
+
+//add rf
 /* Private macro -----------------------------------------------------------------*/
 /* Private function prototypes ---------------------------------------------------*/
+void radioTimerInit(void);
+void radioTimerStart(void);
+void radioTimerStop(void);
+
 /* Private variables -------------------------------------------------------------*/
 #ifdef RF_USE_OS
 osThreadId_t rfCtrlThreadId;
@@ -149,6 +179,21 @@ uint32_t rxdata_tmp_l = 0, rxdata_tmp_h = 0;
 uint32_t rxdata_tmp_l_bk = 0, rxdata_tmp_h_bk = 0;
 uint32_t rxdata_decoded = 0;
 uint32_t rxdata_valid = 0;
+
+
+//add rf
+#if defined(ADD_RF_WORK_MODE_PROC)
+uint8_t txproc_state = TxProc_Preamble;
+uint16_t txproc_bit_cnt = 0;
+uint16_t txproc_retry = 0;
+uint32_t txproc_bit_msk = 0;
+uint32_t txproc_tx_data = 0;
+
+uint32_t g_rf_tx_data = 0;
+uint16_t g_rf_tx_retry = 0;
+uint8_t	rfTxTsId;
+#endif
+
 #endif
 
 #if defined( DEBUG_MODULE_RF )
@@ -163,12 +208,20 @@ uint32_t rxraw_rcv_arr[DBG_RX_DATA_SIZE] = {0};
 int8_t rxrssi_rcv_arr[DBG_RX_DATA_SIZE] = {0};
 #endif
 
+//add rf
+#if defined(ADD_RF_WORK_MODE_PROC)
+typedef enum
+{
+	rfWMod_FskRxMode,
+	rfWMod_FskTxMode,
+} rfWork_Mode_e;
+
+//add rf
+uint8_t rfWorkMode = rfWMod_FskRxMode;
+#endif
 
 uint8_t queue_test_buf[128];
 uint8_t bufcnt = 0;
-
-
-
 
 void radioMessageQueuePut(rf_msgQ_t *msg, uint32_t size){	
 	uint8_t msgBuf[256];
@@ -266,6 +319,95 @@ static void vRfDirectRxProc( void )
 }
 
 
+//add rf
+static void vRfDirectTxProc(void)
+{
+	if (txproc_state == TxProc_Preamble)
+	{
+		if ( txproc_bit_msk & txproc_tx_data )
+			GPIO_HIGH(RF_DIO);
+		else
+			GPIO_LOW(RF_DIO);
+		txproc_bit_msk <<= 1;
+		if (++txproc_bit_cnt >= 32)
+		{
+			txproc_bit_cnt = 0;
+			txproc_tx_data = RF_TX_SYNCWORD_VAL;
+			txproc_bit_msk = 0x00000001;
+			txproc_state = TxProc_Syncword;
+		}
+
+	}
+	else if (txproc_state == TxProc_Syncword)
+	{
+		if ( txproc_bit_msk & txproc_tx_data )
+			GPIO_HIGH(RF_DIO);
+		else
+			GPIO_LOW(RF_DIO);
+		txproc_bit_msk <<= 1;
+		if (++txproc_bit_cnt >= 32)
+		{
+			txproc_bit_cnt = 0;
+			txproc_tx_data = g_rf_tx_data;
+			txproc_bit_msk = 0x00000001;
+			txproc_state = TxProc_TxData;
+		}
+	}
+	else if (txproc_state == TxProc_TxData)
+	{
+		if ((txproc_bit_cnt&0x1) == 0)
+		{
+			if ( txproc_bit_msk & txproc_tx_data )
+				GPIO_HIGH(RF_DIO);
+			else
+				GPIO_LOW(RF_DIO);
+			txproc_bit_msk <<= 1;
+		}
+		else
+		{
+			GPIO_TOG(RF_DIO);
+		}
+
+		if (++txproc_bit_cnt >= 64)
+		{
+			txproc_bit_cnt = 0;
+			txproc_tx_data = 0;
+			txproc_bit_msk = 0x00000001;
+			txproc_state = TxProc_Delay;
+			// bRadioGoSleep();
+			bRadioGoStandby();
+		}
+	}
+	else if (txproc_state == TxProc_Delay)
+	{
+		GPIO_LOW(RF_DIO);
+		if (++txproc_bit_cnt == RF_TX_DELAY_CLK)
+		{
+			if (g_rf_tx_retry > 0)
+			{
+				g_rf_tx_retry--;
+				txproc_bit_cnt = 0;
+				txproc_tx_data = RF_TX_PREAMBLE_VAL;
+				txproc_bit_msk = 0x00000001;
+				txproc_state = TxProc_Preamble;
+				bRadioGoTx();
+			}
+			else
+			{
+				txproc_state = TxProc_TxDone;
+				bRadioGoSleep();
+			}
+			
+		}
+		
+	}
+	else if (txproc_state == TxProc_TxDone)
+	{
+		// HW_TS_Stop(rfTxTsId);
+		radioTimerStop();
+
+	}
+}
 
 /**
  * @brief 
@@ -315,7 +457,7 @@ static void vDirectDClockIrqCb( void )
 }
 #endif
 
-void rfInitCtrl(Rf_Ctrl_Init initRxTx){
+void rfInitCtrl(Rf_Ctrl_Init initRxTx, uint8_t rfKeyCode){
 
 	switch(initRxTx){
 		case RF_CTRL_INIT_RX:
@@ -324,10 +466,34 @@ void rfInitCtrl(Rf_Ctrl_Init initRxTx){
 			vRfEnableGpioInt( TRANS_IO0_INT1_Pin );
 			break;
 		case RF_CTRL_INIT_TX:
+#if defined(ADD_RF_WORK_MODE_PROC)			//add rf
+			vRadioInterfaceInit();
+			// keycode values : rf_cmd.h
+			// call 1 -> RF_KEYCODE_1
+			// cancel 1 -> RF_KEYCODE_2
+			// group cancel -> RF_KEYCODE_GRPC
+			// total cancel -> RF_KEYCODE_ALLC
+
+			// 3 button call + call + cancel
+			// call 1 + call 2 + group cancel
+
+			// device 3byte + keycode 1byte
+			radioFskSendData(RF_TEST_BELLID|rfKeyCode, 8);
+			vRfSetDout();
+			vRadioTxInit();
+			radioTimerInit();
+			radioTimerStart();
+			while (txproc_state != TxProc_TxDone);
+#endif
 			break;
 		default:
 			break;
 	}
+}
+
+void rfTxData(uint8_t rfKeyCode){
+	rfInitCtrl(RF_CTRL_INIT_TX, rfKeyCode);
+	printf("Rf Tx End!\r\n");
 }
 
 
@@ -375,18 +541,22 @@ static void rfCtrlThread( void * arg )
 		
 		switch ( rmsg.cmd )
 		{
-			case rfMSG_Init:
-				vRadioInterfaceInit();
-				vRadioRxInit();
-				vRfEnableGpioInt( TRANS_IO0_INT1_Pin );
-				break;
-				
-			case rfMsg_ValidData:
-	//			appRfDataRecieved( rmsg.data, rmsg.rssi );
-				break;
+		case rfMSG_Init:		//add rf
+			vRadioInterfaceInit();
+			vRadioRxInit();
+			vRfEnableGpioInt( TRANS_IO0_INT1_Pin );
+			break;
 			
-			default:
-				break;
+		case rfMsg_TxInit:
+
+			break;
+
+		case rfMsg_ValidData:
+//			appRfDataRecieved( rmsg.data, rmsg.rssi );
+			break;
+		
+		default:
+			break;
 		}
 	}
 #else
@@ -520,3 +690,67 @@ void radioCtrlCmd( uint8_t cmd )
 {
 //	CircularQueue_Add( *rfQueue, &put, 0, 0 );
 }
+
+
+//add rf
+#if defined(ADD_RF_WORK_MODE_PROC)
+/**
+ * @brief 
+ * 
+ * @param data 
+ * @param retry 
+ */
+void radioFskSendData(uint32_t data, uint16_t retry)
+{
+	g_rf_tx_data = data;
+	g_rf_tx_retry = retry;
+	txproc_state = TxProc_Preamble;
+	txproc_bit_cnt = 0;
+	txproc_bit_msk = 0x00000001;
+	txproc_tx_data = RF_TX_PREAMBLE_VAL;
+
+}
+
+extern TIM_HandleTypeDef htim16;
+
+// system clock == 32MHz?
+void radioTimerInit(void)
+{
+	uint32_t sysclk = HAL_RCC_GetPCLK2Freq();
+	// clock div 4
+	// sysclk >>= 2;
+	uint16_t prescale = ( sysclk / 1000000 ) - 1;
+	// uint16_t period = ( 1000000 / RF_BITRATE_DEFAULT ) - 1;
+	uint16_t period = ( 1000000 / RF_BITRATE_DEFAULT ) - 2;
+
+  htim16.Instance = TIM16;
+  htim16.Init.Prescaler = prescale;
+  htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim16.Init.Period = period;
+  htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim16.Init.RepetitionCounter = 0;
+  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  HAL_TIM_Base_Init(&htim16);
+}
+
+void radioTimerStart(void)
+{
+	HAL_TIM_Base_Start_IT(&htim16);
+}
+
+void radioTimerStop(void)
+{
+	HAL_TIM_Base_Stop_IT(&htim16);
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM16)
+	{
+		vRfDirectTxProc();
+	}
+	
+}
+
+#endif
+

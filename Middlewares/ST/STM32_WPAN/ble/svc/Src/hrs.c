@@ -24,6 +24,7 @@
 
 #include "w25q_libs.h"
 #include "w25q_mem.h"
+#include "app_main.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -155,6 +156,11 @@ static Bl_Rx_Status BlRxData(uint8_t * data, uint16_t len){
  */
 
 extern uint8_t keyCode;
+extern uint8_t testflag;
+extern uint8_t	appMainTsId;
+
+
+void ledBlinkSet(uint8_t onoff, uint8_t interval);
 
 static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
 {
@@ -186,30 +192,51 @@ static SVCCTL_EvtAckStatus_t HeartRate_Event_Handler(void *Event)
 
 		  ret = BlRxData(write_perm_req->Data, write_perm_req->Data_Length);
 		  if(ret == BL_RX_STAT_START){
+		  	
+//			  HW_TS_Stop(appMainTsId);
+
+			  ledBlinkSet(1, 100);;
+
+		  	
 			  printArrtoHex("Rx started. Data header", write_perm_req->Data, write_perm_req->Data_Length);
 		  }
 		  else if (ret == BL_RX_STAT_OK){
 		  	  keyCode = blDataHeader.type;
 			  blDataHeader.start = 0;
 //			  printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
-			  printArrtoHex(NULL, blRxDataBuffer, blRxDataLen);
+//			  printArrtoHex(NULL, blRxDataBuffer, blRxDataLen);
 
 			  FDS_BlSaveFile(&blDataHeader, blRxDataBuffer, blRxDataLen);
 			  
 //			  FDS_Write((uint8_t *)("flash/image1"), blRxDataBuffer, blRxDataLen, FDS_PLAIN, NULL);
+			  ledBlinkSet(0, 100);
+				printArrtoHex(NULL, write_perm_req->Data, write_perm_req->Data_Length);
+
+				printf("button cnt : %d, index : %d\r\n", write_perm_req->Data[5], blDataHeader.type-1);
+				imgButtonCnt[blDataHeader.type-1] = write_perm_req->Data[5]; 
+				
+			  printArrtoHex(NULL, imgButtonCnt, 4);
+
 			  printf("Rx Data received completed!\r\n");
+				
+//			HW_TS_Start(appMainTsId, (1000000/CFG_TS_TICK_VAL)/100 );
 
-			  UTIL_SEQ_SetEvt(CFG_IDLEEVT_UI_UPDATE_ID);
+			if(menuState == (0x1<< (blDataHeader.type-1))){
+				setUiUpdate2(menuState);
+			}
+
+
+//			  UTIL_SEQ_SetEvt(CFG_IDLEEVT_UI_UPDATE_ID);
 		  }
 
-		  if(blDataHeader.start == BLE_DATA_HEADER_START){
-		  	printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
-		  }
+//		  if(blDataHeader.start == BLE_DATA_HEADER_START){
+//		  	printf("Rx data size : %d of %d.\r\n", blRxDataBufferIndex, blRxDataLen);
+//		  }
 
 //		  Osal_MemCpy((uint8_t *)(blRxDataBuffer + blRxDataBufferIndex), (uint8_t *)(write_perm_req->Data), write_perm_req->Data_Length);
 //		  blRxDataBufferIndex += write_perm_req->Data_Length;
 
-		  printArrtoHex(NULL, write_perm_req->Data, write_perm_req->Data_Length);
+//		  printArrtoHex(NULL, write_perm_req->Data, write_perm_req->Data_Length);
 
           if(write_perm_req->Attribute_Handle == (HRS_Context.ControlPointCharHdle + 1))
           {

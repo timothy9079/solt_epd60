@@ -254,14 +254,20 @@ void vRadioSetTxDin( uint8_t cfg_din, uint8_t pin_sel )
 	if ( cfg_din )
 	{
 		vRadioSetReg( CMT2310A_CTL_REG_04, CMT2310A_TX_DIN_EN, CMT2310A_TX_DIN_EN );
+		//add rf
+		vRadioSelRegPage( 1 );
+		vRadioSetReg( CMT2310A_TX_DR_REG_02, (0<<7), (1<<7));
+		vRadioSelRegPage( 0 );
+
 	}
 	else
 	{
 		vRadioSetReg( CMT2310A_CTL_REG_04, 0, CMT2310A_TX_DIN_EN );
-	}
-	vRadioSelRegPage( 1 );
-	vRadioSetReg( CMT2310A_TX_DR_REG_02, (1<<7), (1<<7));
-	vRadioSelRegPage( 0 );
+		vRadioSelRegPage( 1 );
+		vRadioSetReg( CMT2310A_TX_DR_REG_02, (1<<7), (1<<7));
+		vRadioSelRegPage( 0 );
+	}		//add rf
+
 
 }
 
@@ -576,6 +582,34 @@ void vRadioDcdcCfg( uint8_t onoff )
 	vRadioSelRegPage( 0 );
 }
 
+//add rf
+/**
+ * @brief 
+ * 
+ * @param freq 
+ *     0:400kHz,  1:500kHz,  2:570kHz,  3:670kHz
+ *     4:800kHz,  5:890kHz,  6:1MHz,    7:1.14MHz
+ */
+void vRadioDcdcFreqCfg(uint8_t freq)
+{
+	vRadioSelRegPage( 1 );
+	vRadioSetReg( CMT2310A_CMT_REG_08, ((freq & 0x07) << 3), (0x07 << 3) );
+	vRadioSelRegPage( 0 );
+}
+
+/**
+ * @brief 
+ * 
+ * @param volt 
+ * 	0:1.8V,  1:1.9V,  2:2.0V,  3:2.1V
+ */
+void vRadioDcdcVoltageCfg(unsigned char volt)
+{
+	vRadioSelRegPage(1);
+	vRadioSetReg(CMT2310A_CMT_REG_08, ((volt&0x03)<<1), (0x03<<1));
+	vRadioSelRegPage(0);
+}
+
 /**
  * @brief
  * 
@@ -613,4 +647,25 @@ void vRadioLfoscCfg( uint8_t onoff )
 	vRadioSelRegPage( 0 );
 }
 
+
+//add rf
+/******************************
+**Name:  vRadioXoWaitCfg
+**Func:  Radio Set xtal wait for pu_boot
+**Input: 
+                           pu_boot(us)  slp2rdy(us)
+         RADIO_CGU_DIV1->    1344          584  
+         RADIO_CGU_DIV4->    3972         1013
+         RADIO_CGU_DIV8->    6624         1586    
+*Output: None 
+********************************/
+void vRadioXoWaitCfg(unsigned char div_sel)
+{
+	div_sel  &= 0x03;
+	div_sel <<= 6;
+ 
+ 	vRadioSelRegPage(0);
+	vRadioSetReg(CMT2310A_CTL_REG_07, div_sel, CMT2310A_CTL_REG_07_MASK);
+	vRadioSelRegPage(0);
+}
 

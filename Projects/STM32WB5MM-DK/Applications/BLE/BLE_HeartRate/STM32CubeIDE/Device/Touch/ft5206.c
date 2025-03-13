@@ -4,37 +4,6 @@
 #include "dev_config.h"
 
 
-uint16_t ft_butt1_pos[1][4] = {
-	{0x0057, 0x001B, 0x00B1, 0x0075}
-}; 
-
-uint16_t ft_butt2_pos[2][4] = {
-	{0x001C, 0x001B, 0x0076, 0x0075},
-	{0x0093, 0x001B, 0x00ED, 0x0075}
-}; 
-
-uint16_t ft_butt2_pos[3][4] = {
-	{0x0012, 0x0028, 0x0052, 0x0068},
-	{0x0068, 0x0028, 0x00A8, 0x0068},
-	{0x00B7, 0x0028, 0x00F7, 0x0068}
-}; 
-
-uint16_t ft_butt2_pos[4][4] = {
-	{0x0036, 0x000B, 0x0069, 0x003E},
-	{0x00A0, 0x000B, 0x00D3, 0x003E},
-	{0x0036, 0x0053, 0x0069, 0x0086},
-	{0x00A0, 0x0053, 0x00D3, 0x0086}
-}; 
-
-uint16_t ft_butt2_pos[6][4] = {
-	{0x001D, 0x000C, 0x004F, 0x003E},
-	{0x006C, 0x000C, 0x009E, 0x003E},
-	{0x00BA, 0x000C, 0x00EC, 0x003E},
-	{0x001D, 0x0053, 0x004F, 0x0085},
-	{0x006C, 0x0053, 0x009E, 0x0085},
-	{0x00BA, 0x0053, 0x00EC, 0x0085}
-}; 
-
 
 Ft5206_TouchPoint_t tp_dev;
 
@@ -184,8 +153,8 @@ uint8_t FT5206_Scan(uint8_t mode)
 			tp_dev.y[0]=0xffff;
 			tp_dev.sta&=0XE0;	//�������Ч���	
 		}	 
-	} 	
-	
+	}
+
 	return res;
 }
  
@@ -199,7 +168,8 @@ void FT5206_Scan_point(uint8_t mode)
 
 		
 		if(FT_INT==0)	int_bit=1;	//�д�������INTΪ�͵�ƽ
-		else	int_bit=0; 
+		else	int_bit=0;
+		
 		if(int_bit==1)
 		{
 			FT5206_RD_Reg(FT_REG_NUM_FINGER,&mode,1);//��ȡ�������״̬ 
@@ -209,7 +179,9 @@ void FT5206_Scan_point(uint8_t mode)
 				FT5206_RD_Reg(FT5206_TPX_TBL[0]+0x01,&buf[1],1);	//��ȡXY����ֵ
 				FT5206_RD_Reg(FT5206_TPX_TBL[0]+0x02,&buf[2],1);	//��ȡXY����ֵ
 				FT5206_RD_Reg(FT5206_TPX_TBL[0]+0x03,&buf[3],1);	//��ȡXY����ֵ
-			
+
+				tp_dev.release_cnt = 0;
+				
 				tp_dev.x[1]++;		//�������������øú�������ı���������ᵼ�½����˺��������ͻ�Ϊ0�Ӷ����²���ִ���������
 				if(tp_dev.x[1]>4)	//��ָ��һ�»�����ܶ�Σ�Ϊ�˷�ֹ�󱨣�����5�β���һ�� 
 				{
@@ -218,6 +190,19 @@ void FT5206_Scan_point(uint8_t mode)
 					tp_dev.y[i]=((uint16_t)(buf[2]&0X0F)<<8)+buf[3];	//Y1����
 
 					printf("x[%d]:%d,y[%d]:%d\r\n",i,tp_dev.x[i],i,tp_dev.y[i]);
+
+					if(tp_dev.sta != TP_PRES_DOWN){
+						tp_dev.sta = TP_PRES_DOWN;
+						tp_dev.x_start = tp_dev.x[i];
+						tp_dev.y_start = tp_dev.y[i];
+						tp_dev.release_cnt = 0;
+						
+						printf("Key Down. start x:%d, start y:%d\r\n", tp_dev.x_start, tp_dev.y_start);
+					}
+					else {
+						tp_dev.x_last = tp_dev.x[i];
+						tp_dev.y_last = tp_dev.y[i];
+					}
 				
 				}else
 				{
@@ -227,7 +212,18 @@ void FT5206_Scan_point(uint8_t mode)
 				}
 									
 			}
+			else {
 				
+				printf("key check.  stat : 0x%x\r\n", tp_dev.sta);
+			}
+				
+		}
+		else if(tp_dev.sta == TP_PRES_DOWN){
+			tp_dev.release_cnt++;
+			if(tp_dev.release_cnt > 0x6){
+				tp_dev.sta = TP_PRES_RELEASE;
+				printf("Key Release. last x:%d, last y:%d\r\n", tp_dev.x_last, tp_dev.y_last);
+			}
 		}
 	
 	if((mode&0X1F)==0)//�޴����㰴��

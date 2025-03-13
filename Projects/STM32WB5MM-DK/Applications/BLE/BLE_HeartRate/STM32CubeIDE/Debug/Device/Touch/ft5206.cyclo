@@ -1,5 +1,5 @@
-../Device/Touch/ft5206.c:11:9:FT5206_WR_Reg	1
-../Device/Touch/ft5206.c:42:6:FT5206_RD_Reg	1
-../Device/Touch/ft5206.c:73:9:FT5206_Init	1
-../Device/Touch/ft5206.c:112:9:FT5206_Scan	9
-../Device/Touch/ft5206.c:162:6:FT5206_Scan_point	7
+../Device/Touch/ft5206.c:12:9:FT5206_WR_Reg	1
+../Device/Touch/ft5206.c:43:6:FT5206_RD_Reg	1
+../Device/Touch/ft5206.c:74:9:FT5206_Init	1
+../Device/Touch/ft5206.c:113:9:FT5206_Scan	9
+../Device/Touch/ft5206.c:163:6:FT5206_Scan_point	10

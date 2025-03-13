@@ -1,6 +1,6 @@
-../Device/Epd/epd_api.c:37:5:EPD_test_2IN7_V2	24	static
-../Device/Epd/epd_api.c:95:5:EPD_2IN7_Logo	24	static
-../Device/Epd/epd_api.c:152:5:EPD_2IN7_Wait	6176	static
-../Device/Epd/epd_api.c:277:5:EPD_2IN7_Button	32	static
-../Device/Epd/epd_api.c:329:5:EPD_2IN7_RF_Send	32	static
-../Device/Epd/epd_api.c:380:5:EPD_2IN7_RF_Receive	32	static
+../Device/Epd/epd_api.c:39:5:EPD_test_2IN7_V2	24	static
+../Device/Epd/epd_api.c:97:5:EPD_2IN7_Logo	24	static
+../Device/Epd/epd_api.c:153:5:EPD_2IN7_Wait	6168	static
+../Device/Epd/epd_api.c:291:5:EPD_2IN7_Button	6168	static
+../Device/Epd/epd_api.c:356:5:EPD_2IN7_RF_Send	6176	static
+../Device/Epd/epd_api.c:401:5:EPD_2IN7_RF_Receive	6176	static

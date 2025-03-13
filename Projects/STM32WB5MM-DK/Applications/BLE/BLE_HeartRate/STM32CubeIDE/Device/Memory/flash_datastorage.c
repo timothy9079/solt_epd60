@@ -77,6 +77,9 @@ typedef struct
     uint32_t   size;
 } FDS_Header_t;
 
+void SaveFile_RAM(uint8_t index, uint8_t *data, uint16_t size );
+
+
 void ErasePageFlash(uint32_t addr){
 	
 	uint32_t SectAddr;
@@ -195,7 +198,8 @@ static FDS_Ret findBlockAddr(FDS_Path_t* path, uint32_t* addr)
 	FDS_Header_t nodeHeader;
     FDS_Header_t* header = NULL;
 
-    while ( nodeAddr < FDS_END_ADDR )
+//    while ( nodeAddr < FDS_END_ADDR )
+    while ( nodeAddr < 100* FDS_BLOCK_SIZE )
     {
 		ReadFlash((uint8_t *)&nodeHeader, nodeAddr, sizeof(FDS_Header_t));
         header = &nodeHeader;
@@ -666,11 +670,15 @@ FDS_Ret FDS_BlSaveFile(Bl_PacketHeader_t* header, uint8_t *data, uint16_t size )
 	switch(header->obj){
 		case BLE_PACKET_HEADER_OBJ_IMAGE:
 			printf("Image File, File path : %s.\r\n", filePath_img[header->type-1]);
+#if 0
 			FDS_Write((uint8_t *)filePath_img[header->type-1], data, size, FDS_PLAIN, NULL);
+#else
+			SaveFile_RAM(header->type-1, data, size );
+#endif
 			break;
 		case BLE_PACKET_HEADER_OBJ_BELL:
 			printf("Bell File, File path : %s.\r\n", filePath_bell[header->type-1]);
-			FDS_Write((uint8_t *)filePath_bell[header->type-1], data, size, FDS_PLAIN, NULL);
+//			FDS_Write((uint8_t *)filePath_bell[header->type-1], data, size, FDS_PLAIN, NULL);
 			break;
 		case BLE_PACKET_HEADER_OBJ_RF:
 			break;

@@ -85,7 +85,8 @@ Device/Epd/epd_api.o: ../Device/Epd/epd_api.c \
  ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h \
  ../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h \
  ../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h \
- ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h
+ ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h \
+ ../../Core/Inc/app_main.h
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Epd/inc/gui_paint.h:
 C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-DK/Applications/BLE/BLE_HeartRate/STM32CubeIDE/Device/Epd/inc/DEV_Config.h:
 ../../Core/Inc/main.h:
@@ -174,3 +175,4 @@ C:/Workspace/solt_prj/STM32CubeWB-master/STM32CubeWB-master/Projects/STM32WB5MM-
 ../../../../../../../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h:
 ../../../../../../../Drivers/CMSIS/Include/cmsis_compiler.h:
 ../../../../../../../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h:
+../../Core/Inc/app_main.h:

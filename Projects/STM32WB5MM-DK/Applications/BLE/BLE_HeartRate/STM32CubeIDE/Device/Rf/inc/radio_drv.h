@@ -33,7 +33,11 @@ extern "C"
 #include "CMT2310A_reg.h"
 #include "CMT2310A_def.h"
 
+//add rf
 /* Exported defines --------------------------------------------------------------*/
+	#define		RADIO_CGU_DIV1		0
+	#define		RADIO_CGU_DIV4		1
+	#define		RADIO_CGU_DIV8		2
 
 /* Exported types ----------------------------------------------------------------*/
 
@@ -78,8 +82,11 @@ void vRadioSetPaOutputMode( uint8_t cfg_en );
 void vRadioSetTxDataInverse( uint8_t cfg_en );
 void vRadioSetAntSwitch( uint8_t cfg_en, uint8_t cfg_polar );
 void vRadioDcdcCfg( uint8_t onoff );
+void vRadioDcdcFreqCfg(unsigned char freq);		//add rf
+void vRadioDcdcVoltageCfg(unsigned char volt);
 void vRadioCapLoad( uint8_t cap_val );
 void vRadioLfoscCfg( uint8_t onoff );
+void vRadioXoWaitCfg(unsigned char div_sel);		//add rf
 
 // ==============================================================================
 // Mac

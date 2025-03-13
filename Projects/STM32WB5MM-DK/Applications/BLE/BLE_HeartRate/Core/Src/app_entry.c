@@ -135,13 +135,14 @@ void MX_APPE_Init(void)
    */
   UTIL_LPM_SetOffMode(1 << CFG_LPM_APP, UTIL_LPM_DISABLE);
 
+#if 1
   BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
   /* Set LCD Foreground Layer  */
   UTIL_LCD_SetFuncDriver(&LCD_Driver); /* SetFunc before setting device */
-  UTIL_LCD_SetDevice(0);            /* SetDevice after funcDriver is set */
+//  UTIL_LCD_SetDevice(0);            /* SetDevice after funcDriver is set */
   BSP_LCD_Clear(0,SSD1315_COLOR_BLACK);
   BSP_LCD_DisplayOn(0);
-  BSP_LCD_Refresh(0);
+//  BSP_LCD_Refresh(0);
   UTIL_LCD_SetFont(&Font12);
   /* Set the LCD Text Color */
   UTIL_LCD_SetTextColor(SSD1315_COLOR_WHITE);
@@ -150,7 +151,7 @@ void MX_APPE_Init(void)
   BSP_LCD_Refresh(0);
   UTIL_LCD_DisplayStringAt(0, 0, (uint8_t *)"ST BLE Heart Rate", CENTER_MODE);
   BSP_LCD_Refresh(0);
-
+#endif
   //Initialize user buttons
   Button_Init();
 

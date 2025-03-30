@@ -313,11 +313,11 @@ uint8_t tpPosToButton(){
 
 	if(buttonX*buttonY){
 		
-		printf("*** Valid Button, Button Num : %d ***\r\n", (buttonX + (buttonY-1) * 3));
+		printf("*** Valid Button, Button Num : %d ***\r\n", (buttonX + (buttonY-1) * col));
 		
 		printf("\r\n=====================================\r\n\r\n");
 
-		return (buttonX + (buttonY-1) * row);
+		return (buttonX + (buttonY-1) * col);
 	}
 	else {
 		
@@ -333,12 +333,21 @@ uint8_t tpPosToButton(){
 uint8_t testflag = 0;
 uint8_t ledStat = 1;
 
-uint8_t ledMode = 1;
+uint8_t ledBlinkMode = 1;
 uint8_t ledBlinkTime;
 uint8_t ledBlinkInterval = 100;
 
-void ledModeSet(uint8_t mod){
-	ledMode = mod;
+void ledOn(uint8_t onoff){
+	if(onoff){
+		LED_ON();
+	}
+	else {
+		LED_OFF();
+	}
+}
+
+void ledBlinkModeSet(Led_Blink_Mode_t mod){
+	ledBlinkMode = mod;
 	if(mod == 0){
 		LED_ON();
 		ledStat = 0;
@@ -347,10 +356,10 @@ void ledModeSet(uint8_t mod){
 
 void ledBlinkSet(uint8_t onoff, uint8_t interval){
 	if(!onoff){
-		ledModeSet(0);
+		ledBlinkModeSet(LED_BL_MODE_ON);
 	}
 	else {
-		ledModeSet(1);
+		ledBlinkModeSet(LED_BL_MODE_OFF);
 		ledBlinkInterval = interval;
 		ledBlinkTime = ledBlinkInterval;
 	}
@@ -359,7 +368,7 @@ void ledBlinkSet(uint8_t onoff, uint8_t interval){
 
 void ledCtrl(){
 
-	if(ledMode){
+	if(ledBlinkMode){
 		if(--ledBlinkTime < 5){
 			if(ledStat){
 				LED_ON();
@@ -372,7 +381,7 @@ void ledCtrl(){
 			ledBlinkTime = ledBlinkInterval;
 		}
 	}
-	else if((ledMode == 0) && ledStat) {
+	else if((ledBlinkMode == 0) && ledStat) {
 		LED_ON();
 		ledStat = 0;
 	}
@@ -380,9 +389,9 @@ void ledCtrl(){
 
 const uint8_t rfKeyCode_Array[6][6] = {
 	{RF_KEYCODE_1, 0, 0, 0, 0, 0},
-	{RF_KEYCODE_1, RF_KEYCODE_3, 0, 0, 0, 0},
-	{RF_KEYCODE_1, RF_KEYCODE_3, RF_KEYCODE_5, 0, 0, 0},
-	{RF_KEYCODE_1, RF_KEYCODE_3, RF_KEYCODE_5, RF_KEYCODE_7, 0, 0},
+	{RF_KEYCODE_1, RF_KEYCODE_2, 0, 0, 0, 0},
+	{RF_KEYCODE_1, RF_KEYCODE_3, RF_KEYCODE_GRPC, 0, 0, 0},
+	{RF_KEYCODE_1, RF_KEYCODE_2, RF_KEYCODE_3, RF_KEYCODE_4, 0, 0},
 	{0, 0, 0, 0, 0, 0},
 	{RF_KEYCODE_1, RF_KEYCODE_3, RF_KEYCODE_5, RF_KEYCODE_7, RF_KEYCODE_9, RF_KEYCODE_GRPC}
 };

@@ -105,7 +105,6 @@ void PeriphClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#if 0
 uint8_t testbuf[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
 						0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
 						0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
@@ -240,7 +239,6 @@ void test_flash(void){
 		DbgTrace_mem_print_bin("-- Flash test ---", read_testbuf, readsize);
 	}
 }
-#endif
 
 
 /*
@@ -270,11 +268,22 @@ void test_flash1(void){
 
 int EPD_test_2IN7_V2(void);
 void ledCtrl();
-void ledModeSet(uint8_t mod);
+void ledBlinkModeSet(Led_Blink_Mode_t mod);
 
+
+void disable_peripherals(void) {
+    __HAL_RCC_GPIOA_CLK_DISABLE();
+    __HAL_RCC_GPIOB_CLK_DISABLE();
+    __HAL_RCC_USART1_CLK_DISABLE();
+    __HAL_RCC_SPI1_CLK_DISABLE();
+    __HAL_RCC_I2C1_CLK_DISABLE();
+    __HAL_RCC_ADC_CLK_DISABLE();
+	__HAL_RCC_QUADSPI_IS_CLK_DISABLED();
+}
 
 
 extern uint8_t testflag;
+uint32_t	testcnt=0;
 
 /**
   * @brief  The application entry point.
@@ -313,6 +322,9 @@ int main(void)
 
 	PeriphClock_Config();
 
+	HAL_DBGMCU_DisableDBGStopMode();
+	HAL_DBGMCU_DisableDBGSleepMode();
+
 
 	/* USER CODE END SysInit */
 
@@ -334,11 +346,12 @@ int main(void)
 
 	/* Init code for STM32_WPAN */
 	MX_APPE_Init();
-	ledModeSet(0);
+	ledBlinkModeSet(LED_BL_MODE_ON);
 //	test_flash1();
 //	radioModuleInit();
 
-//	test_flash();
+	test_flash();
+
 		
 //	  example_spimem();
 //	EPD_test_2IN7_V2();
@@ -347,10 +360,12 @@ int main(void)
 //	FDS_DeleteAll_test();
 
 
-	appMainInit();
-	FT5206_Init();
+//	appMainInit();
+//	FT5206_Init();
 
 	setUiUpdate(UI_SCREEN_IDLE);
+
+
 
 //	rfInitCtrl(RF_CTRL_INIT_TX);		//add rf
 
@@ -358,7 +373,24 @@ int main(void)
 	/* USER CODE BEGIN WHILE */
 	while(1)
 	{
-		
+		if(testcnt > 10){
+			__disable_irq();
+			__SEV();
+			__WFE();
+			ledOn(0);
+//			W25Q_Sleep();
+			disable_peripherals();
+			PWR_EnterStopMode();
+
+			HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFE);
+			__enable_irq();
+		}
+		else {
+			testcnt++;
+			printf("main loop , %d\r\n", testcnt);
+
+		}
+
 
 		/* USER CODE END WHILE */
 		MX_APPE_Process();

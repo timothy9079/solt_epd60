@@ -10,9 +10,10 @@
 ../Application/User/Core/app_main.c:194:11:keyScan	16	static
 ../Application/User/Core/app_main.c:204:9:tpPosToButton_old	64	static
 ../Application/User/Core/app_main.c:254:9:tpPosToButton	104	static
-../Application/User/Core/app_main.c:340:6:ledModeSet	16	static
-../Application/User/Core/app_main.c:348:6:ledBlinkSet	16	static
-../Application/User/Core/app_main.c:360:6:ledCtrl	8	static
-../Application/User/Core/app_main.c:390:13:appMainThread	16	static
-../Application/User/Core/app_main.c:458:6:appMainTsCb	8	static
-../Application/User/Core/app_main.c:470:6:appMainInit	8	static
+../Application/User/Core/app_main.c:340:6:ledOn	16	static
+../Application/User/Core/app_main.c:349:6:ledBlinkModeSet	16	static
+../Application/User/Core/app_main.c:357:6:ledBlinkSet	16	static
+../Application/User/Core/app_main.c:369:6:ledCtrl	8	static
+../Application/User/Core/app_main.c:399:13:appMainThread	16	static
+../Application/User/Core/app_main.c:467:6:appMainTsCb	8	static
+../Application/User/Core/app_main.c:479:6:appMainInit	8	static

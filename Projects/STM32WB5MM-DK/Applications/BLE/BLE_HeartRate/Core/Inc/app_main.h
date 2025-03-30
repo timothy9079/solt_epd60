@@ -36,6 +36,10 @@ typedef enum {
 	UI_RF_STAT_RESPONSE_WAIT
 }Ui_Rf_Status;
 
+typedef enum {
+	LED_BL_MODE_ON = 0,
+	LED_BL_MODE_OFF
+}Led_Blink_Mode_t;
 
 extern uint8_t imgBuf_Logo[];
 extern uint8_t imgBuf_Idle[];
@@ -46,6 +50,9 @@ extern uint8_t imgBuf_RfReceive[];
 extern uint8_t imgChangeFlag;
 extern Ui_Screen_t menuState;
 extern uint8_t imgButtonCnt[];
+
+
+void ledOn(uint8_t onoff);
 
 	
 void setUiUpdate(Ui_Screen_t screen);

@@ -25,6 +25,21 @@
 #include "radio_drv.h"
 #include "radio_hal.h"
 
+#define TRANS_INT1_EXTI_IRQn	EXTI2_IRQn
+#define TRANS_INT2_EXTI_IRQn	EXTI1_IRQn
+#define TRANS_INT3_EXTI_IRQn	EXTI3_IRQn
+#define TRANS_DCK_EXTI_IRQn		EXTI4_IRQn
+
+
+#define TRANS_INT1_EnableINT()	HAL_NVIC_EnableIRQ(TRANS_INT1_EXTI_IRQn);
+#define TRANS_INT1_DisableINT()	HAL_NVIC_DisableIRQ(TRANS_INT1_EXTI_IRQn);
+#define TRANS_INT2_EnableINT()	HAL_NVIC_EnableIRQ(TRANS_INT2_EXTI_IRQn);
+#define TRANS_INT2_DisableINT()	HAL_NVIC_DisableIRQ(TRANS_INT2_EXTI_IRQn);
+#define TRANS_INT3_EnableINT()	HAL_NVIC_EnableIRQ(TRANS_INT3_EXTI_IRQn);
+#define TRANS_INT3_DisableINT()	HAL_NVIC_DisableIRQ(TRANS_INT3_EXTI_IRQn);
+#define TRANS_DCK_EnableINT()		HAL_NVIC_EnableIRQ(TRANS_DCK_EXTI_IRQn);
+#define TRANS_DCK_DisableINT()	HAL_NVIC_DisableIRQ(TRANS_DCK_EXTI_IRQn);
+
 
 /* External variables ------------------------------------------------------------*/
 
@@ -46,6 +61,25 @@
  */
 
 
+void vRfSpiDeinit(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+	HAL_SPI_DeInit(&hspi1);
+
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+
+	GPIO_InitStruct.Pin = TRANS_MOSI_Pin|TRANS_MISO_Pin|TRANS_SCK_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	// GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+
+}
+
+
 
 /* Public variables --------------------------------------------------------------*/
 /* Public functions --------------------------------------------------------------*/
@@ -62,6 +96,19 @@ void vRadioInterfaceInit( void )
 
 	RF_GPIO_Write( RF_NRST, 0 );
 	RF_GPIO_Write( RF_PWR_EN, 1 );
+}
+
+
+void vRadioInterfaceDeinit(void)
+{
+	TRANS_INT1_DisableINT();
+	TRANS_INT2_DisableINT();
+	TRANS_INT3_DisableINT();
+	TRANS_DCK_DisableINT();
+	vRfSpiDeinit();
+	vRfGpioInit();
+	GPIO_LOW(RF_SPI_NSS);
+	GPIO_LOW(RF_PWR_EN);
 }
 
 /**

@@ -322,8 +322,6 @@ int main(void)
 
 	PeriphClock_Config();
 
-	HAL_DBGMCU_DisableDBGStopMode();
-	HAL_DBGMCU_DisableDBGSleepMode();
 
 
 	/* USER CODE END SysInit */
@@ -350,6 +348,9 @@ int main(void)
 //	test_flash1();
 //	radioModuleInit();
 
+	HAL_DBGMCU_DisableDBGStopMode();
+	HAL_DBGMCU_DisableDBGSleepMode();
+
 	test_flash();
 
 		
@@ -373,7 +374,7 @@ int main(void)
 	/* USER CODE BEGIN WHILE */
 	while(1)
 	{
-		if(testcnt > 10){
+		if(testcnt > 4000){
 			__disable_irq();
 			__SEV();
 			__WFE();

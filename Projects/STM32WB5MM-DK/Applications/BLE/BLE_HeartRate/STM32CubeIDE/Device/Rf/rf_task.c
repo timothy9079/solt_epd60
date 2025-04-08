@@ -486,6 +486,14 @@ void rfInitCtrl(Rf_Ctrl_Init initRxTx, uint8_t rfKeyCode){
 			while (txproc_state != TxProc_TxDone);
 #endif
 			break;
+
+		case rfMsg_DeInit:
+			UTIL_LPM_SetStopMode(1U << CFG_LPM_RF, UTIL_LPM_DISABLE);
+			vRadioClearInterrupt();
+			vRadioOff();
+			vRadioInterfaceDeinit();
+			UTIL_LPM_SetStopMode(1U << CFG_LPM_RF, UTIL_LPM_ENABLE);
+
 		default:
 			break;
 	}

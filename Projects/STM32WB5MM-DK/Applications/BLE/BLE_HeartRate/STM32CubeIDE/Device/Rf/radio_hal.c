@@ -100,16 +100,16 @@ void vRfGpioInit( void )
 	__HAL_RCC_GPIOD_CLK_ENABLE();
 
 // Outputs
-	GPIO_LOW( RF_PWR_EN );
+//	GPIO_LOW( RF_PWR_EN );
 	// GPIO_HIGH( RF_SPI_NSS );		//add rf
 	GPIO_LOW( RF_SPI_NSS );
-
+/*
   GPIO_InitStruct.Pin = RF_PWR_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
   HAL_GPIO_Init( RF_PWR_EN_GPIO_Port, &GPIO_InitStruct );
-
+*/
   GPIO_InitStruct.Pin = TRANS_NSS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -316,6 +316,25 @@ void vRfSpiInit( void )
   }
 #endif
 }
+
+void vRfSpiDeinit(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+	HAL_SPI_DeInit(&hspi1);
+
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+
+	GPIO_InitStruct.Pin = TRANS_MOSI_Pin|TRANS_MISO_Pin|TRANS_SCK_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	// GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+
+}
+
 
 /**
  * @brief 

@@ -106,9 +106,9 @@ void vRadioInterfaceDeinit(void)
 	TRANS_INT3_DisableINT();
 	TRANS_DCK_DisableINT();
 	vRfSpiDeinit();
-	vRfGpioInit();
+//	vRfGpioInit();
 	GPIO_LOW(RF_SPI_NSS);
-	GPIO_LOW(RF_PWR_EN);
+//	GPIO_LOW(RF_PWR_EN);
 }
 
 /**

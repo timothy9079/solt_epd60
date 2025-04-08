@@ -711,6 +711,7 @@ typedef enum
   CFG_LPM_APP,
   CFG_LPM_APP_BLE,
   /* USER CODE BEGIN CFG_LPM_Id_t */
+  CFG_LPM_RF,
 
   /* USER CODE END CFG_LPM_Id_t */
 } CFG_LPM_Id_t;

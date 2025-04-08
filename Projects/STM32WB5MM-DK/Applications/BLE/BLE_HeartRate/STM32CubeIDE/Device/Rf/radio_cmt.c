@@ -142,6 +142,31 @@ void vRadioDCTimerConfig( void )
 
 /* Public variables --------------------------------------------------------------*/
 /* Public functions --------------------------------------------------------------*/
+/**
+ * @brief 
+ * 
+ */
+void vRadioOff(void)
+{
+	vRadioStopDCGoRx();
+	// bRadioGoSleep();
+	// vRadioSoftReset();
+	// delay_100u(50);
+	// vRadioSetNirq( CMT2310A_nIRQ_TCXO );
+	// vRadioSelTcxoDrv( 0 );
+
+	// vRadioSetNirq( CMT2310A_nIRQ_TCXO );
+	// vRadioSelTcxoDrv( 0 );
+	
+	// vRadioXoWaitCfg(RADIO_CGU_DIV4);
+	// vRadioPowerUpBoot();
+	// RF_Delay(10);
+	bRadioGoSleep();
+
+}
+
+/* Public variables --------------------------------------------------------------*/
+/* Public functions --------------------------------------------------------------*/
 #if defined(ADD_RF_WORK_MODE_PROC)		//add rf
 /**
  * @brief

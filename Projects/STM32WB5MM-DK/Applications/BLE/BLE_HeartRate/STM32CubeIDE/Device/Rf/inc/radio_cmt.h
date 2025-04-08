@@ -35,6 +35,7 @@ extern "C"
 /* Exported macro ----------------------------------------------------------------*/
 
 /* Exported functions ----------------------------------------------------------1--*/
+void vRadioOff(void);
 void vRadioTxInit( void );
 void vRadioRxInit( void );
 void vRadioClearInterrupt( void );

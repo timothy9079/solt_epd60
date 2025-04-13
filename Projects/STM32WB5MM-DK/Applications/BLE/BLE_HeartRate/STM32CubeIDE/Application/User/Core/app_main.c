@@ -31,6 +31,8 @@ int EPD_2IN7_Button(void);
 int EPD_2IN7_RF_Send(void);
 int EPD_2IN7_RF_Receive(void);
 
+uint32_t gSleepCnt = 0;
+
 Ui_Screen_t menuState = 1;
 Ui_Rf_Status	rfUiStatus = UI_RF_STAT_IDLE;
 uint8_t	uiUpdateFlag = 0;
@@ -396,6 +398,24 @@ const uint8_t rfKeyCode_Array[6][6] = {
 	{RF_KEYCODE_1, RF_KEYCODE_3, RF_KEYCODE_5, RF_KEYCODE_7, RF_KEYCODE_9, RF_KEYCODE_GRPC}
 };
 
+void clearSleepCnt(void)
+{
+	gSleepCnt = 0;
+}
+
+static void appSleepThread(void)
+{
+	if(gSleepCnt < 400){
+		
+		printf("appSleepThread reset\r\n");
+		UTIL_SEQ_SetTask(1<<CFG_TASK_SLEEP_ID, CFG_SCH_PRIO_0);
+		gSleepCnt++;
+	}
+	else {
+		printf("appSleepThread stop\r\n");
+	}
+}
+
 static void appMainThread( void){
 	Ft_Tp_Sta keyStat;
 	uint8_t buttonNum;
@@ -472,14 +492,20 @@ void appMainTsCb(void){
 
 	UTIL_SEQ_SetTask(1<<CFG_TASK_APP_MAIN_ID, CFG_SCH_PRIO_0);
 	UTIL_SEQ_Run(1<<CFG_TASK_APP_MAIN_ID);
+	clearSleepCnt();
 	
 }
 
 
 void appMainInit(void){
 	UTIL_SEQ_RegTask(1<< CFG_TASK_APP_MAIN_ID, UTIL_SEQ_RFU, appMainThread);
+	UTIL_SEQ_RegTask(1<< CFG_TASK_SLEEP_ID, UTIL_SEQ_RFU, appSleepThread);
+
 	HW_TS_Create(CFG_TIM_PROC_ID_ISR, &appMainTsId, hw_ts_Repeated, appMainTsCb);
 	HW_TS_Create(CFG_TIM_PROC_ID_ISR, &rfUiTsId, hw_ts_SingleShot, appRfUiTsCb);
-	
+
+	clearSleepCnt();
+	UTIL_SEQ_SetTask(1<<CFG_TASK_APP_MAIN_ID, CFG_SCH_PRIO_0);
+	UTIL_SEQ_SetTask(1<<CFG_TASK_SLEEP_ID, CFG_SCH_PRIO_0);
 	HW_TS_Start(appMainTsId, (1000000/CFG_TS_TICK_VAL)/100 );
 }

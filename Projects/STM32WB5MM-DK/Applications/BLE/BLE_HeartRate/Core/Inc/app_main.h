@@ -41,6 +41,8 @@ typedef enum {
 	LED_BL_MODE_OFF
 }Led_Blink_Mode_t;
 
+extern uint8_t	appMainTsId;
+
 extern uint8_t imgBuf_Logo[];
 extern uint8_t imgBuf_Idle[];
 extern uint8_t imgBuf_Button[];

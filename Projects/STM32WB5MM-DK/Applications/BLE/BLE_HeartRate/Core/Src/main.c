@@ -327,6 +327,8 @@ int main(void)
 	/* USER CODE END SysInit */
 
 	/* Initialize all configured peripherals */
+#if 0
+
 	MX_GPIO_Init();
 	MX_DMA_Init();
 	MX_RTC_Init();
@@ -348,24 +350,30 @@ int main(void)
 //	test_flash1();
 //	radioModuleInit();
 
-	HAL_DBGMCU_DisableDBGStopMode();
-	HAL_DBGMCU_DisableDBGSleepMode();
 
-	test_flash();
+//	test_flash();
 
 		
 //	  example_spimem();
 //	EPD_test_2IN7_V2();
-	EPD_test_2IN7_V2();
+//	EPD_test_2IN7_V2();
 
 //	FDS_DeleteAll_test();
 
 
-//	appMainInit();
 //	FT5206_Init();
 
 	setUiUpdate(UI_SCREEN_IDLE);
+#else
+//	MX_DMA_Init();
+	MX_RTC_Init();
+	MX_LPUART1_UART_Init();
+	MX_RF_Init();
+	MX_APPE_Init();
 
+	
+	appMainInit();
+#endif
 
 
 //	rfInitCtrl(RF_CTRL_INIT_TX);		//add rf
@@ -375,15 +383,21 @@ int main(void)
 	while(1)
 	{
 		if(testcnt > 4000){
+			
+			HAL_DBGMCU_DisableDBGStopMode();
+			HAL_DBGMCU_DisableDBGSleepMode();
 			__disable_irq();
 			__SEV();
 			__WFE();
 			ledOn(0);
 //			W25Q_Sleep();
 			disable_peripherals();
-			PWR_EnterStopMode();
+//			PWR_EnterStopMode();
+			HW_TS_Stop(appMainTsId);
 
-			HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFE);
+
+
+//			HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFE);
 			__enable_irq();
 		}
 		else {
@@ -801,13 +815,14 @@ static void MX_GPIO_Init(void)
 	HAL_GPIO_Init(QSPI_BK_IO0_GPIO_Port, &GPIO_InitStruct);
 
 	/*Configure GPIO pin : LPUART1_RX_MCU_Pin */
-	GPIO_InitStruct.Pin = LPUART1_RX_MCU_Pin;
+#ifdef	TEST_SLEEP_LPUART1
+	GPIO_InitStruct.Pin = LPUART1_RX_MCU_Pin | LPUART1_TX_MCU_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	GPIO_InitStruct.Alternate = GPIO_AF8_LPUART1;
 	HAL_GPIO_Init(LPUART1_RX_MCU_GPIO_Port, &GPIO_InitStruct);
-
+#endif
 	/*Configure GPIO pin : PB8 */
 	GPIO_InitStruct.Pin = GPIO_PIN_8;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
@@ -817,13 +832,14 @@ static void MX_GPIO_Init(void)
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : LPUART1_TX_MCU_Pin PB12 */
+/*
 	GPIO_InitStruct.Pin = LPUART1_TX_MCU_Pin|GPIO_PIN_12;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	GPIO_InitStruct.Alternate = GPIO_AF8_LPUART1;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
+*/
 	/*Configure GPIO pin : PA15 */
 	GPIO_InitStruct.Pin = GPIO_PIN_15;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

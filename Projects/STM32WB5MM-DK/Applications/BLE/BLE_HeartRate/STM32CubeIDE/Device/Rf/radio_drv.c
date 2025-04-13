@@ -51,36 +51,6 @@
 /* Private variables -------------------------------------------------------------*/
 
 
-/* Private functions -------------------------------------------------------------*/
-// SPI Interface
-/**
- * @brief
- * 
- * @param
- * 
- */
-
-
-void vRfSpiDeinit(void)
-{
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-	HAL_SPI_DeInit(&hspi1);
-
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-
-	GPIO_InitStruct.Pin = TRANS_MOSI_Pin|TRANS_MISO_Pin|TRANS_SCK_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-	// GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-
-}
-
-
-
 /* Public variables --------------------------------------------------------------*/
 /* Public functions --------------------------------------------------------------*/
 /**

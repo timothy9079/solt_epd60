@@ -453,7 +453,7 @@
  *  When set to 1, the low power mode is enable
  *  When set to 0, the device stays in RUN mode
  */
-#define CFG_LPM_SUPPORTED    0
+#define CFG_LPM_SUPPORTED    1
 
 /******************************************************************************
  * RTC interface
@@ -588,7 +588,7 @@ typedef enum
 #if (CFG_DEBUG_TRACE != 0)
 #undef CFG_LPM_SUPPORTED
 #undef CFG_DEBUGGER_SUPPORTED
-#define CFG_LPM_SUPPORTED           0
+#define CFG_LPM_SUPPORTED           1
 #define CFG_DEBUGGER_SUPPORTED      1
 #endif
 
@@ -656,6 +656,7 @@ typedef enum
   CFG_TASK_SW_BUTTON_PUSHED_ID,
   CFG_TASK_RF_ID,
   CFG_TASK_APP_MAIN_ID,
+  CFG_TASK_SLEEP_ID,
   /* USER CODE END CFG_Task_Id_With_HCI_Cmd_t */
   CFG_LAST_TASK_ID_WITH_HCICMD,                                               /**< Shall be LAST in the list */
 } CFG_Task_Id_With_HCI_Cmd_t;

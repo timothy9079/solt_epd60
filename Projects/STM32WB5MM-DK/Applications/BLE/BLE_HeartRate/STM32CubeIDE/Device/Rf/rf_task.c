@@ -20,6 +20,7 @@
 
 #include "stm32_seq.h"
 #include "stm_queue.h"
+#include "stm32_lpm.h"
 
 
 /* External variables ------------------------------------------------------------*/
@@ -594,6 +595,7 @@ static void rfCtrlThread( void * arg )
 rf_msgQ_t msg;
 
 void rfTsCb(void){
+	printf("rfTsCb\r\n");
 
 #if 0
 	bufcnt++;

@@ -89,10 +89,10 @@ void MX_USART1_UART_Init(void);
 #define QSPI_BK_IO0_GPIO_Port GPIOB
 #define LPUART1_RX_MCU_Pin GPIO_PIN_0
 #define LPUART1_RX_MCU_GPIO_Port GPIOC
+#define LPUART1_TX_MCU_Pin GPIO_PIN_1
+#define LPUART1_TX_MCU_GPIO_Port GPIOC
 #define VCP_RX_Pin GPIO_PIN_7
 #define VCP_RX_GPIO_Port GPIOB
-#define LPUART1_TX_MCU_Pin GPIO_PIN_5
-#define LPUART1_TX_MCU_GPIO_Port GPIOB
 #define T_SWO_Pin GPIO_PIN_3
 #define T_SWO_GPIO_Port GPIOB
 #define User_B1_Pin GPIO_PIN_12

@@ -303,12 +303,18 @@ void UTIL_SEQ_Run( UTIL_SEQ_bm_t Mask_bm )
   local_taskset = TaskSet;
   local_evtset = EvtSet;
   local_taskmask = TaskMask;
+  printf("taskset : 0x%x, taskmask: 0x%x, SuperMask: 0x%x\r\n", local_taskset, local_taskmask, SuperMask);
   if ((local_taskset & local_taskmask & SuperMask) == 0U)
   {
+	printf("go sleep\r\n");
+	
+	printf("evtset : 0x%x, EvtWaited: 0x%x\r\n", local_evtset, EvtWaited);
     if ((local_evtset & EvtWaited)== 0U)
     {
-      UTIL_SEQ_Idle( );
+//      UTIL_SEQ_Idle( );
     }
+  }
+  else{
   }
   UTIL_SEQ_EXIT_CRITICAL_SECTION_IDLE( );
 
